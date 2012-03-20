@@ -1,0 +1,27 @@
+Do 22 maart:
+    - Installatie (PHP 5.1.6 + CodeIgniter, lokaal en op server, instructies op practicumpagina opvolgen) (T + I)
+    - Git repository opzetten (T)
+
+Di 27 maart:
+    - Gehele database + DB-interactieklassen
+    - HTML-templates en CSS, lay-out profielen
+    
+Di 3 april:
+    - Systeem invoervalidatie
+    - Profielpagina genereren
+    - Profiel bewerken (client + server)
+    - Matching-algoritme
+
+Di 10 april:
+    - Controllers hoofd-, profiel- en configuratiepagina
+    - Serverside controller + zoeken profielen
+    - Overzichten meerdere profielen clientkant, via AJAX + JSON opvragen
+
+Di 17 april:
+    - User management server
+    - Login- + registervelden
+    - Configuratiepagina
+    - Testdata
+
+Do 26 april:
+    - Alles moet nu af zijn

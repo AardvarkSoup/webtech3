@@ -1,0 +1,36 @@
+Algemeen:
+    - Stijl (CSS)
+    - Afbeeldingen en manipulatie daarvan
+    - HTML-templates
+    - Hoofdpagina
+    - Header (met knoppen en zoekveld)
+    - Testdata
+
+Profielen (client):
+    - Overzicht (voor op hoofdpagina, met visuele indicatie van like-status)
+    - Lijst van overzichten (zowel op hoofdpagina als zoekresultaten, via JSON inladen)
+    - Uitgebreide profielpagina
+    - Bewerkbare versie profielpagina
+    
+Database (-interactie):
+    - Databasetabellen opzetten
+    - Database-klasse (minimale PDO-wrapper)
+    - Entiteitsklasse
+    - Entiteit voor elke tabel
+
+Profielen (server):
+    - Profielentiteit
+    - Zoeken profielen op basis van eigenschappen, like-status, matching-waarde, willekeurigheid
+    
+User management:
+    - Inloggen
+    - Registreren
+    - Sessie
+    
+Server algemeen:
+    - Matching-algoritme
+    - Controllers
+    - Systeem invoervalidatie op basis van regexp (genereert JS en doet server-check)
+    
+Administratie:
+    - Configuratiepagina (client + server)

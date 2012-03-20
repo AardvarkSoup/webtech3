@@ -17,7 +17,7 @@ CREATE TABLE "Users"
     "maxAgePref" integer NOT NULL,
     "genderPref" bool, -- NULL in case of bisexuality
     
-    -- Personality values, each is an integer between 0 and 100
+    -- Personality values, each is an integer between 0 and 100; E,S,F and P can be derived
     "personalityI" integer NOT NULL,
     "personalityN" integer NOT NULL,
     "personalityT" integer NOT NULL,

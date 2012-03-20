@@ -31,7 +31,7 @@ User management:
 Server algemeen:
     - Matching-algoritme
     - Controllers
-    - Systeem invoervalidatie op basis van regexp (genereert JS en doet server-check)
+    - Regular expressions voor validatie formulieren (die met behulp van CodeIgniter kunnen worden gegenereerd)
     
 Administratie:
     - Configuratiepagina (client + server)

@@ -20,6 +20,7 @@ Di 10 april:
 Di 17 april:
     - User management server
     - Login- + registervelden
+    - Persoonlijkheidstest
     - Configuratiepagina
     - Testdata
 

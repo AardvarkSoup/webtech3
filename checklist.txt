@@ -3,6 +3,7 @@ Algemeen:
     - Afbeeldingen en manipulatie daarvan
     - HTML-templates
     - Hoofdpagina
+    - Persoonlijkheidstest (onderdeel van registratie)
     - Header (met knoppen en zoekveld)
     - Testdata
 
@@ -12,19 +13,19 @@ Profielen (client):
     - Uitgebreide profielpagina
     - Bewerkbare versie profielpagina
     
-Database (-interactie):
-    - Databasetabellen opzetten
-    - Database-klasse (minimale PDO-wrapper)
-    - Entiteitsklasse
-    - Entiteit voor elke tabel
-
 Profielen (server):
     - Profielentiteit
     - Zoeken profielen op basis van eigenschappen, like-status, matching-waarde, willekeurigheid
-    
+
+Database (-interactie):
+    - Databasetabellen opzetten
+    - Database-initialisatie
+    - Entiteitsklasse
+    - Entiteit voor elke tabel
+   
 User management:
     - Inloggen
-    - Registreren
+    - (De-)Registreren
     - Sessie
     
 Server algemeen:

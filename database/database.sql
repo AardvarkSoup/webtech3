@@ -1,14 +1,17 @@
--- TODO: Setting, like char-encoding
+BEGIN TRANSACTION;
+
+PRAGMA encoding = "UTF-8";
+PRAGMA foreign_keys = 1;
 
 CREATE TABLE "Users"
 (
-    "userId" serial NOT NULL, -- Serial in sqllite? Otherwise equivalent
+    "userId" integer NOT NULL,
     "username" varchar(30) NOT NULL,
     "email" varchar(256) NOT NULL,
     "passwordHash" char(255) NOT NULL, -- TODO: size?
     
     "firstName" varchar(30) NOT NULL,
-    "lastName" varchar(50 NOT NULL,
+    "lastName" varchar(50) NOT NULL,
     "gender" bool NOT NULL, -- 0: male, 1: female
     "birthdate" date NOT NULL,
     "description" varchar(300) NOT NULL,
@@ -34,7 +37,7 @@ CREATE TABLE "Users"
 
 CREATE TABLE "Brands"
 (
-    "brandId" serial NOT NULL, 
+    "brandId" integer NOT NULL, 
     "brandName" varchar(30) NOT NULL,
     
     PRIMARY KEY ("brandId"),
@@ -46,11 +49,12 @@ CREATE TABLE "UserBrands"
     "userId" integer NOT NULL,
     "brandId" integer NOT NULL,
     
-    FOREIGN KEY "userId"
+    FOREIGN KEY ("userId")
       REFERENCES "Users"
        ON DELETE CASCADE,
-    FOREIGN KEY "brandId"
+    FOREIGN KEY ("brandId")
       REFERENCES "Brands"
+        ON DELETE CASCADE
 );
 
 CREATE TABLE "Likes"
@@ -58,12 +62,12 @@ CREATE TABLE "Likes"
     "userLiking" integer NOT NULL,
     "userLiked" integer NOT NULL,
     
-    FOREIGN KEY "userLiking"
+    FOREIGN KEY ("userLiking")
       REFERENCES "Users"
         ON DELETE CASCADE,
-    FOREIGN KEY "userLiked"
+    FOREIGN KEY ("userLiked")
       REFERENCES "Users"
-        ON DELETE CASCADE,
+        ON DELETE CASCADE
 );
 
 -- Table should have exactly one row.
@@ -82,3 +86,5 @@ INSERT INTO "Configuration" ("similarityMeasure", "xFactor", "alpha")
 INSERT INTO "Brands" ("brandName") VALUES ("brandA");
 INSERT INTO "Brands" ("brandName") VALUES ("brandB");
 INSERT INTO "Brands" ("brandName") VALUES ("brandC");
+
+COMMIT;

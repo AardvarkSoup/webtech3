@@ -1,6 +1,7 @@
 Do 22 maart:
     + Installatie (PHP 5.1.6 + CodeIgniter, lokaal en op server, instructies op practicumpagina opvolgen) (T + I)
     + Git repository opzetten (T)
+    + Proberen om een commit en push uit te voeren (I)
 
 Di 27 maart:
     - Gehele database + DB-interactieklassen

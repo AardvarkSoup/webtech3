@@ -3,11 +3,10 @@ Do 22 maart:
     - Git repository opzetten (T)
 
 Di 27 maart:
-    - Gehele database + DB-interactieklassen
-    - HTML-templates en CSS, lay-out profielen
+    - Gehele database + DB-interactieklassen (T)
+    - HTML-templates en CSS, lay-out profielen (I)
     
 Di 3 april:
-    - Systeem invoervalidatie
     - Profielpagina genereren
     - Profiel bewerken (client + server)
     - Matching-algoritme

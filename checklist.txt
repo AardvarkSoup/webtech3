@@ -32,6 +32,7 @@ Server algemeen:
     - Matching-algoritme
     - Controllers
     - Regular expressions voor validatie formulieren (die met behulp van CodeIgniter kunnen worden gegenereerd)
+    - Uploaden naar server en permissies correc afstellen.
     
 Administratie:
     - Configuratiepagina (client + server)

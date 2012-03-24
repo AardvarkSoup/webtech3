@@ -25,4 +25,5 @@ Di 17 april:
     - Testdata
 
 Do 26 april:
+    - Online zetten en permissies correct instellen
     - Alles moet nu af zijn

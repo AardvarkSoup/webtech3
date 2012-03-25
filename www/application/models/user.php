@@ -166,6 +166,12 @@ class User extends CI_Model
         $this->db->trans_complete();
     }
     
+    private function secureHash($password)
+    {
+        //TODO
+        throw new Exception('Not yet implemented.');
+    }
+    
     /**
      * Create a new user.
      * 
@@ -179,6 +185,9 @@ class User extends CI_Model
      */
     public function createUser($data, $password, $brands)
     {        
+        // Hash password.
+        $data['passwordHash'] = $this->secureHash($password);
+        
         //Start a transaction.
         $this->db->trans_start();
         

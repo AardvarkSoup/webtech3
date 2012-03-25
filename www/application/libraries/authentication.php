@@ -14,4 +14,9 @@ class Authentication
         //TODO
         return null;
     }
+    
+    public function assertAdminstrator()
+    {
+        //TODO
+    }
 }

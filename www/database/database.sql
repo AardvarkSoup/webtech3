@@ -65,6 +65,7 @@ CREATE TABLE "Likes"
     "userLiking" integer NOT NULL,
     "userLiked" integer NOT NULL,
     
+    UNIQUE("userLiking", "userLiked"),
     FOREIGN KEY ("userLiking")
       REFERENCES "Users"
         ON DELETE CASCADE,

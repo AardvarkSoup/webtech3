@@ -1,4 +1,4 @@
-<?php
+<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
 class User extends CI_Model
 {
@@ -217,5 +217,42 @@ class User extends CI_Model
         
         // Delete this user.
         $this->db->delete('Users', array('userId' => $userId));
+    }
+    
+    /**
+     * Makes the current user 'like' another user.
+     * 
+     * @param int $likedUser ID of the user to like.
+     */
+    public function like($likedUser)
+    {
+        // Determine which user is logged in, if any.
+        $userId = $this->authentication->currentUserId();
+        
+        if($userId === null)
+        {
+            //TODO
+            throw new Exception('Not logged in.');
+        }
+        if($userId == $likedUser)
+        {
+            //TODO
+            throw new Exception("Can't like yourself.");
+        }
+        
+        //Start a transaction.
+        $this->db->trans_start();
+        
+        //TODO: Update personality of user.
+        
+        // Add to Likes table (unique and foreign key constraints enforce $likedUser is an
+        // existing user id and that there are no duplicates).
+        $this->db->insert('Likes', array(
+                                      'userLiking' => $userId,
+                                      'userLiked'  => $likedUser
+                                    ));
+        
+        // Complete transaction.
+        $this->db->trans_complete();
     }
 }

@@ -166,10 +166,14 @@ class User extends CI_Model
         $this->db->trans_complete();
     }
     
-    private function secureHash($password)
+    // Creates a salted SHA-1 hash of a password.
+    private function hashPassword($password)
     {
-        //TODO
-        throw new Exception('Not yet implemented.');
+        // The encryption key we specified is also perfectly suitable to be a salt.
+        // Also add a smiley face wearing a hat, which is incredibly important.
+        $salt = $this->config->item('encryption_key') . '<:)';
+        
+        return do_hash($password . $salt);
     }
     
     /**
@@ -186,7 +190,7 @@ class User extends CI_Model
     public function createUser($data, $password, $brands)
     {        
         // Hash password.
-        $data['passwordHash'] = $this->secureHash($password);
+        $data['passwordHash'] = $this->hashPassword($password);
         
         //Start a transaction.
         $this->db->trans_start();

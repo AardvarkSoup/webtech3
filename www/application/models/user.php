@@ -11,22 +11,22 @@ class User extends CI_Model
         'username'      => true,
         'email'         => false,
         'firstName'     => false,
-        'lastName'		=> false,
-        'gender'		=> true,
-        'birthdate'		=> true,
-        'description'	=> true,
-        'minAgePref'	=> true,
-        'maxAgePref'	=> true,
-        'genderPref'	=> true,
-        'personalityI'	=> true,
-    	'personalityN'	=> true,
-    	'personalityT'	=> true,
-    	'personalityJ'	=> true,
-    	'preferenceI'	=> true,
-    	'preferenceN'	=> true,
-    	'preferenceT'	=> true,
-    	'preferenceJ'	=> true,
-    	'picture'		=> false
+        'lastName'        => false,
+        'gender'        => true,
+        'birthdate'        => true,
+        'description'    => true,
+        'minAgePref'    => true,
+        'maxAgePref'    => true,
+        'genderPref'    => true,
+        'personalityI'    => true,
+        'personalityN'    => true,
+        'personalityT'    => true,
+        'personalityJ'    => true,
+        'preferenceI'    => true,
+        'preferenceN'    => true,
+        'preferenceT'    => true,
+        'preferenceJ'    => true,
+        'picture'        => false
     );
     
     /**
@@ -64,7 +64,7 @@ class User extends CI_Model
     {
         $result = $this->db->select('brandName')
                            ->from('UserBrands, Brands')
-                           ->where('UserBrands.brandId == Brands.brandId')
+                           ->where('UserBrands.brandName == Brands.brandName')
                            ->where(array('userId' => $userId))
                            ->get()->result_array();
         
@@ -89,7 +89,7 @@ class User extends CI_Model
      * 
      * @param int           $userId     The identifier of the user to load.
      * @param array(string) $properties The properties of the user to load. If null,
-     * 									all accessible properties are loaded.
+     *                                  all accessible properties are loaded.
      * 
      * @return array(string => mixed) An associative array of user properties and values.
      */
@@ -125,9 +125,97 @@ class User extends CI_Model
         return $user;
     }
     
-    
-    public function createUser($data, $brands)
+    public function updateSelf($newprops)
     {
+        // Determine which user is logged in.
+        $userId = $this->authentication->currentUserId();
         
+        if($userId === null)
+        {
+            //TODO
+            throw new Exception('User is not logged in.');
+        }
+        
+        //Start a transaction.
+        $this->db->trans_start();
+        
+        // Values in Users table to change are all new properties that are also visible columns.
+        $data = array_intersect($newprops, visibility);
+        
+        // Do update.
+        $this->db->where(array('userId' => $userId))
+                 ->update('Users', $data);
+        
+        // If requested, update brands.
+        if(isset($newprops['brands']))
+        {
+            // First simply remove this user's brands.
+            $this->db->delete('UserBrands', array('userId' => $userId));
+            
+            // Now insert new brands.
+            $brandList = array();
+            foreach($newprops['brands'] as $brand)
+            {
+                $brandList[] = array('userId'    => $userId,
+                                     'brandName' => $brand);
+            }
+            $this->db->insert_batch('UserBrands', $brandList);
+        }
+                 
+        // Complete transaction.
+        $this->db->trans_complete();
+    }
+    
+    /**
+     * Create a new user.
+     * 
+     * @param array(string => mixed) $data     Values to be inserted into the Users table, except for
+     *                                         the password hash. Data should be already validated!
+     * @param string                 $password The user's password. Will be hashed by this function.
+     * @param array(string)          $brands   List of preferred brands by this user. There should
+     *                                         be at least one.
+     *                                         
+     * @return int The ID of the newly created user.
+     */
+    public function createUser($data, $password, $brands)
+    {        
+        //Start a transaction.
+        $this->db->trans_start();
+        
+        // Insert new user into table.
+        $this->db->insert('Users', $data);
+        
+        // Add preferred brands.
+        $userId = $this->db->insert_id();
+        $brandList = array();
+        foreach($brands as $brand)
+        {
+            $brandList[] = array('userId'    => $userId,
+                                 'brandName' => $brand);
+        }
+        $this->db->insert_batch('UserBrands', $brandList);
+        
+        // Complete transaction.
+        $this->db->trans_complete();
+        
+        return $userId;
+    }
+    
+    /**
+     * Delete the currently active user.
+     */
+    public function deleteSelf()
+    {
+        // Determine which user is logged in, if any.
+        $userId = $this->authentication->currentUserId();
+        
+        if($userId === null)
+        {
+            //TODO
+            throw new Exception('User is not logged in.');
+        }
+        
+        // Delete this user.
+        $this->db->delete('Users', array('userId' => $userId));
     }
 }

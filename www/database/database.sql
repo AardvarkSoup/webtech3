@@ -42,22 +42,20 @@ CREATE TABLE "Users"
 
 CREATE TABLE "Brands"
 (
-    "brandId" integer NOT NULL, 
     "brandName" varchar(30) NOT NULL,
     
-    PRIMARY KEY ("brandId"),
-    UNIQUE("brandName")
+    PRIMARY KEY ("brandName")
 );
 
 CREATE TABLE "UserBrands"
 (
     "userId" integer NOT NULL,
-    "brandId" integer NOT NULL,
+    "brandName" varchar(30) NOT NULL,
     
     FOREIGN KEY ("userId")
       REFERENCES "Users"
        ON DELETE CASCADE,
-    FOREIGN KEY ("brandId")
+    FOREIGN KEY ("brandName")
       REFERENCES "Brands"
         ON DELETE CASCADE
 );
@@ -88,8 +86,6 @@ INSERT INTO "Configuration" ("similarityMeasure", "xFactor", "alpha")
     VALUES (0, 0.5, 0.5);
     
 -- TODO: Admin user, brands.
-INSERT INTO "Brands" ("brandName") VALUES ("brandA");
-INSERT INTO "Brands" ("brandName") VALUES ("brandB");
-INSERT INTO "Brands" ("brandName") VALUES ("brandC");
+INSERT INTO "Brands" ("brandName") VALUES ("brandA"), ("brandB"), ("brandC");
 
 COMMIT;

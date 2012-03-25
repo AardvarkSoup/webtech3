@@ -87,6 +87,8 @@ INSERT INTO "Configuration" ("similarityMeasure", "xFactor", "alpha")
     VALUES (0, 0.5, 0.5);
     
 -- TODO: Admin user, brands.
-INSERT INTO "Brands" ("brandName") VALUES ("brandA"), ("brandB"), ("brandC");
+INSERT INTO "Brands" ("brandName") VALUES ('brandA');
+INSERT INTO "Brands" ("brandName") VALUES ('brandB');
+INSERT INTO "Brands" ("brandName") VALUES ('brandC');
 
 COMMIT;

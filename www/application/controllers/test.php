@@ -9,8 +9,7 @@ class Test extends CI_Controller
 	    $this->load->model('Brand', 'brand');
 	    
 	    $data = array('brands' => $this->brand->getBrands());
-	    
-	    $this->load->view('test', $data);
+	    $this->parser->parse('test', $data);
 	}
 }
 

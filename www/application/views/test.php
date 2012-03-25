@@ -7,9 +7,9 @@
 <body>
 
 <div>
-
-<p>{brands}</p>
-
+{brands}
+<p>{brandName}</p>
+{/brands}
 </div>
 
 </body>

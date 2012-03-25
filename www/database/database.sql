@@ -15,7 +15,6 @@ CREATE TABLE "Users"
     "gender" bool NOT NULL, -- 0: male, 1: female
     "birthdate" date NOT NULL,
     "description" varchar(300) NOT NULL,
-    "age" integer NOT NULL,
     "minAgePref" integer NOT NULL,
     "maxAgePref" integer NOT NULL,
     "genderPref" bool, -- NULL in case of bisexuality
@@ -25,6 +24,12 @@ CREATE TABLE "Users"
     "personalityN" integer NOT NULL,
     "personalityT" integer NOT NULL,
     "personalityJ" integer NOT NULL,
+    
+    -- Personality preferences
+    "preferenceI" integer NOT NULL,
+    "preferenceN" integer NOT NULL,
+    "preferenceT" integer NOT NULL,
+    "preferenceJ" integer NOT NULL,
     
     "picture" blob,
     

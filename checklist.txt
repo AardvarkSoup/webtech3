@@ -20,8 +20,7 @@ Profielen (server):
 Database (-interactie):
     - Databasetabellen opzetten
     - Database-initialisatie
-    - Entiteitsklasse
-    - Entiteit voor elke tabel
+    - Modellen voor verscheidene tabellen
    
 User management:
     - Inloggen

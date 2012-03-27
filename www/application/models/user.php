@@ -7,7 +7,7 @@ class User extends CI_Model
      * this array shouldn't be visible at all. Besides these, viewing brand preferences also does
      * not require being logged in.
      */
-    const visibility = array(
+    private $visibility = array(
         'username'      => true,
         'email'         => false,
         'firstName'     => false,
@@ -37,12 +37,12 @@ class User extends CI_Model
         $login = $this->authentication->userLoggedIn();
         if($login)
         {
-            return array_keys(visibility);
+            return array_keys($visibility);
         }
         else
         {
             $result = array();
-            foreach(visibility as $col => $visible)
+            foreach($visibility as $col => $visible)
             {
                 if($visible)
                 {
@@ -140,7 +140,7 @@ class User extends CI_Model
         $this->db->trans_start();
         
         // Values in Users table to change are all new properties that are also visible columns.
-        $data = array_intersect($newprops, visibility);
+        $data = array_intersect($newprops, $visibility);
         
         // Do update.
         $this->db->where(array('userId' => $userId))

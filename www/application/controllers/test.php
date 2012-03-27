@@ -6,16 +6,34 @@ class Test extends CI_Controller
 	public function index()
 	{
 	    $this->load->helper('url');
-	    /*$this->load->model('Brand', 'brand');
+	    $this->load->helper('security');
+	    $this->load->model('User', 'user');
 	    
-	    $data = array('brands' => $this->brand->getBrands());
-	    $this->parser->parse('test', $data);*/
-		
-		$this->load->library('parser');
-		$this->load->view('header');
-		$this->load->view('nav');
-		$this->load->view('content/showcase');
-		$this->load->view('footer');
+	    $brands = array('brandA');
+	    $data = array(
+	    		'username' => 'test',
+	    		'email' => 'a@b.c',
+	    		'firstName' => 'Test',
+	    		'lastName' => 'Test',
+	    		'gender' => true,
+	    		'birthdate' => '01-01-88',
+	    		'description' => 'bla',
+	    		'minAgePref' => 20,
+	    		'maxAgePref' => 30,
+	    		'genderPref' => false,
+	    		'personalityI' => 20,
+	    		'personalityN' => 20,
+	    		'personalityT' => 20,
+	    		'personalityJ' => 20,
+	    		'preferenceI' => 20,
+	    		'preferenceN' => 20,
+	    		'preferenceT' => 20,
+	    		'preferenceJ' => 20
+	    );
+	    
+	    $id = $this->user->createUser($data, 'hoi', $brands);
+	    
+	    print_r($this->user->load($id));
 	}
 }
 

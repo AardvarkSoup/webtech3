@@ -56,7 +56,7 @@ class User extends CI_Model
     /**
      * Loads the preferred brands of a user.
      * 
-     * @param int $userId The ID of
+     * @param int $userId The ID of the user.
      * 
      * @return array(string) The preferred brands of this user. 
      */
@@ -267,5 +267,40 @@ class User extends CI_Model
         
         // Complete transaction.
         $this->db->trans_complete();
+    }
+    
+    /**
+     * Indicates the 'like-status' between the current user and another one. 
+     * @param int $otherUser The other user.
+     * 
+     * @return array(bool) An array, containing two booleans A and B, where A is true iff the 
+     *                     current user has liked the other one and B is true iff the other user 
+     *                     likes this one.
+     */
+    public function getLikeStatus($otherUser)
+    {
+        $userA = $this->authentication->currentUserId();
+        $userB = $otherUser;
+        
+        if($userA === null)
+        {
+            //TODO
+            throw new Exception('User is not logged in.');
+        }
+        
+        // Query whether this user likes the other one.
+        $likeAB = (bool) $this->db->from('Likes')
+                              ->where('userLiking', $userA)
+                              ->where('userLiked', $userB)
+                              ->get()->row();
+                           
+        // Query whether the other user likes this one.
+        $likeBA = (bool) $this->db->from('Likes')
+                                     ->where('userLiking', $userB)
+                                  ->where('userLiked', $userA)
+                                  ->get()->row();
+                           
+        
+        return array($likeAB, $likeBA);
     }
 }

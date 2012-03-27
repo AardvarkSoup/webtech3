@@ -5,11 +5,17 @@ class Test extends CI_Controller
 
 	public function index()
 	{
-	    $this->load->library('parser');
-	    $this->load->model('Brand', 'brand');
+	    $this->load->helper('url');
+	    /*$this->load->model('Brand', 'brand');
 	    
 	    $data = array('brands' => $this->brand->getBrands());
-	    $this->parser->parse('test', $data);
+	    $this->parser->parse('test', $data);*/
+		
+		$this->load->library('parser');
+		$this->load->view('header');
+		$this->load->view('nav');
+		$this->load->view('content/showcase');
+		$this->load->view('footer');
 	}
 }
 

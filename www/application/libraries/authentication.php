@@ -6,7 +6,7 @@ class Authentication
     public function userLoggedIn()
     {
         //TODO
-        return true;
+        return currentUserId() !== null;
     }
     
     public function currentUserId()

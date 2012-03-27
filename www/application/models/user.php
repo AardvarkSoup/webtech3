@@ -106,15 +106,15 @@ class User extends CI_Model
         $result = $this->db->select($columns)
                            ->from('Users')
                            ->where(array('userId' => $userId))
-                           ->get()->result_array();
+                           ->get()->row_array();
         
-        if(count($result) == 0)
+        if(!$result)
         {
             //TODO
             throw new Exception('User not found.');
         }
         
-        $user = $result[0];
+        $user = $result;
         
         // Add brands if wanted.
         if($properties === null || in_array('brands', $properties))

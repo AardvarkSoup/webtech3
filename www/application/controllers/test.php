@@ -17,23 +17,24 @@ class Test extends CI_Controller
 	    		'lastName' => 'Test',
 	    		'gender' => true,
 	    		'birthdate' => '01-01-88',
-	    		'description' => 'bla',
+	    		'description' => 'blah',
 	    		'minAgePref' => 20,
 	    		'maxAgePref' => 30,
 	    		'genderPref' => false,
-	    		'personalityI' => 20,
+	    		'personalityI' => 30,
 	    		'personalityN' => 20,
 	    		'personalityT' => 20,
 	    		'personalityJ' => 20,
 	    		'preferenceI' => 20,
 	    		'preferenceN' => 20,
 	    		'preferenceT' => 20,
-	    		'preferenceJ' => 20
+	    		'preferenceJ' => 20,
+	    		'brands' => array('brandA', 'brandC')	    		
 	    );
 	    
-	    $id = $this->user->createUser($data, 'hoi', $brands);
+	    //$id = $this->user->createUser($data, 'hoi', $brands);
 	    
-	    print_r($this->user->load($id));
+	    print_r($this->user->load(1));
 	}
 }
 

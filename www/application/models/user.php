@@ -37,12 +37,12 @@ class User extends CI_Model
         $login = $this->authentication->userLoggedIn();
         if($login)
         {
-            return array_keys($visibility);
+            return array_keys($this->visibility);
         }
         else
         {
             $result = array();
-            foreach($visibility as $col => $visible)
+            foreach($this->visibility as $col => $visible)
             {
                 if($visible)
                 {
@@ -62,7 +62,7 @@ class User extends CI_Model
      */
     private function loadUserBrands($userId)
     {
-        $result = $this->db->select('brandName')
+        $result = $this->db->select('UserBrands.brandName')
                            ->from('UserBrands, Brands')
                            ->where('UserBrands.brandName == Brands.brandName')
                            ->where(array('userId' => $userId))
@@ -82,6 +82,25 @@ class User extends CI_Model
         return $brandNames;
     }
     
+    private function removeInvisibleColumns($data)
+    {
+        $login = $this->authentication->userLoggedIn();
+        
+        $result = array();
+        foreach($data as $key => $val)
+        {
+            if(isset($this->visibility[$key]))
+            {
+                if($login || $this->visibility[$key])
+                {
+                    $result[$key] = $val;
+                }
+            }
+        }
+    
+        return $result;
+    }
+    
     /**
      * Loads the properties of a user visible to the current user. These properties are the values
      * of columns in the Users-table plus an entry 'brands' containing an array of strings 
@@ -96,11 +115,14 @@ class User extends CI_Model
     public function load($userId, $properties = null)
     {
         // Determine which columns to select.
-        $columns = $this->visibleColumns();
         if($properties !== null)
         {
             // Filter by wanted properties.
-            $columns = array_intersect($columns, $properties);
+            $columns = $this->removeInvisibleColumns($properties);
+        }
+        else
+        {
+            $columns = $this->visibleColumns();
         }
         
         $result = $this->db->select($columns)
@@ -138,9 +160,9 @@ class User extends CI_Model
         
         //Start a transaction.
         $this->db->trans_start();
-        
+                
         // Values in Users table to change are all new properties that are also visible columns.
-        $data = array_intersect($newprops, $visibility);
+        $data = $this->removeInvisibleColumns($newprops);
         
         // Do update.
         $this->db->where(array('userId' => $userId))
@@ -153,13 +175,13 @@ class User extends CI_Model
             $this->db->delete('UserBrands', array('userId' => $userId));
             
             // Now insert new brands.
-            $brandList = array();
             foreach($newprops['brands'] as $brand)
             {
-                $brandList[] = array('userId'    => $userId,
-                                     'brandName' => $brand);
+                $this->db->insert('UserBrands',
+                                array('userId'    => $userId,
+                                      'brandName' => $brand));
             }
-            $this->db->insert_batch('UserBrands', $brandList);
+            //$this->db->insert_batch('UserBrands', $brandList);
         }
                  
         // Complete transaction.

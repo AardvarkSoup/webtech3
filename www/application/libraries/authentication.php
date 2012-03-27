@@ -6,13 +6,13 @@ class Authentication
     public function userLoggedIn()
     {
         //TODO
-        return currentUserId() !== null;
+        return $this->currentUserId() !== null;
     }
     
     public function currentUserId()
     {
         //TODO
-        return null;
+        return 1;
     }
     
     public function assertAdminstrator()

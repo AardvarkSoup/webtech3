@@ -2,7 +2,7 @@
 
 class Matching extends CI_Model
 {
-    
+    // Determine the length on the union of two arrays in O(n). $arrayA should've been flipped.
     private function _unionLength($arrayA, $arrayB)
     {
         $result = count($arrayA);
@@ -17,6 +17,8 @@ class Matching extends CI_Model
         return $result;
     }
     
+    // Determine the length on the intersection of two arrays in O(n). $arrayA should've been 
+    // flipped.
     private function _intersectLength($arrayA, $arrayB)
     {
         $result = 0;

@@ -266,19 +266,42 @@ class User extends CI_Model
         
         if($userId === null)
         {
-            //TODO
             throw new Exception('Not logged in.');
         }
         if($userId == $likedUser)
         {
-            //TODO
             throw new Exception("Can't like yourself.");
         }
         
-        //Start a transaction.
+        // For learning, retrieve the current alpha setting.
+        $alpha = $this->db->select('alpha')->from('Configuration')
+                          ->get()->row()->alpha;
+        $beta = 1 - $alpha;
+        
+        // Start a transaction.
         $this->db->trans_start();
         
-        //TODO: Update personality of user.
+        // Determine the new personality preference of this user.
+        $ownPref = $this->db->select(array('preferenceI', 'preferenceN', 
+                                           'preferenceT', 'preferenceJ'))
+                            ->from('Users')
+                            ->where('userId', $userId)
+                            ->get()->row_array();
+        $likedPers = $this->db->select(array('personalityI', 'personalityN', 
+                                             'personalityT', 'personalityJ'))
+                              ->from('Users')
+                              ->where('userId', $likedUser)
+                              ->get()->row_array();
+        $newPref = array();
+        foreach(array('I', 'N', 'T', 'J') as $d)
+        {
+            $newPref["preference$d"] = $alpha * $ownPref["preference$d"]
+                                     + $beta * $likedPers["personality$d"];
+        }
+        
+        // Now update it.
+        $this->db->where('userId', $userId)
+                 ->update('Users', $newPref);
         
         // Add to Likes table (unique and foreign key constraints enforce $likedUser is an
         // existing user id and that there are no duplicates).

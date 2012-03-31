@@ -225,10 +225,10 @@ class User extends CI_Model
         $brandList = array();
         foreach($brands as $brand)
         {
-            $brandList[] = array('userId'    => $userId,
-                                 'brandName' => $brand);
+            $this->db->insert('UserBrands',
+                                array('userId'    => $userId,
+                                      'brandName' => $brand));
         }
-        $this->db->insert_batch('UserBrands', $brandList);
         
         // Complete transaction.
         $this->db->trans_complete();

@@ -23,12 +23,12 @@ class Test extends CI_Controller
 	    		'maxAgePref' => 30,
 	    		'genderPref' => false,
 	    		'personalityI' => 0.30,
-	    		'personalityN' => 0.20,
-	    		'personalityT' => 0.20,
-	    		'personalityJ' => 0.20,
-	    		'preferenceI' => 0.20,
-	    		'preferenceN' => 0.20,
-	    		'preferenceT' => 0.20,
+	    		'personalityN' => 0.31,
+	    		'personalityT' => 0.50,
+	    		'personalityJ' => 0.65,
+	    		'preferenceI' => 0.93,
+	    		'preferenceN' => 0.32,
+	    		'preferenceT' => 0.17,
 	    		'preferenceJ' => 0.85   		
 	    );
 	    

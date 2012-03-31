@@ -9,6 +9,7 @@ class Test extends CI_Controller
 	    $this->load->helper('security');
 	    $this->load->model('User', 'user');
 	    $this->load->library('Personality', 'personality');
+	    $this->load->model('Matching', 'matching');
 	    
 	    $brands = array('brandA', 'brandC');
 	    $data = array(
@@ -17,7 +18,7 @@ class Test extends CI_Controller
 	    		'firstName' => 'Test',
 	    		'lastName' => 'Test',
 	    		'gender' => true,
-	    		'birthdate' => '01-01-88',
+	    		'birthdate' => '1988-01-02',
 	    		'description' => 'blah',
 	    		'minAgePref' => 20,
 	    		'maxAgePref' => 30,
@@ -32,9 +33,12 @@ class Test extends CI_Controller
 	    		'preferenceJ' => 0.85   		
 	    );
 	    
-	    $this->user->deleteSelf();
+	    /*$this->user->deleteSelf();
 	    $id = $this->user->createUser($data, 'hoi', $brands);
-	    print_r($this->personality->dominantPersonalityComponents($this->user->load(1), true));
+	    $user = $this->user->load(1);
+	    print_r($user['genderPref'] === '0');*/
+	    
+	    print_r($this->matching->matchingList(1));
 	}
 }
 

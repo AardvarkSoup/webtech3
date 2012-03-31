@@ -8,8 +8,9 @@ class Test extends CI_Controller
 	    $this->load->helper('url');
 	    $this->load->helper('security');
 	    $this->load->model('User', 'user');
+	    $this->load->library('Personality', 'personality');
 	    
-	    $brands = array('brandA');
+	    $brands = array('brandA', 'brandC');
 	    $data = array(
 	    		'username' => 'test',
 	    		'email' => 'a@b.c',
@@ -21,20 +22,19 @@ class Test extends CI_Controller
 	    		'minAgePref' => 20,
 	    		'maxAgePref' => 30,
 	    		'genderPref' => false,
-	    		'personalityI' => 30,
-	    		'personalityN' => 20,
-	    		'personalityT' => 20,
-	    		'personalityJ' => 20,
-	    		'preferenceI' => 20,
-	    		'preferenceN' => 20,
-	    		'preferenceT' => 20,
-	    		'preferenceJ' => 20,
-	    		'brands' => array('brandA', 'brandC')	    		
+	    		'personalityI' => 0.30,
+	    		'personalityN' => 0.20,
+	    		'personalityT' => 0.20,
+	    		'personalityJ' => 0.20,
+	    		'preferenceI' => 0.20,
+	    		'preferenceN' => 0.20,
+	    		'preferenceT' => 0.20,
+	    		'preferenceJ' => 0.85   		
 	    );
 	    
-	    //$id = $this->user->createUser($data, 'hoi', $brands);
-	    
-	    print_r($this->user->load(1));
+	    $this->user->deleteSelf();
+	    $id = $this->user->createUser($data, 'hoi', $brands);
+	    print_r($this->personality->dominantPersonalityComponents($this->user->load(1), true));
 	}
 }
 

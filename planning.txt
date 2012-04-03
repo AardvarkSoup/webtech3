@@ -13,9 +13,9 @@ Di 3 april:
     - Matching-algoritme (T)
 
 Di 10 april:
-    - Controllers hoofd-, profiel- en configuratiepagina
-    - Serverside controller + zoeken profielen
-    - Overzichten meerdere profielen clientkant, via AJAX + JSON opvragen
+    - Controllers hoofd en profielpagina (I)
+    - Zoeken profielen, client + server (T)
+    - Overzichten meerdere profielen clientkant, via AJAX + JSON opvragen (T)
 
 Di 17 april:
     - User management server

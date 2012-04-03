@@ -8,9 +8,9 @@ Di 27 maart:
     - HTML-templates en CSS, lay-out profielen (I)
     
 Di 3 april:
-    - Profielpagina genereren
-    - Profiel bewerken (client + server)
-    - Matching-algoritme
+    - Profielpagina genereren (I)
+    - Profiel bewerken (client + server) (I)
+    - Matching-algoritme (T)
 
 Di 10 april:
     - Controllers hoofd-, profiel- en configuratiepagina

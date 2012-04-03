@@ -8,7 +8,7 @@ class Matching extends CI_Model
         $result = count($arrayA);
         foreach($arrayB as $val)
         {
-            if(!isset($arrayA[$val]))
+            if(!isset($arrayA[$val['brandName']]))
             {
                 ++$result[];
             }
@@ -24,7 +24,7 @@ class Matching extends CI_Model
         $result = 0;
         foreach($arrayB as $val)
         {
-            if(isset($arrayA[$val]))
+        	if(isset($arrayA[$val['brandName']]))
             {
                 ++$result;
             }
@@ -35,7 +35,7 @@ class Matching extends CI_Model
     
     private function _distance($similarityMeasure, $xFactor, $userA, $userB)
     {
-        // First determine distance between personality types and preferences.
+    	// First determine distance between personality types and preferences.
         $pd1 = ($userA->personalityI - $userB->preferenceI)
              - ($userA->personalityN - $userB->preferenceN)
              - ($userA->personalityT - $userB->preferenceT)
@@ -54,22 +54,22 @@ class Matching extends CI_Model
         
         // Calculate distance between brand preferences by using the currently condifured 
         // similarity measure.
-        $alen = count($userA);
-        $blen = count($userB);
-        $i = $this->_intersectLength($userA, $userB);
+        $alen = count($userA->brands);
+        $blen = count($userB->brands);
+        $i = $this->_intersectLength($brandKeys, $userB->brands);
         $similarity;
         switch($similarityMeasure)
         {
-            case Configuration::SMC_DICE:
+            case 0: // Dice
                 $similarity = 2 * $i / ($alen + $blen);
                 break;
-            case Configuration::SMC_JACCARD:
-                $similarity = $i / $this->_unionLength($userA, $userB); 
+            case 1: // Jaccard
+                $similarity = $i / $this->_unionLength($brandKeys, $userB->brands); 
                 break;
-            case Configuration::SMC_COSINE:
+            case 2: // cosine
                 $similarity = $i / (sqrt($alen) * sqrt($blen));
                 break;
-            case Configuration::SMC_OVERLAP:
+            case 3: // overlap
                 $similarity = $i / min($alen, $blen);
                 break;
         }
@@ -90,7 +90,10 @@ class Matching extends CI_Model
         
         // Select neccessary data from user to match with.
         $user = $this->db->select(array('gender', 'genderPref', 'birthdate', 'minAgePref', 
-        						        "$age AS age", 'maxAgePref'))
+        						        "$age AS age", 'maxAgePref',
+        								'personalityI', 'personalityN', 'personalityT',
+        								'personalityJ', 'preferenceI', 'preferenceN', 
+        								'preferenceT', 'preferenceJ'))
                          ->from('Users')
                          ->where('userId', $userId)
                          ->get()->row();
@@ -119,21 +122,22 @@ class Matching extends CI_Model
         
         
         // Now constrain on mutual age preference.
-        $query->where("$age >=", $user->minAgePref);
-        $query->where("$age <=", $user->maxAgePref);
-        $query->where('minAgePref <=', $user->age);
-        $query->where('maxAgePref >=', $user->age);
+        $query->where("$age >=", (int) $user->minAgePref);
+        $query->where("$age <=", (int) $user->maxAgePref);
+        $query->where('minAgePref <=', (int) $user->age);
+        $query->where('maxAgePref >=', (int) $user->age);
         
         
         // Do query.
         $matches = $query->get()->result();
-
+		
         // Determine brand preferences of current user.
         $brands = $this->db->select('UserBrands.brandName')
                            ->from('UserBrands, Brands')
                            ->where('UserBrands.brandName == Brands.brandName')
-                           ->where(array('userId' => $userId))
+                           ->where('userId', $userId)
                            ->get()->result();
+		
         $user->brands = array();
         foreach($brands as $brand)
         {
@@ -157,7 +161,7 @@ class Matching extends CI_Model
                   ->get()->result_array();
             
             // Now calculate the distance to this user.
-            $distances[] = $this->_distance($configs->similarityMeasure, $configs->xFactor, $match);
+            $distances[] = $this->_distance($configs->similarityMeasure, $configs->xFactor, $user, $match);
         }
         
         

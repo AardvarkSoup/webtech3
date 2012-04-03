@@ -13,34 +13,35 @@ class Test extends CI_Controller
 	    
 	    $brands = array('brandA', 'brandC');
 	    $data = array(
-	    		'username' => 'test2',
-	    		'email' => 'a@d.c',
-	    		'firstName' => 'Test',
-	    		'lastName' => 'Test',
-	    		'gender' => false,
+	    		'username' => 'test34',
+	    		'email' => 'a@c.de',
+	    		'firstName' => 'Tedsfdst',
+	    		'lastName' => 'Testfeef',
+	    		'gender' => true,
 	    		'birthdate' => '1988-01-02',
-	    		'description' => 'blah',
+	    		'description' => 'blahbla',
 	    		'minAgePref' => 20,
 	    		'maxAgePref' => 30,
 	    		'genderPref' => null,
-	    		'personalityI' => 0.30,
+	    		'personalityI' => 0.35,
 	    		'personalityN' => 0.31,
 	    		'personalityT' => 0.50,
-	    		'personalityJ' => 0.65,
+	    		'personalityJ' => 0.95,
 	    		'preferenceI' => 0.93,
 	    		'preferenceN' => 0.32,
-	    		'preferenceT' => 0.87,
+	    		'preferenceT' => 0.61,
 	    		'preferenceJ' => 0.85	
 	    );
 	    
+	    //$id = $this->user->createUser($data, 'hoi', $brands);
 	    /*$this->user->deleteSelf();
 	    $id = $this->user->createUser($data, 'hoi', $brands);
 	    $user = $this->user->load(1);
 	    print_r($user['genderPref'] === '0');*/
-	    //print_r($this->matching->matchingList(1));
+	    print_r($this->matching->matchingList(1));
 	    
 	    //$this->user->like(2);
-	    print_r($this->user->getLikeStatus(2));
+	    //print_r($this->user->getLikeStatus(2));
 	}
 }
 

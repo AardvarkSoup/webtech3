@@ -222,10 +222,9 @@ class User extends CI_Model
         
         // Add preferred brands.
         $userId = $this->db->insert_id();
-        $brandList = array();
         foreach($brands as $brand)
         {
-            $this->db->insert('UserBrands',
+        	$this->db->insert('UserBrands',
                                 array('userId'    => $userId,
                                       'brandName' => $brand));
         }

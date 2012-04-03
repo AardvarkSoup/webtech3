@@ -57,7 +57,9 @@ CREATE TABLE "UserBrands"
        ON DELETE CASCADE,
     FOREIGN KEY ("brandName")
       REFERENCES "Brands"
-        ON DELETE CASCADE
+        ON DELETE CASCADE,
+        
+    UNIQUE ("userId", "brandName")
 );
 
 CREATE TABLE "Likes"

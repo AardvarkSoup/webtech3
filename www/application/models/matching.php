@@ -132,9 +132,9 @@ class Matching extends CI_Model
         $matches = $query->get()->result();
 		
         // Determine brand preferences of current user.
-        $brands = $this->db->select('UserBrands.brandName')
-                           ->from('UserBrands, Brands')
-                           ->where('UserBrands.brandName == Brands.brandName')
+        $brands = $this->db->select('ub.brandName')
+                           ->from('UserBrands ub')
+                           ->join('Brands b', 'ub.brandName = b.brandName', 'left')
                            ->where('userId', $userId)
                            ->get()->result();
 		
@@ -154,11 +154,11 @@ class Matching extends CI_Model
         foreach($matches as &$match)
         {
             // First determine brand preferences for this user.
-            $match->brands = $this->db->select('UserBrands.brandName')
-                  ->from('UserBrands, Brands')
-                  ->where('UserBrands.brandName == Brands.brandName')
-                  ->where(array('userId' => $match->userId))
-                  ->get()->result_array();
+            $match->brands = $this->db->select('ub.brandName')
+		                          ->from('UserBrands ub')
+		                          ->join('Brands b', 'ub.brandName = b.brandName', 'left')
+		                          ->where('userId', $match->userId)
+		                          ->get()->result_array();
             
             // Now calculate the distance to this user.
             $distances[] = $this->_distance($configs->similarityMeasure, $configs->xFactor, $user, $match);

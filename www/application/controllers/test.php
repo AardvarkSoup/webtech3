@@ -38,6 +38,8 @@ class Test extends CI_Controller
 	    $id = $this->user->createUser($data, 'hoi', $brands);
 	    $user = $this->user->load(1);
 	    print_r($user['genderPref'] === '0');*/
+	    
+	    print_r($this->user->load(1));
 	    print_r($this->matching->matchingList(1));
 	    
 	    //$this->user->like(2);

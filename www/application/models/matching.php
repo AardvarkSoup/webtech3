@@ -82,6 +82,13 @@ class Matching extends CI_Model
              + (1 - $xFactor) * $brandDistance;
     }
     
+    /**
+     * Build a list of all users matching to a certain one, sorted on distance.
+     * 
+     * @param $userId The id of the user to match on.
+     * 
+     * @return array(int) The userId's of the matching users.
+     */
     public function matchingList($userId)
     {
         // Query expression to determine the age of a user.
@@ -104,6 +111,7 @@ class Matching extends CI_Model
         }
         
         // Start building a query on the users table.
+        // TODO: Specify which columns are necessary.
         $query = $this->db->select()->from('Users');
         
         
@@ -167,6 +175,12 @@ class Matching extends CI_Model
         
         // Sort the matches on these distances.
         array_multisort($distances, SORT_NUMERIC, $matches);
+        
+        // Only return the id's.
+        foreach($matches as &$match)
+        {
+        	$match = $match->userId;
+        }
         
         // Return the ordered matches.
         return $matches;

@@ -13,7 +13,7 @@ Di 3 april:
     - Matching-algoritme (T)
 
 Di 10 april:
-    - Controllers hoofd en profielpagina (I)
+    - Controllers hoofd- en profielpagina (I)
     - Zoeken profielen, client + server (T)
     - Overzichten meerdere profielen clientkant, via AJAX + JSON opvragen (T)
 
@@ -24,6 +24,10 @@ Di 17 april:
     - Configuratiepagina
     - Testdata
 
+Di 24 april:
+ - HTTPS
+ - Online zetten en permissies correct instellen
+ - Eventueel ModRewrite instellen
+
 Do 26 april:
-    - Online zetten en permissies correct instellen
     - Alles moet nu af zijn

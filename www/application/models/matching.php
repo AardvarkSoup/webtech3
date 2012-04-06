@@ -172,15 +172,14 @@ class Matching extends CI_Model
             $distances[] = $this->_distance($configs->similarityMeasure, $configs->xFactor, $user, $match);
         }
         
-        
-        // Sort the matches on these distances.
-        array_multisort($distances, SORT_NUMERIC, $matches);
-        
         // Only return the id's.
         foreach($matches as &$match)
         {
-        	$match = $match->userId;
+            $match = $match->userId;
         }
+        
+        // Sort the matches on these distances.
+        array_multisort($distances, SORT_NUMERIC, $matches);
         
         // Return the ordered matches.
         return $matches;

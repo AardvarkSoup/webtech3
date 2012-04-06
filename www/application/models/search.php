@@ -5,19 +5,33 @@ class Search extends CI_Model
 	
 	public function search($input)
 	{		
-		// Build query.
+	    // Query expression to determine the age of a user.
+	    $age = "(strftime('%Y', 'now') - strftime('%Y', birthdate)
+	          - (strftime('%j', 'now') < strftime('%j', birthdate)))";
+	    
+	    // Build query.
 		$query = $this->db->select('u.userId')->from('Users u');
 
-		if(isset($input['gender']))
+		// Restrict users in result by wanted gender.
+		if($input['genderPref'] != 'either')
 		{
 			$query->where('gender', $input['gender']);
 		}
 		
-		$gpref_bool = $input['genderPref'] ? '1' : '0';
+		// Restrict on age.
+		$query->where('minAgePref <=', $input['ownAge']);
+		$query->where('maxAgePref >=', $input['ownAge']);
+		$query->where("$age <=", $input['maxAge']);
+		$query->where("$age >=", $input['minAge']);
 		
+		// 0: male, 1: female.
+		$gpref_bool = $input['ownGender'] == 'female' ? '1' : '0';
+		
+		// Add gender and brand preference to query. 
 		$query->where("(genderPref IS NULL OR genderPref = $gpref_bool)")
 			  ->join('UserBrands b', 'b.userId = u.userId', 'left')
 			  ->where_in('brandName', $input['brands']);
+		
 			  
 		// Personality preference is string like 'ENTP'.
 	    $personPref = $input['personalityPreference'];

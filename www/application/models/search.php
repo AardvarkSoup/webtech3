@@ -15,7 +15,7 @@ class Search extends CI_Model
 		// Restrict users in result by wanted gender.
 		if($input['genderPref'] != 'either')
 		{
-			$query->where('gender', $input['gender']);
+			$query->where('gender', $input['genderPref'] == 'female');
 		}
 		
 		// Restrict on age.

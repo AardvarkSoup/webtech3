@@ -18,6 +18,7 @@
 		<input type="number" name="ownAge" min="18" max="122" /> <br/><br/>
 	
 	Age preference: <br/>
+			<!-- Confirming minAge is lower than maxAge is done server-side. -->
 	Between <input type="number" name="minAge" min="18" max="122" /> 
 	    and <input type="number" name="maxAge" min="18" max="122" /> <br/><br/>
 	    

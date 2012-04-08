@@ -110,7 +110,7 @@ footer ul li a:hover {
     padding: 20px;
     min-height: 360px;
     background: #669639;
-    /* Border-radius is nog niet ge�mplementeerd */  
+    /* Border-radius is nog niet geïmplementeerd */  
     -moz-border-radius: 30px;  
     -webkit-border-radius: 30px;  
     border-radius: 30px;
@@ -131,4 +131,17 @@ footer ul li a:hover {
 
 .error {
 	color: red;
+}
+
+/** TODO */
+#searchbrowsebuttons {
+	
+}
+
+#next {
+	
+}
+
+#previous {
+	
 }

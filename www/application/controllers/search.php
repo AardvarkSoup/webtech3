@@ -127,9 +127,16 @@ class Search extends CI_Controller
         }
         else
         {
-            $data = array_fill_keys(
+            /*$data = array_fill_keys(
                 array('error', 'sFemale', 'malePref', 'femalePref', 'ownAge', 'minAge', 'maxAge',
-                      'sI', 'sN', 'sF', 'sP', 'brands'), null);
+                      'sI', 'sN', 'sF', 'sP', 'brands'), null);*/
+            
+            $keys = array('error', 'sFemale', 'malePref', 'femalePref', 'ownAge', 'minAge', 
+            		      'maxAge', 'sI', 'sN', 'sF', 'sP', 'brands');
+            foreach($keys as $key)
+            {
+                $data[$key] = null;
+            }
         }
 
         

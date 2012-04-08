@@ -1,6 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Search extends CI_Model
+class SearchModel extends CI_Model
 {
     
     public function search($input)
@@ -27,14 +27,26 @@ class Search extends CI_Model
         // 0: male, 1: female.
         $gpref_bool = $input['ownGender'] == 'female' ? '1' : '0';
         
-        // Add gender and brand preference to query. 
-        $query->where("(genderPref IS NULL OR genderPref = $gpref_bool)")
-              ->join('UserBrands b', 'b.userId = u.userId', 'left')
-              ->where_in('brandName', $input['brands']);
+        // Add gender preference to query. 
+        $query->where("(genderPref IS NULL OR genderPref = $gpref_bool)");
+        
+        // Parse brand preference list.
+        $brands = array_map('trim', explode(',', $input['brands']));
+        
+        // If at least one brand is specified, at them to the query.
+        if(count($brands) > 0)
+        {
+            $query->join('UserBrands b', 'b.userId = u.userId', 'left')
+                  ->where_in('brandName', $brands);
+        }
         
               
-        // Personality preference is string like 'ENTP'.
-        $personPref = $input['personalityPreference'];
+        // Retrieve personality preference.
+        $personPref = array($input['attitude'],
+                            $input['perceiving'],
+                            $input['judging'],
+                            $input['lifestyle']
+                       );
         
         $dicts1 = 'INTJ';
         $dicts2 = 'ESFP';

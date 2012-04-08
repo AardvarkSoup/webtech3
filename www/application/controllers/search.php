@@ -89,36 +89,59 @@ class Search extends CI_Controller
         $this->load->view('header');
         
         // Fetch search query data, if present.
-        $input = $this->input->post;
+        $input = $this->input->post();
         
         $error = null;
         $doSearch = false;
+        $data;
         
         // If something in POST, it means a search query has been done.
-        if(count($input) > 0)
+        if($input && count($input) > 0)
         {
             // Validate input.
-            $error = _validateInput($input);
+            $error = $this->_validateInput($input);
             
             if($error === null)
             {
                 $doSearch = true;
             }
+            
+            // Specify error and data that should be left filled in form from last query.
+            $data = array(
+                      'error'   => $error,
+                      'sFemale' => $input['ownGender'] == 'female' ? 'selected' : '',
+                      
+                      'malePref' => $input['genderPref'] == 'male' ? 'selected' : '',
+            		  'femalePref' => $input['genderPref'] == 'female' ? 'selected' : '',
+            		  
+            		  'ownAge' => $input['ownAge'],
+            		  'minAge' => $input['minAge'],
+            		  'maxAge' => $input['maxAge'],
+            		  
+            		  'sI' => $input['attitude'] == 'I' ? 'selected' : '',
+                      'sN' => $input['perceiving'] == 'I' ? 'selected' : '',
+            		  'sF' => $input['judging'] == 'I' ? 'selected' : '',
+            		  'sP' => $input['lifestyle'] == 'I' ? 'selected' : '',
+            		  
+            		  'brands' => $input['brands']
+            ); 
+        }
+        else
+        {
+            $data = array_fill_keys(
+                array('error', 'sFemale', 'malePref', 'femalePref', 'ownAge', 'minAge', 'maxAge',
+                      'sI', 'sN', 'sF', 'sP', 'brands'), null);
         }
 
-        // Display the search form. With error message if neccessary.
-        $data = array();
-        if($error !== null)
-        {
-            $data['error'] = $error;
-        }
+        
+        // Display the search form with filled in values and possible error.
         $this->parser->parse('searchform', $data);
         
         // If a search is to be done. Do so and display first six profiles.
         if($doSearch)
         {
             // Load search model.
-            $this->load->model('Search', 'search');
+            $this->load->model('SearchModel', 'search');
             
             // Perform the search operation.
             $ids = $this->search->search($input);

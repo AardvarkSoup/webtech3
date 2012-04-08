@@ -33,7 +33,7 @@ class SearchModel extends CI_Model
         // Parse brand preference list.
         $brands = array_filter(array_map('trim', explode(',', $input['brands'])));
         
-        // If at least one brand is specified, at them to the query.
+        // If at least one brand is specified, add them to the query.
         if(count($brands) > 0)
         {
             $query->join('UserBrands b', 'b.userId = u.userId', 'left')

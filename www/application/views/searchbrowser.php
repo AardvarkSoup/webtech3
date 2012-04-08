@@ -16,7 +16,7 @@ $(document).ready(function()
     // The current page of results. 
     currentPage = 0;
     // The total number of pages, equal to the number of id's divided by 6 (and rounded upwards). 
-    nofPages = (userIds.length - 1) / 6 + 1;
+    nofPages = Math.ceil(userIds.length  / 6);
     
     // Hide the previous button.
     $('#previous').hide();
@@ -50,7 +50,7 @@ $(document).ready(function()
             getPage(--currentPage);
     
             // Show next button again, if neccessary. 
-            if($('#next').hidden())
+            if($('#next').is(':hidden'))
             {
                 $('#next').show();
             }
@@ -70,7 +70,7 @@ $(document).ready(function()
             getPage(++currentPage);
     
             // Show prev button, if it was hidden before. 
-            if($('#previous').hidden())
+            if($('#previous').is(':hidden'))
             {
                 $('#previous').show();
             }

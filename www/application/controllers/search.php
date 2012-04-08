@@ -146,7 +146,7 @@ class Search extends CI_Controller
             $ids = $this->search->search($input);
                         
             // Display the first six results (or less, if there aren't as much).
-            $toDisplay = array_splice($ids, 0, min(6, count($ids)));
+            $toDisplay = array_splice($idscopy = $ids, 0, min(6, count($ids)));
             $this->displayProfiles($toDisplay);
             
             // Add the search browser and give it all the found id's.
@@ -155,6 +155,7 @@ class Search extends CI_Controller
             {
                 $data['ids'][] = array('id' => $id);
             }
+            
             $this->parser->parse('searchbrowser', $data);
         }
         

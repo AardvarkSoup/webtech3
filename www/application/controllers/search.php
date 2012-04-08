@@ -75,9 +75,8 @@ class Search extends CI_Controller
         {
             $profiles[] = $this->user->load($id);
         }
-        
         // Display profile overviews.
-        $this->parser->parse('searchresults', $profiles);
+        $this->parser->parse('searchresults', array('profiles' => $profiles));
     }
     
     /**
@@ -119,9 +118,9 @@ class Search extends CI_Controller
             		  'maxAge' => $input['maxAge'],
             		  
             		  'sI' => $input['attitude'] == 'I' ? 'selected' : '',
-                      'sN' => $input['perceiving'] == 'I' ? 'selected' : '',
-            		  'sF' => $input['judging'] == 'I' ? 'selected' : '',
-            		  'sP' => $input['lifestyle'] == 'I' ? 'selected' : '',
+                      'sN' => $input['perceiving'] == 'N' ? 'selected' : '',
+            		  'sF' => $input['judging'] == 'F' ? 'selected' : '',
+            		  'sP' => $input['lifestyle'] == 'P' ? 'selected' : '',
             		  
             		  'brands' => $input['brands']
             ); 
@@ -145,16 +144,16 @@ class Search extends CI_Controller
             
             // Perform the search operation.
             $ids = $this->search->search($input);
-            
+                        
             // Display the first six results (or less, if there aren't as much).
             $toDisplay = array_splice($ids, 0, min(6, count($ids)));
             $this->displayProfiles($toDisplay);
             
             // Add the search browser and give it all the found id's.
-            $data = array();
+            $data = array('ids' => array());
             foreach($ids as $id)
             {
-                $data[] = array('id' => $id);
+                $data['ids'][] = array('id' => $id);
             }
             $this->parser->parse('searchbrowser', $data);
         }

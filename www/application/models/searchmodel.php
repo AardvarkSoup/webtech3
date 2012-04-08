@@ -19,10 +19,10 @@ class SearchModel extends CI_Model
         }
         
         // Restrict on age.
-        $query->where('minAgePref <=', $input['ownAge']);
-        $query->where('maxAgePref >=', $input['ownAge']);
-        $query->where("$age <=", $input['maxAge']);
-        $query->where("$age >=", $input['minAge']);
+        $query->where('minAgePref <=', (int) $input['ownAge']);
+        $query->where('maxAgePref >=', (int) $input['ownAge']);
+        $query->where("$age <=", (int) $input['maxAge']);
+        $query->where("$age >=", (int) $input['minAge']);
         
         // 0: male, 1: female.
         $gpref_bool = $input['ownGender'] == 'female' ? '1' : '0';
@@ -31,7 +31,7 @@ class SearchModel extends CI_Model
         $query->where("(genderPref IS NULL OR genderPref = $gpref_bool)");
         
         // Parse brand preference list.
-        $brands = array_map('trim', explode(',', $input['brands']));
+        $brands = array_filter(array_map('trim', explode(',', $input['brands'])));
         
         // If at least one brand is specified, at them to the query.
         if(count($brands) > 0)
@@ -55,7 +55,7 @@ class SearchModel extends CI_Model
             $col = 'preference' . $dicts1[$i];
             if($personPref[$i] == $dicts1[$i])
             {
-                $query->where("$col > 0.5");
+                $query->where("$col >= 0.5");
             }
             else
             {
@@ -67,6 +67,10 @@ class SearchModel extends CI_Model
         $result = $query->get()->result_array();
         
         // Return userId's.
+        foreach($result as &$row)
+        {
+            $row = $row['userId'];
+        }
         return array_merge($result);
     }
 }

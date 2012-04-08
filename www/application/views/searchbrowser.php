@@ -38,7 +38,7 @@ $(document).ready(function()
         }
     
         // Do an AJAX request to update the displayed search results. 
-        $('#searchresults').load('<?= base_url() . '/index.php/search/displayProfiles' ?>' + ids);
+        $('#searchresults').load('<?php echo base_url() . '/index.php/search/displayProfiles' ?>' + ids);
     }
     
     // Add mouse listeners to browser buttons. 
@@ -61,7 +61,7 @@ $(document).ready(function()
                 $('#previous').hide();
             }
         }
-    }
+    });
     $('#next').click(function() 
     {
         if(currentPage < nofPages - 1)
@@ -81,7 +81,7 @@ $(document).ready(function()
                 $('#next').hide();
             }
         }
-    }
-}
+    });
+});
 
 </script> 

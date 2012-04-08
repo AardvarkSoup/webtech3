@@ -1,8 +1,8 @@
 /* CSS reset */
-{
+/*{
     margin: 0;
     padding: 0;
-}
+}*/
 
 header, footer, nav, div, section {
     display: block;
@@ -110,7 +110,7 @@ footer ul li a:hover {
     padding: 20px;
     min-height: 360px;
     background: #669639;
-    /* Border-radius is nog niet geïmplementeerd */  
+    /* Border-radius is nog niet geï¿½mplementeerd */  
     -moz-border-radius: 30px;  
     -webkit-border-radius: 30px;  
     border-radius: 30px;
@@ -127,4 +127,8 @@ footer ul li a:hover {
     width: 340px;
     height: 280px;
     background-color: blue;
+}
+
+.error {
+	color: red;
 }

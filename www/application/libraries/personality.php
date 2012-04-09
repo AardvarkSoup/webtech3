@@ -15,7 +15,7 @@ class Personality
      *                                           own personalities.
      * 
      * @return array(string => float) The resulting dominant personality values, e.g. 
-     *                                array(I => 0.8, N => 0.7,  t => 0.51, J => 0.65).      
+     *                                array(I => 0.8, N => 0.7,  T => 0.51, J => 0.65).      
      */
     public function dominantPersonalityComponents($arr, $preference = false)
     {

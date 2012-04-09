@@ -63,8 +63,8 @@ class User extends CI_Model
     private function loadUserBrands($userId)
     {
         $result = $this->db->select('ub.brandName')
-		                   ->from('UserBrands ub')
-		                   ->join('Brands b', 'ub.brandName = b.brandName', 'left')
+                           ->from('UserBrands ub')
+                           ->join('Brands b', 'ub.brandName = b.brandName', 'left')
                            ->where(array('userId' => $userId))
                            ->get()->result_array();
         
@@ -224,7 +224,7 @@ class User extends CI_Model
         $userId = $this->db->insert_id();
         foreach($brands as $brand)
         {
-        	$this->db->insert('UserBrands',
+            $this->db->insert('UserBrands',
                                 array('userId'    => $userId,
                                       'brandName' => $brand));
         }

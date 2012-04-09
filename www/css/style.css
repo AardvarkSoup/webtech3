@@ -1,8 +1,8 @@
 /* CSS reset */
-* {
+/*{
     margin: 0;
     padding: 0;
-}
+}*/
 
 header, footer, nav, div, section, .profilebox {
     display: block;
@@ -170,5 +170,21 @@ footer ul li a:hover {
     height: 220px;
     margin: 10px;
     background: #b0b0b0;
-    
+}
+
+.error {
+	color: red;
+}
+
+/** TODO */
+#searchbrowsebuttons {
+	
+}
+
+#next {
+	
+}
+
+#previous {
+	
 }

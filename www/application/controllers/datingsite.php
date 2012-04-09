@@ -3,7 +3,6 @@ class Datingsite extends CI_Controller {
 
     public function index()
 	{
-        $this->load->helper('url');
         $this->load->view('header');
         $this->load->view('nav');
         $this->load->view('loginbox');
@@ -26,4 +25,3 @@ class Datingsite extends CI_Controller {
         $this->parser->parse('content/profiles-small', $data);
     }
 }    
-?>

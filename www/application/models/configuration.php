@@ -35,7 +35,7 @@ class Configuration extends CI_Model
     
     /**
      * Save changed settings.
-	 *
+     *
      * @param array(string => int/float) $data The changed settings. Should already be validated!
      */
     public function save($data)

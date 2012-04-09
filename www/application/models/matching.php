@@ -24,7 +24,7 @@ class Matching extends CI_Model
         $result = 0;
         foreach($arrayB as $val)
         {
-        	if(isset($arrayA[$val['brandName']]))
+            if(isset($arrayA[$val['brandName']]))
             {
                 ++$result;
             }
@@ -35,7 +35,7 @@ class Matching extends CI_Model
     
     private function _distance($similarityMeasure, $xFactor, $userA, $userB)
     {
-    	// First determine distance between personality types and preferences.
+        // First determine distance between personality types and preferences.
         $pd1 = ($userA->personalityI - $userB->preferenceI)
              - ($userA->personalityN - $userB->preferenceN)
              - ($userA->personalityT - $userB->preferenceT)
@@ -82,6 +82,13 @@ class Matching extends CI_Model
              + (1 - $xFactor) * $brandDistance;
     }
     
+    /**
+     * Build a list of all users matching to a certain one, sorted on distance.
+     * 
+     * @param $userId The id of the user to match on.
+     * 
+     * @return array(int) The userId's of the matching users.
+     */
     public function matchingList($userId)
     {
         // Query expression to determine the age of a user.
@@ -90,10 +97,10 @@ class Matching extends CI_Model
         
         // Select neccessary data from user to match with.
         $user = $this->db->select(array('gender', 'genderPref', 'birthdate', 'minAgePref', 
-        						        "$age AS age", 'maxAgePref',
-        								'personalityI', 'personalityN', 'personalityT',
-        								'personalityJ', 'preferenceI', 'preferenceN', 
-        								'preferenceT', 'preferenceJ'))
+                                        "$age AS age", 'maxAgePref',
+                                        'personalityI', 'personalityN', 'personalityT',
+                                        'personalityJ', 'preferenceI', 'preferenceN', 
+                                        'preferenceT', 'preferenceJ'))
                          ->from('Users')
                          ->where('userId', $userId)
                          ->get()->row();
@@ -104,6 +111,7 @@ class Matching extends CI_Model
         }
         
         // Start building a query on the users table.
+        // TODO: Specify which columns are necessary.
         $query = $this->db->select()->from('Users');
         
         
@@ -130,14 +138,14 @@ class Matching extends CI_Model
         
         // Do query.
         $matches = $query->get()->result();
-		
+        
         // Determine brand preferences of current user.
         $brands = $this->db->select('ub.brandName')
                            ->from('UserBrands ub')
                            ->join('Brands b', 'ub.brandName = b.brandName', 'left')
                            ->where('userId', $userId)
                            ->get()->result();
-		
+        
         $user->brands = array();
         foreach($brands as $brand)
         {
@@ -155,15 +163,20 @@ class Matching extends CI_Model
         {
             // First determine brand preferences for this user.
             $match->brands = $this->db->select('ub.brandName')
-		                          ->from('UserBrands ub')
-		                          ->join('Brands b', 'ub.brandName = b.brandName', 'left')
-		                          ->where('userId', $match->userId)
-		                          ->get()->result_array();
+                                  ->from('UserBrands ub')
+                                  ->join('Brands b', 'ub.brandName = b.brandName', 'left')
+                                  ->where('userId', $match->userId)
+                                  ->get()->result_array();
             
             // Now calculate the distance to this user.
             $distances[] = $this->_distance($configs->similarityMeasure, $configs->xFactor, $user, $match);
         }
         
+        // Only return the id's.
+        foreach($matches as &$match)
+        {
+            $match = $match->userId;
+        }
         
         // Sort the matches on these distances.
         array_multisort($distances, SORT_NUMERIC, $matches);

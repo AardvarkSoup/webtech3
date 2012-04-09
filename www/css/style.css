@@ -1,18 +1,23 @@
 /* CSS reset */
-{
+* {
     margin: 0;
     padding: 0;
 }
 
-header, footer, nav, div, section {
+header, footer, nav, div, section, .profilebox {
     display: block;
 }
 
 body {
     margin: 0 auto;  
-    width: 940px;  
+    width: 940px;
+    height: 100%;
     font: 13px/22px Helvetica, Arial, sans-serif;  
     background: #f0f0f0;
+}
+
+h1 {
+    margin: 25px;
 }
 
 h2 {
@@ -29,6 +34,12 @@ h3 {
 
 p {
     padding-bottom: 20px;
+}
+
+header {
+    text-indent: -100px;
+    /*background: url(../img/blend.png);
+    background-position: 250px 0px;*/
 }
 
 nav, footer {
@@ -55,7 +66,8 @@ nav ul li {
 }
 
 nav ul li a {
-    text-decoration: none; /* Om de link-styling te verwijderen. */
+    /* Om de standaard link-styling te verwijderen. */
+    text-decoration: none;
 }
 
 nav ul li a:link, nav ul li a:visited {
@@ -64,6 +76,11 @@ nav ul li a:link, nav ul li a:visited {
 
 nav ul li a:hover, nav ul li a:active {
     color: #f9f9f9;
+}
+
+footer {
+    position: absolute;
+    bottom: 0px;
 }
 
 footer ul li {
@@ -96,35 +113,62 @@ footer ul li a:hover {
 
 #loginbox {
     position: absolute;
-    top: 15px;
-    right: 40px;
-    z-index: 1000;
-    width: 320px;
-    height: 60px;
-    background: #994433;
+    top: 10px;
+    right: 35px;
+    width: 520px;
+    height: 44px;
+    border: 3px solid #f9f9f9;
+    /* Border-radius is nog niet overal geïmplementeerd */
+    -moz-border-radius: 2px;  
+    -webkit-border-radius: 2px;  
+    border-radius: 2px;
+    padding-left: 5px;
 }
 
 #showcase {
     position: relative;
-    margin: 95px 0 50px;
+    margin: 120px 0 120px;
     padding: 20px;
-    min-height: 360px;
-    background: #669639;
-    /* Border-radius is nog niet geïmplementeerd */  
+    height: 380px;
+    /*background: #669639;*/
+    background: url(../img/happy-couple5.jpeg) no-repeat;
+    /* Border-radius is nog niet overal geïmplementeerd */
     -moz-border-radius: 30px;  
     -webkit-border-radius: 30px;  
     border-radius: 30px;
 }
 
 #showcase #menu {
-    
+    position: absolute;
+    bottom: 20px;
+    left: 50px;
+    color: #f9f9f9;
 }
 
 #showcase #register {
     position: absolute;
     top: 40px;
-    right: -20px;
-    width: 340px;
-    height: 280px;
-    background-color: blue;
+    right: -30px;
+    width: 320px;
+    height: 420px;
+    background: #C48240;
+    border: 5px solid #CC8742;
+    border-right: 0px;
+    border-bottom: 0px;
+    box-shadow: 12px 10px 10px #858080;
+    /*#CD7F32; /*url(http://media1.parship.com/static/redesign09/4.20.5//img/homepage/sprite_home.png) no-repeat 0 -232px; */
+    /*background: url(../img/blend.png);*/
+}
+
+#profileboxes {
+    height: 640px;
+}
+
+.profilebox {
+    float: left;
+    width: 280px;
+    height: 220px;
+    margin: 10px;
+    background: #b0b0b0;
+    
 }

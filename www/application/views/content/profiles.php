@@ -3,8 +3,8 @@
     <h3>Leeftijd:</h3><p>{age}</p>
     <h3>Beschrijving:</h3><p>
         <?php   
-            if(!{big}) {
-                $point = strpos({discription}, '.');
+            if($profileType == "small") {
+                $point = strpos($discription, '.');
         
                 if($point === false or $point > 100) {
                     $disc = substr({discription}, 0, 100). "...";
@@ -17,13 +17,12 @@
                 echo $disc;
             }
             else {
-                echo {discription};
+                echo $discription;
             }
         ?></p><br>
     <h3>Type:</h3><p>
         <?php
-            $pers;
-            foreach({personality} as $key => $value) {
+            foreach($personality as $key => $value) {
                 $pers .= $key;
             }
             echo $pers;

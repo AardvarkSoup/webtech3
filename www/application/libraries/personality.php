@@ -39,7 +39,7 @@ class Personality
         foreach($arr as $key => $val)
         {
             // Check whether key starts with 'personality'
-            if(substr_compare($key, $subject, 0, $slen) === 0)
+            if(substr_compare($subject, $key, 0, $slen) === 0)
             {
                 // Component is I, N, T or J.
                 $component = $key[$slen];

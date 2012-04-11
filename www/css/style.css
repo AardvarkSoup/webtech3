@@ -1,5 +1,6 @@
 /* CSS reset */
-/*{
+/**
+{
     margin: 0;
     padding: 0;
 }*/
@@ -118,7 +119,7 @@ footer ul li a:hover {
     width: 520px;
     height: 44px;
     border: 3px solid #f9f9f9;
-    /* Border-radius is nog niet overal geïmplementeerd */
+    /* Border-radius is nog niet overal geï¿½mplementeerd */
     -moz-border-radius: 2px;  
     -webkit-border-radius: 2px;  
     border-radius: 2px;
@@ -132,7 +133,7 @@ footer ul li a:hover {
     height: 380px;
     /*background: #669639;*/
     background: url(../img/happy-couple5.jpeg) no-repeat;
-    /* Border-radius is nog niet overal geïmplementeerd */
+    /* Border-radius is nog niet overal geï¿½mplementeerd */
     -moz-border-radius: 30px;  
     -webkit-border-radius: 30px;  
     border-radius: 30px;

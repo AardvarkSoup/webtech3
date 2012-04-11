@@ -74,9 +74,55 @@ class Search extends CI_Controller
         foreach($userIds as $id)
         {
             $profiles[] = $this->user->load($id);
+            /*$data = $this->user->load($id);
+            $data['profileType'] = 'small';
+            $profiles[] = $this->load->view('content/profile', $data, true);*/
         }
         // Display profile overviews.
         $this->parser->parse('searchresults', array('profiles' => $profiles));
+    }
+    
+    /**
+     * Prints a browser for user profiles.
+     * 
+     * @param array(int) $ids The id's of the users that should be browsable.
+     */
+    public function userBrowser($ids)
+    {
+        // Display the first six results (or less, if there aren't as much).
+        $toDisplay = array_splice($idscopy = $ids, 0, min(6, count($ids)));
+        $this->displayProfiles($toDisplay);
+            
+        // Add the search browser and give it all the found id's.
+        // We restrict the number of id's send to 600 to prevent generating a gigantic javascript
+        // file when there are a lot of matches. 600 is more than enough since I doubt many people
+        // will click 'next' more than a hundred times.
+        $data = array('ids' => array());
+        for($i = 0; $i < min(600, count($ids)); ++$i)
+        {
+            $data['ids'][] = array('id' => $ids[$i]);
+        }
+            
+        $this->parser->parse('searchbrowser', $data);
+    }
+    
+    // Displays the matching users. Or nothing, if no user is logged in.
+    public function matching()
+    {
+    	$this->load->model('Matching', 'matching');
+    	
+    	// Header.
+        $this->load->view('header');
+        
+        $current = $this->authentication->currentUserId();
+        if($current !== null)
+        {
+        	$list = $this->matching->matchingList($current);
+        	$this->userBrowser($list);
+        }
+        
+        // Footer.
+        $this->load->view('footer');
     }
     
     /**
@@ -111,18 +157,18 @@ class Search extends CI_Controller
                       'sFemale' => $input['ownGender'] == 'female' ? 'selected' : '',
                       
                       'malePref' => $input['genderPref'] == 'male' ? 'selected' : '',
-            		  'femalePref' => $input['genderPref'] == 'female' ? 'selected' : '',
-            		  
-            		  'ownAge' => $input['ownAge'],
-            		  'minAge' => $input['minAge'],
-            		  'maxAge' => $input['maxAge'],
-            		  
-            		  'sI' => $input['attitude'] == 'I' ? 'selected' : '',
+                      'femalePref' => $input['genderPref'] == 'female' ? 'selected' : '',
+                      
+                      'ownAge' => $input['ownAge'],
+                      'minAge' => $input['minAge'],
+                      'maxAge' => $input['maxAge'],
+                      
+                      'sI' => $input['attitude'] == 'I' ? 'selected' : '',
                       'sN' => $input['perceiving'] == 'N' ? 'selected' : '',
-            		  'sF' => $input['judging'] == 'F' ? 'selected' : '',
-            		  'sP' => $input['lifestyle'] == 'P' ? 'selected' : '',
-            		  
-            		  'brands' => $input['brands']
+                      'sF' => $input['judging'] == 'F' ? 'selected' : '',
+                      'sP' => $input['lifestyle'] == 'P' ? 'selected' : '',
+                      
+                      'brands' => $input['brands']
             ); 
         }
         else
@@ -132,7 +178,7 @@ class Search extends CI_Controller
                       'sI', 'sN', 'sF', 'sP', 'brands'), null);*/
             
             $keys = array('error', 'sFemale', 'malePref', 'femalePref', 'ownAge', 'minAge', 
-            		      'maxAge', 'sI', 'sN', 'sF', 'sP', 'brands');
+                          'maxAge', 'sI', 'sN', 'sF', 'sP', 'brands');
             foreach($keys as $key)
             {
                 $data[$key] = null;
@@ -152,18 +198,7 @@ class Search extends CI_Controller
             // Perform the search operation.
             $ids = $this->search->search($input);
                         
-            // Display the first six results (or less, if there aren't as much).
-            $toDisplay = array_splice($idscopy = $ids, 0, min(6, count($ids)));
-            $this->displayProfiles($toDisplay);
-            
-            // Add the search browser and give it all the found id's.
-            $data = array('ids' => array());
-            foreach($ids as $id)
-            {
-                $data['ids'][] = array('id' => $id);
-            }
-            
-            $this->parser->parse('searchbrowser', $data);
+            $this->userBrowser($ids);
         }
         
         // Footer.

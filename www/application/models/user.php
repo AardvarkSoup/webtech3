@@ -347,4 +347,22 @@ class User extends CI_Model
         
         return array($likeAB, $likeBA);
     }
+    
+    public function getRandomUsers($amount)
+    {    	
+    	// Do query.
+    	$result = $this->db->select('userId')
+    					   ->from('Users')
+    					   ->order_by('userId', 'random')
+    					   ->limit($amount)
+    					   ->get()->result();
+    		          
+    	// Only return id's.
+    	foreach($result as &$row)
+    	{
+    		$row = $row->userId;
+    	}
+
+    	return $result;
+    }
 }

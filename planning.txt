@@ -18,16 +18,19 @@ Di 10 april:
     - Overzichten meerdere profielen clientkant, via AJAX + JSON opvragen (T)
 
 Di 17 april:
-    - User management server
-    - Login- + registervelden
-    - Persoonlijkheidstest
-    - Configuratiepagina
-    - Testdata
+    - Zoekweergave voor random gebr. + matching (T)
+    - User management server (T)
+    - Login- + registervelden (I)
+    - Persoonlijkheidstest (T + I)
+    - Configuratiepagina (T)
+    - Styling (I)
 
 Di 24 april:
+ - Styling afmaken
  - HTTPS
  - Online zetten en permissies correct instellen
  - Eventueel ModRewrite instellen
+ - Easter egg
 
 Do 26 april:
     - Alles moet nu af zijn

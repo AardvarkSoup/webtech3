@@ -2,7 +2,7 @@
 class Datingsite extends CI_Controller 
 {
 
-    public function index()
+    public function index($msg = null)
 	{
         $this->load->model('user','',true);
         $this->load->library('personality');
@@ -15,8 +15,8 @@ class Datingsite extends CI_Controller
         $this->load->view('loginbox');
         $this->load->view('content/showcase');
         /*$data = array ( 'profileType'	=> 'big',
-        				'user'			=> $this->buildUser(1));*/
-        $data = $this->buildUser(1);
+        				'user'			=> $this->_buildUser(1));*/
+        $data = $this->_buildUser(1);
         $data['profileType'] = 'small';
         $this->load->view('content/profile', $data);
         $this->load->view('footer');
@@ -38,7 +38,7 @@ class Datingsite extends CI_Controller
 		$this->load->view('content/testView', $data);
 	}
 	
-	private function buildUser($userId) {
+	private function _buildUser($userId) {
 		$user = $this->user->load($userId);
 		$user['personality'] = $this->personality->dominantPersonalityComponents($user);
 		$user['preference'] = $this->personality->dominantPersonalityComponents($user, true);
@@ -47,7 +47,7 @@ class Datingsite extends CI_Controller
 	
     /*  Makes the small profiles for the homepage
     */
-    private function makeProfiles()
+    private function _makeProfiles()
     {
         $this->load->library('parser');
         $data = array('profiles' => array(  array('number' => '1'),

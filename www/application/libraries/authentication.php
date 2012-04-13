@@ -72,31 +72,29 @@ class Authentication
     /**
     * Logs in a user.
     *
-    * 'email' and 'password' should be present in the POST-data.
+    * @param email     The e-mail adres the user has entered.
+    * @param password  The password the user has entered.
     * 
-    * @return string The username of the user that has been succesfully logged in, if any. 
+    * @return int    The user ID of the user that has been succesfully logged in, if any. 
     *                If no user with the provided e-mail/password combination exists. This will
     *                return null.
     */
-    public function login()
+    public function login($email, $password)
     {
         // Get CodeIgniter object.
         $ci =& get_instance();
         
         if($this->authentication->userLoggedIn())
         {
-            // If someone is already logged in, do nothing.
-            return;
+            // You can't log in twice.
+            return null;
         }
     
         // Load user model.
         $ci->load->model('user');
     
         // Look up which user belongs to this e-mail address and password.
-        $username;
-        $email = $ci->input->post('email');
-        $password = $ci->input->post('password');
-        $id = $ci->user->lookup($email, $password, $username);
+        $id = $ci->user->lookup($email, $password);
     
     
         if($id === null)
@@ -110,7 +108,7 @@ class Authentication
             $ci->session->set_userdata('userId', $id);
 
             // Return the username.
-            return $username;
+            return $id;
         }
     }
     

@@ -244,19 +244,18 @@ class User extends CI_Model
      * 
      * @return int The userId of this user, or null if no such user exists.
      */
-    public function lookup($email, $password, &$username)
+    public function lookup($email, $password)
     {
         // Hash the password.
         $hash = _hashPassword($password);
         
         // Query the user.
-        $result = $this->db->select('userId', 'username')->from('Users')
+        $result = $this->db->select('userId')->from('Users')
                            ->where(array('email'=> $email, 'passwordHash' => $hash))
                            ->get()->row();
         
         if($result !== false)
         {
-            $username = $result->username;
             return $result->userId;
         }
         else

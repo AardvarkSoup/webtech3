@@ -19,11 +19,11 @@
 	<?php echo form_error('password'); ?>
 	<input type="text" name="password" value="" size="50" />
 	
-	<h4>Wachtwoord nogmaals</h4>
+	<h4>Herhaal wachtwoord</h4>
 	<?php echo form_error('passconf'); ?>
 	<input type="text" name="passconf" value="" size="50" />
 	
-	<h4>Email Adres</h4>
+	<h4>E-mailadres</h4>
 	<?php echo form_error('email'); ?>
 	<input type="text" name="email" value="<?php echo set_value('email'); ?>" size="50" />
 	
@@ -34,7 +34,7 @@
 		<option value='1' <?php echo set_select('gender', '1', set_value('gender')=='1'); ?> >V</option>
 	</select>
 	
-	<h4>Geboorte datum</h4>
+	<h4>Geboortedatum</h4>
 	<?php echo form_error('birthdate'); ?>
 	<input type="text" name="birthdate" value="<?php echo set_value('birthdate'); ?>" size="50" />
 	
@@ -42,7 +42,7 @@
 	<?php echo form_error('description'); ?>
 	<textarea name="description" rows="5" cols="37"><?php echo set_value('description'); ?></textarea>
 	
-	<h4>Geslachts voorkeur</h4>
+	<h4>Geslachtsvoorkeur</h4>
 	<?php echo form_error('genderpref'); ?>
 	<select name="genderpref">
 		<option value='0' <?php echo set_select('genderpref', '0', set_value('gender')=='0'); ?> >M</option>
@@ -50,7 +50,7 @@
 		<option value='2' <?php echo set_select('genderpref', '2', set_value('gender')=='2'); ?> >M / V</option>
 	</select>
 	
-	<h4>Leeftijds voorkeur</h4>
+	<h4>Leeftijdsvoorkeur</h4>
 	<?php echo form_error('ageprefmin'); ?>
 	<?php echo form_error('ageprefmax'); ?>
 		Minimum: 

@@ -31,7 +31,8 @@ CREATE TABLE "Users"
     "preferenceT" integer NOT NULL,
     "preferenceJ" integer NOT NULL,
     
-    "picture" blob,
+    -- Contains the filename of an uploaded picture
+    "picture" varchar(20),
     
     "admin" bool NOT NULL DEFAULT '0',
     

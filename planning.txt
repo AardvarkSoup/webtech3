@@ -26,9 +26,12 @@ Di 17 april:
     - Styling (I)
 
 Di 24 april:
+ - Toelichting
+ - Databasediagram
  - Styling afmaken
  - HTTPS
  - Online zetten en permissies correct instellen
+ - Foutvermelding PHP en CodeIgniter uitzetten.
  - Eventueel ModRewrite instellen
  - Easter egg
 

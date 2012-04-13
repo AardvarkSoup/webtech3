@@ -209,7 +209,7 @@ class User extends CI_Model
      *                                         
      * @return int The ID of the newly created user.
      */
-    public function createUser($data, $password, $brands)
+    public function createUser($data, $password, $picture, $brands)
     {        
         // Hash password.
         $data['passwordHash'] = $this->hashPassword($password);

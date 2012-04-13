@@ -88,6 +88,22 @@ CREATE TABLE "Configuration"
 INSERT INTO "Configuration" ("similarityMeasure", "xFactor", "alpha")
     VALUES (0, 0.5, 0.5);
     
+
+-- Session table. Automaticallt managed by CodeIgniter's session class.
+CREATE TABLE "Sessions"
+(
+    "session_id" varchar(40) DEFAULT '0' NOT NULL,
+	"ip_address" varchar(16) DEFAULT '0' NOT NULL,
+	"user_agent" varchar(120) NOT NULL,
+	"last_activity" unsigned integer(10) DEFAULT 0 NOT NULL,
+	"user_data" text NOT NULL,
+	
+	PRIMARY KEY (session_id)
+);
+
+CREATE INDEX "last_activity_idx"
+    ON "Sessions" ("last_activity");
+    
 -- TODO: Admin user, brands.
 INSERT INTO "Brands" ("brandName") VALUES ('brandA');
 INSERT INTO "Brands" ("brandName") VALUES ('brandB');

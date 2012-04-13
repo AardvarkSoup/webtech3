@@ -3,20 +3,124 @@
 //TODO
 class Authentication
 {
+    /**
+     * @return bool Whether somebody is logged in.
+     */
     public function userLoggedIn()
     {
-        //TODO
         return $this->currentUserId() !== null;
     }
     
+    /**
+     * @return int The ID of the user that is currently logged in, or null of none is.
+     */
     public function currentUserId()
     {
-        //TODO
-        return 1;
+        // Get CodeIgniter object.
+        $ci =& get_instance();
+        
+        // Fetch id from session data.
+        // If the session ID in the user's cookie does not match a session in the database, 
+        // CodeIgniter will have destroyed the session already and this will return false.
+        $id = $ci->session->userdata('userId');
+        
+        if($id !== false)
+        {
+            return $id;
+        }
+        else
+        {
+            return null;
+        }
     }
     
+    /**
+     * Throws an exception if the currently logged in user, if any, is not an administrator.
+     * 
+     * This should be used to protect admin only functionality at the server side against forged
+     * requests. This function shouldn't be used in areas reachable by regular users.
+     * 
+     * @throws Exception If no administrator is logged in.
+     */
     public function assertAdminstrator()
     {
-        //TODO
+        // Fetch current user.
+        $id = $this->currentUserId();
+        
+        if($id !== null)
+        {
+            // Get CodeIgniter object.
+            $ci =& get_instance();
+            
+            // Confirm whether admin with database.
+            $result = $ci->db->select('admin')->from('Users')
+                             ->where('userId', $id)->get()->row();
+            
+            if($result->admin)
+            {
+                // If an admin, return.
+                return;
+            }
+        }
+        
+        // If the function has not yet returned, it means the current user is no admin. Throw an
+        // exception.
+        throw new Exception('Access denied.');
+    }
+    
+    
+    /**
+    * Logs in a user.
+    *
+    * 'email' and 'password' should be present in the POST-data.
+    * 
+    * @return string The username of the user that has been succesfully logged in, if any. 
+    *                If no user with the provided e-mail/password combination exists. This will
+    *                return null.
+    */
+    public function login()
+    {
+        // Get CodeIgniter object.
+        $ci =& get_instance();
+        
+        if($this->authentication->userLoggedIn())
+        {
+            // If someone is already logged in, do nothing.
+            return;
+        }
+    
+        // Load user model.
+        $ci->load->model('user');
+    
+        // Look up which user belongs to this e-mail address and password.
+        $username;
+        $email = $ci->input->post('email');
+        $password = $ci->input->post('password');
+        $id = $ci->user->lookup($email, $password, $username);
+    
+    
+        if($id === null)
+        {
+            // Login failed. Return null.
+            return null;
+        }
+        else
+        {
+            // Add the user's ID to the session data.
+            $ci->session->set_userdata('userId', $id);
+
+            // Return the username.
+            return $username;
+        }
+    }
+    
+    /**
+     * Logs out the current user.
+     */
+    public function logout()
+    {
+        // Simply destroy the current session.
+        $ci =& get_instance();
+        $ci->session->sess_destroy();
     }
 }

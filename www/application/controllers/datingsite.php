@@ -1,5 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-class Datingsite extends CI_Controller {
+class Datingsite extends CI_Controller 
+{
 
     public function index()
 	{
@@ -7,11 +8,10 @@ class Datingsite extends CI_Controller {
         $this->load->library('personality');
         $this->load->helper('html');
 		$this->load->helper('form');
-        
-		$this->user->updateSelf( array('description' => 'I like apples and kiwi\'s and strawberries and melon. I also enjoy watching the birds building their nest in the back of the garden. Too bad those eksters keep attacking them...' ));
 		
 		$this->load->view('header');
         $this->load->view('nav');
+        
         $this->load->view('loginbox');
         $this->load->view('content/showcase');
         /*$data = array ( 'profileType'	=> 'big',

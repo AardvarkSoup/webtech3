@@ -189,7 +189,7 @@ class User extends CI_Model
     }
     
     // Creates a salted SHA-1 hash of a password.
-    private function hashPassword($password)
+    private function _hashPassword($password)
     {
         // The encryption key we specified is also perfectly suitable to be a salt.
         // Also add a smiley face wearing a hat, which is incredibly important.
@@ -212,7 +212,7 @@ class User extends CI_Model
     public function createUser($data, $password, $picture, $brands)
     {        
         // Hash password.
-        $data['passwordHash'] = $this->hashPassword($password);
+        $data['passwordHash'] = $this->_hashPassword($password);
         
         //Start a transaction.
         $this->db->trans_start();
@@ -233,6 +233,36 @@ class User extends CI_Model
         $this->db->trans_complete();
         
         return $userId;
+    }
+    
+    /**
+     * Look up a user with a certain e-mail/password combination. To be used for logging in.
+     * 
+     * @param string  $email     An e-mail address.
+     * @param string  $password  A password, yet unhashed.
+     * @param string &$username  If a user is found, its username is stored in here.
+     * 
+     * @return int The userId of this user, or null if no such user exists.
+     */
+    public function lookup($email, $password, &$username)
+    {
+        // Hash the password.
+        $hash = _hashPassword($password);
+        
+        // Query the user.
+        $result = $this->db->select('userId', 'username')->from('Users')
+                           ->where(array('email'=> $email, 'passwordHash' => $hash))
+                           ->get()->row();
+        
+        if($result !== false)
+        {
+            $username = $result->username;
+            return $result->userId;
+        }
+        else
+        {
+            return null;
+        }
     }
     
     /**

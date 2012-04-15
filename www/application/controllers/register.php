@@ -180,14 +180,8 @@ class Register extends CI_Controller
         $this->form_validation->set_message('required', 'Dit is een verplicht veld');
         
         // Hier is een testlijst van brands.
-        $brands = array('My Little Pony', 
-        				'Transformers', 
-        				'X-Men', 
-        				'Pokémon', 
-        				'Digimon', 
-        				'Vicky de Viking',
-        				'Smurfen',
-        				'Dexter\'s Laboratory');
+        $this->load->model('brand');
+        $brands = $this->brand->getBrands();
         
         
         $data = array('brandPreferences' => $this->brandCheckBoxes($brands));

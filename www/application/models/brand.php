@@ -17,7 +17,14 @@ class Brand extends CI_Model
      */
     public function getBrands()
     {
-        $query = $this->db->select('brandName')->from('Brands')->get();
-        return $query->result_array();
+        $result = $this->db->select('brandName')->from('Brands')->get()->result();
+        
+        // Only return brand names.
+        foreach($result as &$brand)
+        {
+            $brand = $brand->brandName;
+        }
+        
+        return $result;
     }
 }

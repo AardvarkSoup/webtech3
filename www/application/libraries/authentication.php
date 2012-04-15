@@ -14,9 +14,7 @@ class Authentication
      * @return int The ID of the user that is currently logged in, or null of none is.
      */
     public function currentUserId()
-    {
-        return 1;
-        
+    {       
         // Get CodeIgniter object.
         $ci =& get_instance();
         

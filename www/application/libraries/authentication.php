@@ -15,6 +15,8 @@ class Authentication
      */
     public function currentUserId()
     {
+        return 1;
+        
         // Get CodeIgniter object.
         $ci =& get_instance();
         
@@ -41,7 +43,7 @@ class Authentication
      * 
      * @throws Exception If no administrator is logged in.
      */
-    public function assertAdminstrator()
+    public function assertAdministrator()
     {
         // Fetch current user.
         $id = $this->currentUserId();

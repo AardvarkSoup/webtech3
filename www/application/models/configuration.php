@@ -11,26 +11,23 @@ class Configuration extends CI_Model
           SMC_OVERLAP = 3;
     
     /**
-     * The available settings an administrator can modify.
-     */
-    const settings = array(
-                        'similarityMeasure',
-                        'xFactor',
-                        'alpha'
-                     );
-    
-    /**
      * Load the current settings.
      * 
      * @return array(string => int/float) The settings and their current values.
      */
     public function load()
     {
-        $result = $this->db->select(settings)
-                       ->from('Configuration')
-                       ->get()->result_array();
+        $settings = array(
+                      'similarityMeasure',
+                      'xFactor',
+                      'alpha'
+                    );
         
-        return $result[0];
+        $result = $this->db->select($settings)
+                       ->from('Configuration')
+                       ->get()->row_array();
+        
+        return $result;
     }
     
     /**
@@ -39,7 +36,7 @@ class Configuration extends CI_Model
      * @param array(string => int/float) $data The changed settings. Should already be validated!
      */
     public function save($data)
-    {
+    {       
         // Make sure an admin is doing this.
         $this->authentication->assertAdministrator();
         

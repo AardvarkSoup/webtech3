@@ -105,9 +105,8 @@ CREATE TABLE "Sessions"
 CREATE INDEX "last_activity_idx"
     ON "Sessions" ("last_activity");
     
--- TODO: Admin user, brands.
-INSERT INTO "Brands" ("brandName") VALUES ('brandA');
-INSERT INTO "Brands" ("brandName") VALUES ('brandB');
-INSERT INTO "Brands" ("brandName") VALUES ('brandC');
+-- Standard brands can be found in brands.sql.
+    
+-- TODO: Admin user.
 
 COMMIT;

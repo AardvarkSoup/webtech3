@@ -2,12 +2,13 @@
 class Register extends CI_Controller 
 {
 
-	// After succesfully validating a filled in form, use the POST data to add a new user to the
+    // After succesfully validating a filled in form, use the POST data to add a new user to the
 	// database.
     private function _registerUser()
 	{
-	    // Load libraries.
+	    // Load libraries and models.
 	    $this->load->library('picture');
+	    $this->load->model('user');
 	    
 	    // Fetch input.
 	    $input = $this->input->post();
@@ -47,9 +48,83 @@ class Register extends CI_Controller
 	        $data['picture'] = $this->picture->process($input['picture']);
 	    }
 	    
-	    // TODO: personality (preference)
+	    // Determine personality from questionnaire.
+	    // Also set initial personality preference to the opposite of that.
+	    {
+	        // Parse answers.
+	        $answers = array(); 
+	        for($q = 1; $q <= 19; ++$q)
+	        {
+	            $answers[$q] = $input["Question$q"];
+	        }
+	        
+	        // E versus I.
+	        $e = 50;
+            for($i = 1; $i <= 5; ++$i)
+            {
+                if($answers[$i] == 'A')
+                {
+                    $e += 10;
+                }
+                else if($answers[$i] == 'B')
+                {
+                    $e -= 10;
+                }
+            }
+            $data['personalityI'] = 100 - $e;
+            $data['preferenceI'] = $e;
+            
+            // N versus S.
+            $n = 50;
+            for($i = 1; $i <= 5; ++$i)
+            {
+                if($answers[$i] == 'A')
+                {
+                    $n += 12.5;
+                }
+                else if($answers[$i] == 'B')
+                {
+                    $n -= 12.5;
+                }
+            }
+            $data['personalityN'] = (int) $n;
+            $data['preferenceN'] = 100 - (int) $n;
+            
+            // T versus F.
+            $t = 50;
+            for($i = 1; $i <= 5; ++$i)
+            {
+                if($answers[$i] == 'A')
+                {
+                    $t += 12.5;
+                }
+                else if($answers[$i] == 'B')
+                {
+                    $t -= 12.5;
+                }
+            }
+            $data['personalityT'] = (int) $t;
+            $data['preferenceT'] = 100 - (int) $t;
+            
+            // J versus P.
+            $j = 50;
+            for($i = 1; $i <= 5; ++$i)
+            {
+                if($answers[$i] == 'A')
+                {
+                    $j += 8.3333;
+                }
+                else if($answers[$i] == 'B')
+                {
+                    $j -= 8.3333;
+                }
+            }
+            $data['personalityJ'] = (int) $j;
+            $data['preferenceJ'] = 100 - (int) $j;
+	    }
 	    
-	    // TODO: Create user.
+	    // Actually create the user.
+	    $this->user->createUser($data, $password, $brands);
 	}
     
     public function index()

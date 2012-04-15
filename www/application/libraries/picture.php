@@ -8,7 +8,7 @@ class Picture
     
     /**
      * Processes an uploaded picture by resizing it and moving it from the uploads to the the 
-     * picture folder.
+     * picture folder. The uploaded file will be deleted afterwards.
      * 
      * @param string $picFile The filename of the uploaded image, which should be loocated in the
      *                        uploads folder.

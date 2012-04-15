@@ -8,7 +8,7 @@ CREATE TABLE "Users"
     "userId" integer NOT NULL,
     "username" varchar(30) NOT NULL,
     "email" varchar(256) NOT NULL,
-    "passwordHash" char(255) NOT NULL, -- TODO: size?
+    "passwordHash" char(40) NOT NULL, -- For SHA-1 hashes.
     
     "firstName" varchar(30) NOT NULL,
     "lastName" varchar(50) NOT NULL,
@@ -105,8 +105,28 @@ CREATE TABLE "Sessions"
 CREATE INDEX "last_activity_idx"
     ON "Sessions" ("last_activity");
     
+-- Admin user.
+INSERT INTO "Users" 
+    VALUES (
+        1,
+        'admin',
+        'webmaster@dinges.nl',
+        '105c075b400c0ac2ebacaf91da608e3f947a22e0', -- Password: puddingtaart
+        'Admin',
+        'The Admin',
+        0,
+        '1991-02-06',
+        'I am the almighty administrator of this website! Bow and tremble before my mighty administrative capabilities!',
+        18,
+        25,
+        1,
+        50, 50, 50, 50, 50, 50, 50, 50,
+        NULL,
+        1
+    );
+
+
 -- Standard brands can be found in brands.sql.
-    
--- TODO: Admin user.
+-- TODO: Move them here.
 
 COMMIT;

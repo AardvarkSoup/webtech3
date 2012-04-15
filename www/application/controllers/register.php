@@ -30,7 +30,7 @@ class Register extends CI_Controller
 	              );
 	    foreach($rename as $key => $newkey)
 	    {
-	        $data[$newKey] = $input[$key];
+	        $data[$newkey] = $input[$key];
 	    }
 	    
 	    // Get password (will be hashed by User::createUser).

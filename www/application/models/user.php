@@ -191,6 +191,9 @@ class User extends CI_Model
     // Creates a salted SHA-1 hash of a password.
     private function hashPassword($password)
     {
+        // Load security helper.
+        $this->load->helper('security');
+        
         // The encryption key we specified is also perfectly suitable to be a salt.
         // Also add a smiley face wearing a hat, which is incredibly important.
         $salt = $this->config->item('encryption_key') . '<:)';

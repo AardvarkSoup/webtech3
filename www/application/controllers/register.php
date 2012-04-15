@@ -1,14 +1,14 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 class Register extends CI_Controller 
 {
-    const THUMBNAIL_WIDTH =  250,
-          THUMBNAIL_HEIGHT = 300;
-    
 
 	// After succesfully validating a filled in form, use the POST data to add a new user to the
 	// database.
     private function _registerUser()
 	{
+	    // Load libraries.
+	    $this->load->library('picture');
+	    
 	    // Fetch input.
 	    $input = $this->input->post();
 	    
@@ -42,52 +42,14 @@ class Register extends CI_Controller
 	    $brands = array_keys(array_filter($input['brandpref']));
 	    
 	    // Process uploaded image.
-	    $picFile;
 	    if(isset($input['picture']))
 	    {
-    	    $picFile = $input['picture'];
-    	    
-    	    // Copy 250x300 version of uploaded picture to img-folder, using GD.
-    	    $source = imagecreatefromjpeg($picFile);
-    	    list($sourceWidth, $sourceHeight) = getimagesize($picFile);
-    	    $dest = imagecreatetruecolor(self::THUMBNAIL_WIDTH, self::THUMBNAIL_HEIGHT);
-    	    
-    	    $success = imagecopyresampled($dest, $source, 0, 0, 0, 0, 
-    	                  self::THUMBNAIL_WIDTH, self::THUMBNAIL_HEIGHT, $sourceWidth, $sourceHeight);
-    	    
-    	    if($success)
-    	    {
-    	        // Generate picture filename (16 random lowercase characters + .jpg).
-    	        $picture = '';
-    	        for($i = 0; $i < 16; ++$i)
-    	        {
-    	            $picture .= chr(rand(ord('a'), ord('z')));
-    	        }
-    	        $picture .= '.jpg';
-    	        
-    	        // Save image.
-    	        $success = imagejpeg($dest, $picture);
-    	    }
-    	    
-    	    if($success)
-    	    {
-    	        // Add Image filename to data.
-    	        $data['picture'] = $picture;
-    	    }
-    	    else
-    	    {
-    	        // TODO: Give error message.
-    	    }
+	        $data['picture'] = $this->picture->process($input['picture']);
 	    }
-	    
 	    
 	    // TODO: personality (preference)
 	    
-	    if(isset($data['picture']))
-	    {
-	        // Delete image upload.
-	        unlink($picFile);
-	    }
+	    // TODO: Create user.
 	}
     
     public function index()

@@ -7,6 +7,7 @@
     <script type="text/javascript" src="<?php echo base_url() . '/js/jquery.js'; ?>"> </script>
 </head>
 <body>
+	<div id='container'>
     <header>
         <h1>
             LuciferMaker, matchmaking since 2012

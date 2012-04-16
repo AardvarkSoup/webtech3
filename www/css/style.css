@@ -1,24 +1,37 @@
-/* CSS reset */
-/**
-{
-    margin: 0;
-    padding: 0;
-}*/
+@CHARSET "UTF-8";
 
-header, footer, nav, div, section, .profilebox {
-    display: block;
+* 
+{
+	padding: 0;
+	margin: 0;
+}
+
+html, body {
+	height: 100%
 }
 
 body {
-    margin: 0 auto;  
-    width: 940px;
-    height: 100%;
+    width: 100%;
     font: 13px/22px Helvetica, Arial, sans-serif;  
     background: #f0f0f0;
 }
 
+/*
+	De container bevat de gehele site inhoud. Het wordt gebruikt om de juiste
+	deminsies waarin de inhoud opgehangen moet worden aan te geven.
+*/
+#container {
+	position: relative;
+	min-height: 100%;
+	margin: 0 auto;
+}
+
+header, nav, section, footer, div {
+	display: block;
+}
+
 h1 {
-    margin: 25px;
+    padding: 25px;
 }
 
 h2 {
@@ -37,38 +50,92 @@ p {
     padding-bottom: 20px;
 }
 
-header {
-    text-indent: -100px;
-    /*background: url(../img/blend.png);
-    background-position: 250px 0px;*/
+.error {
+	color: red;
 }
 
+/*
+	De header
+*/
+
+header {
+    height: 80px;
+    text-indent: 140px;	
+}
+
+/*
+	De styling van de navigation en van de footer lijken in veel opzichten op elkaar.
+*/
+
 nav, footer {
-    position: absolute;
-    left: 0px;
-    width: 100%;
-    background-color: #111111;
+	/* De balken worden ingestelt op de breedte van het window en aan de linkerkant geplakt */
+	width: 100%;
+	left: 0px;
+	background-color: #111111;
+}
+
+footer {
+	/* De footer wordt aan de onderkant van de pagina geplakt */
+	position: absolute;
+	bottom: 0;
+	/* Door clear kunnen float elementen niet over de footer heen worden geplaatst */
+	clear: both;
+	/* En er wordt een margin aan de bovenkant geplaatst om afstand te bewaren tot de content */
+	margin-top: 30px;
+	clear: both;
 }
 
 nav ul, footer ul {
-    margin: auto;
+    /* Door de margin op auto te zetten, word de lijst naar het midden van de pagina gedreven */
+    margin: 0 auto;
+    /* De breedte wordt gelijkgezet aan de breedte van de body */
     width: 940px;
+    /* De list-style wordt uitgezet, we gaan onze eigen stijl implementeren */
     list-style: none;
 }
 
-nav ul li {
-    float: left;
-    display: block;  
-    margin-right: 20px;  
-    width: 160px;  
-    font-size: 18px;  
-    line-height: 44px;
+nav ul li, footer ul li {
+	/* Alle objecten in de lijst worden achter elkaar gezet en weergegeven als block. */
+    display: inline-block;
     text-align: center;
 }
 
-nav ul li a {
-    /* Om de standaard link-styling te verwijderen. */
+nav ul li {
+    /*
+    	Er wordt wat gedraaid aan de instellingen voor het goed weergeven van de tekst met 
+    	voldoende ruimte eromheen.
+    */
+    width: 180px;
+    margin-left: 40px;  
+    font-size: 18px;
+    line-height: 44px;
+    border: solid black 1px;
+}
+
+footer ul li {
+    /*
+    	Om wat afstand om de projecetn heen te creëren wordt er links en rechts padding toegevoegd
+    	en boven en onder margin.
+    */
+    padding: 0px 20px;
+    margin: 10px 0px;
+    /* En een linker-border wordt getoond om zo een schijdingslijntje tussen de objecten te tonen */
+    border-left: 1px solid #ffffff;
+    font-size: 16px;
+    line-height: 18px;
+    color: #f9f9f9;
+}
+
+footer ul li:first-child {
+    /* Dat lijntje moet alleen tussen de objecetn getoont worden, en dus niet bij de eerste */
+    border: 0;
+    margin-left: 180px;
+}
+
+nav ul li a, footer ul li a {
+    /* Om de link-styling te verwijderen. */
     text-decoration: none;
+    padding: 5px;
 }
 
 nav ul li a:link, nav ul li a:visited {
@@ -77,34 +144,11 @@ nav ul li a:link, nav ul li a:visited {
 
 nav ul li a:hover, nav ul li a:active {
     color: #f9f9f9;
-}
-
-footer {
-    position: absolute;
-    bottom: 0px;
-}
-
-footer ul li {
-    float: left;
-    display: inline-block;
-    padding: 0px 15px;
-    margin: 10px 0px;
-    border-left: 1px solid #ffffff;
-    font-size: 14px;
-    line-height: 18px;
-    text-align: center;
-    color: #f9f9f9;
-}
-
-footer ul li:first-child {
-    border: 0;
-}
-
-footer ul li a {
-    text-decoration: none; /* Om de link-styling te verwijderen. */
+    font-weight: bold;
 }
 
 footer ul li a:link, footer ul li a:visited, nav ul li a:active {
+    /* De link moet onder alle omstandigheden deze kleur behouden */
     color: #f9f9f9;
 }
 
@@ -112,32 +156,56 @@ footer ul li a:hover {
     text-decoration: underline;
 }
 
+/*
+	De loginbox
+*/
+
 #loginbox {
     position: absolute;
     top: 10px;
     right: 35px;
-    width: 520px;
-    height: 44px;
+    width: 570px;
+    height: 54px;
     border: 3px solid #f9f9f9;
-    /* Border-radius is nog niet overal ge�mplementeerd */
-    -moz-border-radius: 2px;  
-    -webkit-border-radius: 2px;  
-    border-radius: 2px;
+    /* Border-radius is nog niet overal geïmplementeerd */
+    -moz-border-radius: 3px;  
+    -webkit-border-radius: 3px;  
+    border-radius: 3px;
     padding-left: 5px;
 }
 
+/*
+	De main content sectie
+*/
+
+#main {
+	/* De margin wordt zo ingesteld dat de main content centreerd */
+	margin: 0 auto 30px;
+	/*
+		Omdat de footer absolute gepositioneerd is, kan de main div eronder schuiven.
+		Om dit te voorkomen, wordt er een onder-padding ingesteld
+	*/
+	padding-bottom: 50px;
+	width: 940px;
+}
+
+/*
+	De showcase van de hoofdpagina
+*/
+
 #showcase {
     position: relative;
-    margin: 120px 0 120px;
+    margin: 80px 0 120px;
     padding: 20px;
     height: 380px;
     /*background: #669639;*/
     background: url(../img/happy-couple5.jpeg) no-repeat;
-    /* Border-radius is nog niet overal ge�mplementeerd */
+    /* Border-radius is nog niet overal geïmplementeerd */
     -moz-border-radius: 30px;  
     -webkit-border-radius: 30px;  
     border-radius: 30px;
 }
+
 
 #showcase #menu {
     position: absolute;
@@ -161,21 +229,27 @@ footer ul li a:hover {
     /*background: url(../img/blend.png);*/
 }
 
+/*
+	Profile boxes
+*/
+
 #profileboxes {
-    height: 640px;
+	margin-bottom: 30px;
+	/* overflow:hidden zorgt ervoor dat de container om floated objecten heen past */
+	overflow: hidden;
 }
 
 .profilebox {
-    /*float: left;
+    float: left;
     width: 280px;
-    height: 220px;*/
+    height: 220px;
     margin: 10px;
     background: #c0c0c0;
 }
 
-.error {
-	color: red;
-}
+/*
+	Search form and functions
+*/
 
 /** TODO */
 #searchbrowsebuttons {
@@ -190,6 +264,14 @@ footer ul li a:hover {
 	
 }
 
+/*
+	(Register)form
+*/
+
 #registerblock {
-	top: 150px;	
+	position: relative;
+	top: 150px;
+	left: 40px;	
 }
+
+

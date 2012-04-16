@@ -12,8 +12,14 @@ html, body {
 
 body {
     width: 100%;
+    min-width: 1200px;
     font: 13px/22px Helvetica, Arial, sans-serif;  
     background: #f0f0f0;
+    /*
+    	Op elke pagina wordt de verticale scrollbar getoond. Dit om te voorkomen dat 
+    	de gecentreerde layout heen en weer beweegd bij wel/geen scrollbar.
+    */
+    overflow-y: scroll;
 }
 
 /*
@@ -74,6 +80,10 @@ nav, footer {
 	background-color: #111111;
 }
 
+nav {
+	margin-bottom: 40px;
+}
+
 footer {
 	/* De footer wordt aan de onderkant van de pagina geplakt */
 	position: absolute;
@@ -105,11 +115,9 @@ nav ul li {
     	Er wordt wat gedraaid aan de instellingen voor het goed weergeven van de tekst met 
     	voldoende ruimte eromheen.
     */
-    width: 180px;
-    margin-left: 40px;  
+    width: 180px;  
     font-size: 18px;
     line-height: 44px;
-    border: solid black 1px;
 }
 
 footer ul li {
@@ -117,7 +125,7 @@ footer ul li {
     	Om wat afstand om de projecetn heen te creëren wordt er links en rechts padding toegevoegd
     	en boven en onder margin.
     */
-    padding: 0px 20px;
+    padding: 0px 30px;
     margin: 10px 0px;
     /* En een linker-border wordt getoond om zo een schijdingslijntje tussen de objecten te tonen */
     border-left: 1px solid #ffffff;
@@ -127,7 +135,7 @@ footer ul li {
 }
 
 footer ul li:first-child {
-    /* Dat lijntje moet alleen tussen de objecetn getoont worden, en dus niet bij de eerste */
+    /* Dat lijntje moet alleen tussen de items getoont worden, en dus niet bij de eerste */
     border: 0;
     margin-left: 180px;
 }
@@ -135,7 +143,7 @@ footer ul li:first-child {
 nav ul li a, footer ul li a {
     /* Om de link-styling te verwijderen. */
     text-decoration: none;
-    padding: 5px;
+    padding: 5px 10px;
 }
 
 nav ul li a:link, nav ul li a:visited {
@@ -165,7 +173,8 @@ footer ul li a:hover {
     top: 10px;
     right: 35px;
     width: 570px;
-    height: 54px;
+    max-width: 40%;
+    min-height: 54px;
     border: 3px solid #f9f9f9;
     /* Border-radius is nog niet overal geïmplementeerd */
     -moz-border-radius: 3px;  
@@ -198,7 +207,6 @@ footer ul li a:hover {
     margin: 80px 0 120px;
     padding: 20px;
     height: 380px;
-    /*background: #669639;*/
     background: url(../img/happy-couple5.jpeg) no-repeat;
     /* Border-radius is nog niet overal geïmplementeerd */
     -moz-border-radius: 30px;  
@@ -225,8 +233,6 @@ footer ul li a:hover {
     border-right: 0px;
     border-bottom: 0px;
     box-shadow: 12px 10px 10px #858080;
-    /*#CD7F32; /*url(http://media1.parship.com/static/redesign09/4.20.5//img/homepage/sprite_home.png) no-repeat 0 -232px; */
-    /*background: url(../img/blend.png);*/
 }
 
 /*

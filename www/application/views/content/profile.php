@@ -1,3 +1,4 @@
+<div id='profileboxes'>
 <div class='profilebox'>
 <?php
 	if($profileType == "form") {
@@ -97,4 +98,5 @@
 		echo form_close();
 	}
 ?>
+</div>
 </div>

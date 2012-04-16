@@ -2,10 +2,10 @@
 	</section>
 	<footer>
         <ul>
-            <li><a href="#">Over ons</a></li>
-            <li><a href="#">Help</a></li>
-            <li><a href="#">Gebruiksvoorwaarden</a></li>
-            <li><a href="#">Privicy (nihil.)</a></li>
+            <li><a href="about">About</a></li>
+            <li><a href="howto">Help</a></li>
+            <li><a href="termsofuse">Terms of use</a></li>
+            <li><a href="privacypolicy">Privicy (nihil.)</a></li>
         </ul>
     </footer>
     </div>

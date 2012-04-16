@@ -2,7 +2,7 @@
     <!-- Hier komen blije mensen en oproepen om je nu in te schrijven. -->
     <div id='menu'>
         <h2>
-            Wordt gelukkig, wordt lid
+            Find happiness, join
         </h2>
         <!--<ul>
             <li>Online dating</li>

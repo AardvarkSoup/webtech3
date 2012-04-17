@@ -26,14 +26,15 @@ Di 17 april:
     - Styling (I)
 
 Di 24 april:
- - Toelichting
- - Databasediagram
- - Styling afmaken
- - HTTPS
- - Online zetten en permissies correct instellen
- - Foutvermelding PHP en CodeIgniter uitzetten.
- - Eventueel ModRewrite instellen
- - Easter egg
+ - Profielen weergeven + bewerken fiksen (I)
+ - Persoonlijkheidstest + afbeelding upload bij registratie (I)
+ - Velden login + verwijderknop + registratieknop (I)
+ - Hoofdpagina afmaken (I)
+ - Juiste knoppen (T)
+ - Toelichting (T)
+ - Databasediagram (T)
+ - Online zetten en permissies correct instellen. (x)
+ - Foutvermelding PHP en CodeIgniter uitzetten. (x)
 
 Do 26 april:
     - Alles moet nu af zijn

@@ -74,12 +74,13 @@ class Search extends CI_Controller
         foreach($userIds as $id)
         {
             $profiles[] = $this->user->load($id);
-            /*$data = $this->user->load($id);
+            $data = $this->user->load($id);
             $data['profileType'] = 'small';
-            $profiles[] = $this->load->view('content/profile', $data, true);*/
+            $profiles[] = $this->load->view('content/profile', $data, true);
         }
         // Display profile overviews.
         $this->parser->parse('searchresults', array('profiles' => $profiles));
+        
     }
     
     /**
@@ -109,7 +110,14 @@ class Search extends CI_Controller
     // Displays the matching users. Or nothing, if no user is logged in.
     public function matching()
     {
-    	$this->load->model('Matching', array('pagename' => 'Matching'));
+    	// Confirm whether the user is logged in.
+    	$this->load->library('Authentication');
+		if(!$this->authentication->userLoggedIn())
+		{
+			throw new Exception('User is not logged in.');
+		}
+    	
+    	$this->load->model('Matching');
     	
     	// Header and navigation bar.
         $this->load->view('header');
@@ -126,9 +134,6 @@ class Search extends CI_Controller
         $this->load->view('footer');
     }
     
-    /**
-     * TODO
-     */
     public function index()
     {        
         // Header and navigation bar.

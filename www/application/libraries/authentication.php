@@ -33,6 +33,25 @@ class Authentication
         }
     }
     
+    public function currentUserName()
+    {
+        $ci =& get_instance();
+        
+        $ci->load->model('User','user');
+        
+        $id = $this->currentUserId();
+        
+        if($id === null)
+        {
+            return null;
+        }
+        else
+        {
+            $result = $ci->user->load($id);
+            return $result['username'];
+        }
+    }
+    
     public function userIsAdmin()
     {
     	// Fetch current user.
@@ -90,7 +109,7 @@ class Authentication
         // Get CodeIgniter object.
         $ci =& get_instance();
         
-        if($this->authentication->userLoggedIn())
+        if($this->userLoggedIn())
         {
             // You can't log in twice.
             return null;
@@ -125,6 +144,7 @@ class Authentication
     {
         // Simply destroy the current session.
         $ci =& get_instance();
+        $ci->session->set_userdata('userId', null);
         $ci->session->sess_destroy();
     }
 }

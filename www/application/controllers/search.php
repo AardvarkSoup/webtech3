@@ -111,17 +111,17 @@ class Search extends CI_Controller
     public function matching()
     {
     	// Confirm whether the user is logged in.
-    	$this->load->library('Authentication');
 		if(!$this->authentication->userLoggedIn())
 		{
 			throw new Exception('User is not logged in.');
 		}
     	
-    	$this->load->model('Matching');
+    	$this->load->model('Matching', 'matching');
     	
     	// Header and navigation bar.
         $this->load->view('header');
         $this->load->view('nav');
+        $this->load->view('loginbox');
         
         $current = $this->authentication->currentUserId();
         if($current !== null)
@@ -139,6 +139,7 @@ class Search extends CI_Controller
         // Header and navigation bar.
         $this->load->view('header', array("pagename" => "Search"));
         $this->load->view('nav');
+        $this->load->view('loginbox');
         
         // Fetch search query data, if present.
         $input = $this->input->post();

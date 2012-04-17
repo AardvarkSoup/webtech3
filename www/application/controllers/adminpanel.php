@@ -69,6 +69,7 @@ class AdminPanel extends CI_Controller
         // Header.
         $this->load->view('header', array('pagename' => 'Configuration'));
         $this->load->view('nav');
+        $this->load->view('loginbox');
         
         // Show admin panel view with data.
         $this->load->view('adminpanel', $data);

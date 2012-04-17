@@ -12,6 +12,12 @@ class Home extends CI_Controller
 		$this->load->view('header',array("pagename" => "Home"));
         $this->load->view('loginbox');
 		$this->load->view('nav');
+		
+		// Show message if specified.
+		if($msg !== null)
+		{
+		    $this->parser->parse('msgbox', array('message' => $msg));
+		}
         
         $this->load->view('content/showcase');
         $data = array ( 'profileType'	=> 'big',
@@ -57,5 +63,49 @@ class Home extends CI_Controller
                                             array('number' => '5'),
                                             array('number' => '6')));
         $this->parser->parse('content/profiles-small', $data);
+    }
+    
+    public function login()
+    {        
+        $email = $this->input->post('email');
+        $password = $this->input->post('password');
+
+        if($email === false || $password === false)
+        {
+            // Show regular page if nothing in POST.
+            $this->index();
+            return;
+        }
+        
+        $id = $this->authentication->login($email, $password);
+        
+        $error = null;
+        if($id === null)
+        {
+            $error = 'Login error: this e-mail/password combination does not exist.';
+        }
+        
+        $this->index($error);
+    }
+    
+    public function logout()
+    {
+        // Log out the current user and show homepage.
+        $this->authentication->logout();
+        
+        $this->index();
+    }
+    
+    public function delete()
+    {
+        $sure = $this->input->post('sure');
+        
+        if($sure == 'yes')
+        {
+            $this->model->load('User', 'user');
+            
+            $this->user->deleteSelf();
+            $this->authentication->logout();
+        }
     }
 }    

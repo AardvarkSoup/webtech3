@@ -397,4 +397,43 @@ class User extends CI_Model
 
     	return $result;
     }
+    
+    public function getUserProfile($userId)
+    {
+    	// The library for calculating the personality type is loaded
+    	$this->load->library('personality');
+    	
+    	// Load the user data into the profile
+    	$profile = $this->user->load($userId);
+    	
+    	// Get the dominant personality and preference and add them to the profile
+		$personality = $this->personality->dominantPersonalityComponents($profile);
+		$preference = $this->personality->dominantPersonalityComponents($profile, true);
+		$profile['personality'] = "";
+		$profile['preference'] = "";
+		// For each dominant personality, add the key to the personality in the profile 
+		foreach($personality as $key => $value) {
+			$profile['personality'] .= $key;
+		}
+		// For each dominant preference, add the key to the preference in the profile
+		foreach($preference as $key => $value) {
+			$profile['preference'] .= $key;
+		}
+		
+		if($personality == null) {
+			$profile['test'] = "woops";
+		}
+		else {
+			$profile['test'] = "WhappaWhappa";
+		}
+		
+		// If the current user is logged in and watching someone else's profile,
+		// add the likestatus with that person to the profile.
+		$userLoggedIn = $this->authentication->currentUserId();
+		if($userLoggedIn != null && $userLoggedIn != $userId) {
+			$profile['likestatus'] = getLikeStatus($userId);
+		}
+		
+		return $profile;
+    }
 }

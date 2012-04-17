@@ -31,7 +31,7 @@ body {
 	margin: 0 auto;
 }
 
-header, nav, section, footer, div {
+header, nav, section, footer {
 	display: block;
 }
 
@@ -91,7 +91,6 @@ footer {
 	clear: both;
 	/* En er wordt een margin aan de bovenkant geplaatst om afstand te bewaren tot de content */
 	margin-top: 30px;
-	clear: both;
 }
 
 nav ul, footer ul {
@@ -258,17 +257,29 @@ footer ul li a:hover {
 */
 
 #profileArea {
-	margin-bottom: 30px;
+	margin: 0 auto;
 	/* overflow:hidden zorgt ervoor dat de container om floated objecten heen past */
-	overflow: hidden;
+	overflow: auto;
 }
 
 .profilebox {
     float: left;
-    width: 280px;
+    width: 290px;
     height: 220px;
     margin: 10px;
     background: #c0c0c0;
+}
+
+.profilebox:nth-child(2n) {
+    background: #C0C000;
+}
+
+.profilebox:nth-child(3n+1) {
+    margin-left: 15px;
+}
+
+.profilebox:nth-child(3n) {
+    margin-right: 15px;
 }
 
 /*

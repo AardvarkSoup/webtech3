@@ -78,21 +78,12 @@
 		
 		// And the discription, in correct length, is displayed.
 		// The true turns it into an textarea if the profile is a form.
-		echo boldShow("Omschrijving", $disc, $profileType, true);
+		echo boldShow("About me", $disc, $profileType, true);
 		
 		// The usertype and preference can not be edited in the profile editing form.
 		if($profileType != "form") {
-			$pers = "";
-			$pref = "";
-			// For each 
-			foreach($profile['personality'] as $key => $value) {
-				$pers .= $key;
-			}
-			echo boldShow("Type", $pers);
-			foreach($profile['preference'] as $key => $value) {
-				$pref .= $key;
-			}
-			echo boldShow("Preferentie", $pref);
+			echo boldShow("Personality", $profile['personality']);
+			echo boldShow("Preference", $profile['preference']);
 		}
 		
 		//  If the profile is a form, the submit button is placed and the form is closed

@@ -109,10 +109,11 @@ class Search extends CI_Controller
     // Displays the matching users. Or nothing, if no user is logged in.
     public function matching()
     {
-    	$this->load->model('Matching', 'matching');
+    	$this->load->model('Matching', array('pagename' => 'Matching'));
     	
-    	// Header.
+    	// Header and navigation bar.
         $this->load->view('header');
+        $this->load->view('nav');
         
         $current = $this->authentication->currentUserId();
         if($current !== null)
@@ -130,8 +131,9 @@ class Search extends CI_Controller
      */
     public function index()
     {        
-        // Header.
+        // Header and navigation bar.
         $this->load->view('header', array("pagename" => "Search"));
+        $this->load->view('nav');
         
         // Fetch search query data, if present.
         $input = $this->input->post();

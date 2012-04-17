@@ -1,20 +1,5 @@
-<div id='profileboxes'>
-<div class='profilebox'>
+<div id='profileArea'>
 <?php
-	if($profileType == "form") {
-		echo validation_errors();
-		echo heading(htmlentities($username, ENT_QUOTES, "UTF-8"), 3);
-		echo form_open('profileUpdate');
-		echo boldShow("Voornaam", $firstName, $profileType);
-		echo boldShow("Achternaam", $lastName, $profileType);
-		echo boldShow("Email-adres", $email, $profileType);
-		echo boldShow("Geslacht", $gender, $profileType);
-	}
-	else {
-		// The username and gender for the public profile are echoed.
-		echo heading(htmlentities($username. " (". $gender. ")", ENT_QUOTES, "UTF-8"), 3);
-	}
-		
 	// boldShow($type, $content) returns escaped html with $type in bold followed by
 	//							 $content in normal style.
 	//							 If the profile is a form, boldShow will turn it into
@@ -33,7 +18,7 @@
 			$type = htmlentities($type, ENT_QUOTES, "UTF-8");
 			$content = htmlentities($content, ENT_QUOTES, "UTF-8");
 		}
-		return "<p><b>$type:</b> $content</p>";
+		return "<p><b>$type:</b> $content</p>\n";
 	}
 	
 	// Calculates the current age based on the birthdate
@@ -53,50 +38,71 @@
     	}
     	return $year_diff;
 	}
-	
-	if($profileType != "form") {
-		// The age of the user is displayed
-		echo boldShow("Leeftijd", getAge($birthdate), $profileType);
-	}
-	
-	// If the profileType is small, the discription should show only the first line.
-	if($profileType == "small") {
-		$point = strpos($description, '.');		// Lines usually end with a point.
-		
-		// However, if the line is longer then 100 characters, it is cut off.
-		if($point === false or $point > 100) {
-			$disc = substr($description, 0, 100). "...";
+
+	foreach($profiles as $profile) {
+		if($profileType == "form") {
+			echo validation_errors();
+			echo heading(htmlentities($username, ENT_QUOTES, "UTF-8"), 3);
+			echo form_open('profileUpdate');
+			echo boldShow("Voornaam", $profile['firstName'], $profileType);
+			echo boldShow("Achternaam", $profile['lastName'], $profileType);
+			echo boldShow("Email-adres", $profile['email'], $profileType);
+			echo boldShow("Geslacht", $profile['gender'], $profileType);
 		}
 		else {
-			$disc = substr($description, 0, $point+1);
+			// A profilebox is opened and the username and gender for the public profile are echoed.
+			echo "<div class='profilebox'>\n". heading(htmlentities($profile['username']. " (".
+					 $profile['gender']. ")", ENT_QUOTES, "UTF-8"), 3);
 		}
-	}
-	else {
-		$disc = $description;
-	}
-	
-	// And the discription, in correct length, is displayed.
-	// The true turns it into an textarea if the profile is a form.
-	echo boldShow("Omschrijving", $disc, $profileType, true);
-	
-	// The usertype and preference can not be edited in the profile editing form.
-	if($profileType != "form") {
-		$pers = "";
-		$pref = "";
-		// For each 
-		foreach($personality as $key => $value) {
-			$pers .= $key;
+		
+		if($profileType != "form") {
+			// The age of the user is displayed
+			echo boldShow("Leeftijd", getAge($profile['birthdate']), $profileType);
 		}
-		echo boldShow("Type", $pers);
-		foreach($preference as $key => $value) {
-			$pref .= $key;
+		
+		// If the profileType is small, the discription should show only the first line.
+		if($profileType == "small") {
+			$point = strpos($profile['description'], '.');		// Lines usually end with a point.
+			
+			// However, if the line is longer then 100 characters, it is cut off.
+			if($point === false or $point > 100) {
+				$disc = substr($profile['description'], 0, 100). "...";
+			}
+			else {
+				$disc = substr($profile['description'], 0, $point+1);
+			}
 		}
-		echo boldShow("Preferentie", $pref);
-	}
-	if($profileType == "form") {
-		echo form_submit('profileSubmit', 'Update profiel!');
-		echo form_close();
+		else {
+			$disc = $profile['description'];
+		}
+		
+		// And the discription, in correct length, is displayed.
+		// The true turns it into an textarea if the profile is a form.
+		echo boldShow("Omschrijving", $disc, $profileType, true);
+		
+		// The usertype and preference can not be edited in the profile editing form.
+		if($profileType != "form") {
+			$pers = "";
+			$pref = "";
+			// For each 
+			foreach($profile['personality'] as $key => $value) {
+				$pers .= $key;
+			}
+			echo boldShow("Type", $pers);
+			foreach($profile['preference'] as $key => $value) {
+				$pref .= $key;
+			}
+			echo boldShow("Preferentie", $pref);
+		}
+		
+		//  If the profile is a form, the submit button is placed and the form is closed
+		if($profileType == "form") {
+			echo form_submit('profileSubmit', 'Update profiel!');
+			echo form_close();
+		}
+		else {	// else, the profilebox div is closed
+			echo "</div>";
+		}
 	}
 ?>
-</div>
 </div>

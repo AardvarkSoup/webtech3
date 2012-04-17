@@ -15,10 +15,8 @@ class Datingsite extends CI_Controller
         
         
         $this->load->view('content/showcase');
-        $data = array ( 'profileType'	=> 'big',
-        				'user'			=> $this->_buildUser(1));
-        $data = $this->_buildUser(1);
-        $data['profileType'] = 'small';
+        $data = array ( 'profileType'	=> 'small',
+        				'profiles'		=> array($this->_buildUser(1)));
         $this->load->view('content/profile', $data);
         $this->load->view('footer');
 	}

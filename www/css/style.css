@@ -238,7 +238,7 @@ footer ul li a:hover {
 	Profile boxes
 */
 
-#profileboxes {
+#profileArea {
 	margin-bottom: 30px;
 	/* overflow:hidden zorgt ervoor dat de container om floated objecten heen past */
 	overflow: hidden;

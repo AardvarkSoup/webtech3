@@ -33,17 +33,28 @@ class Authentication
         }
     }
     
-    /**
-     * Throws an exception if the currently logged in user, if any, is not an administrator.
-     * 
-     * This should be used to protect admin only functionality at the server side against forged
-     * requests. This function shouldn't be used in areas reachable by regular users.
-     * 
-     * @throws Exception If no administrator is logged in.
-     */
-    public function assertAdministrator()
+    public function currentUserName()
     {
-        // Fetch current user.
+        $ci =& get_instance();
+        
+        $ci->load->model('User','user');
+        
+        $id = $this->currentUserId();
+        
+        if($id === null)
+        {
+            return null;
+        }
+        else
+        {
+            $result = $ci->user->load($id);
+            return $result['username'];
+        }
+    }
+    
+    public function userIsAdmin()
+    {
+    	// Fetch current user.
         $id = $this->currentUserId();
         
         if($id !== null)
@@ -57,14 +68,29 @@ class Authentication
             
             if($result->admin)
             {
-                // If an admin, return.
-                return;
+                // If an admin, return true.
+                return true;
             }
         }
         
-        // If the function has not yet returned, it means the current user is no admin. Throw an
-        // exception.
-        throw new Exception('Access denied.');
+        // No admin.
+        return false;
+    }
+    
+    /**
+     * Throws an exception if the currently logged in user, if any, is not an administrator.
+     * 
+     * This should be used to protect admin only functionality at the server side against forged
+     * requests. This function shouldn't be used in areas reachable by regular users.
+     * 
+     * @throws Exception If no administrator is logged in.
+     */
+    public function assertAdministrator()
+    {
+        if(!$this->userIsAdmin())
+        {
+        	throw new Exception('Access denied.');
+        }
     }
     
     
@@ -83,7 +109,7 @@ class Authentication
         // Get CodeIgniter object.
         $ci =& get_instance();
         
-        if($this->authentication->userLoggedIn())
+        if($this->userLoggedIn())
         {
             // You can't log in twice.
             return null;
@@ -118,6 +144,7 @@ class Authentication
     {
         // Simply destroy the current session.
         $ci =& get_instance();
+        $ci->session->set_userdata('userId', null);
         $ci->session->sess_destroy();
     }
 }

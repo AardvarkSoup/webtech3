@@ -250,14 +250,14 @@ class User extends CI_Model
     public function lookup($email, $password)
     {
         // Hash the password.
-        $hash = hashPassword($password);
+        $hash = $this->hashPassword($password);
         
         // Query the user.
         $result = $this->db->select('userId')->from('Users')
                            ->where(array('email'=> $email, 'passwordHash' => $hash))
                            ->get()->row();
         
-        if($result !== false)
+        if(count($result) > 0)
         {
             return $result->userId;
         }

@@ -180,6 +180,25 @@ footer ul li a:hover {
     -webkit-border-radius: 3px;  
     border-radius: 3px;
     padding-left: 5px;
+    background-color: orange;
+}
+
+#loginbox h3 {
+	padding-top: 0px;
+	padding-bottom: 0px;
+	font-size: 12pt;
+	color: brown;
+}
+
+#loginbox p {
+	padding-bottom: 0px;
+}
+
+#deleter {
+	margin-top: 10px;
+	text-decoration: underline;
+	cursor: pointer;
+	color: blue;
 }
 
 /*

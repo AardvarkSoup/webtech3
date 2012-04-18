@@ -1,7 +1,7 @@
 <div id="loginbox">
 
 <?php 
-$home = base_url() . 'index.php/home';
+$home = base_url() . 'index.php';
 
 // Get CodeIgniter object.
 $ci =& get_instance();

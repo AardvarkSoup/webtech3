@@ -9,13 +9,13 @@ $admin = $ci->authentication->userIsAdmin();
     	<ul>
         	<li><a href="<?php echo "$base/home"?>">Home</a></li>
         	<li><a href="<?php echo "$base/search"?>">Search</a></li>
-	        <li><a href="<?php echo "$base/search/matching"?>">Match!</a></li>
 	        <?php 
-	        if($admin)
-	        {
-	        	?>
-	        	<li><a href="<?php echo "$base/adminpanel"?>">Configuration</a></li>
-	        	<?php
+	        if($this->authentication->userLoggedIn()) {
+	        	echo "<li><a href=\"$base/search/matching\">Match!</a></li>";
+	        	echo "<li><a href=\"$base/viewprofile\">Edit Profile</a></li>";
+	        }
+	        if($admin) {
+	        	echo "<li><a href=\"$base/adminpanel\">Configuration</a></li>";
 	        }
 	        ?>
     	</ul>

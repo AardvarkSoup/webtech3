@@ -58,7 +58,7 @@
 		Maximum: 
 		<input type="text" name="ageprefmax" value="<?php echo set_value('ageprefmax', 122); ?>" size="2" />
 	
-	<?php echo $brandPreferences ?>
+	<?php echo $brandPreferences; ?>
 	
 	<br />
 	<div><input type="submit" value="Submit" /></div>

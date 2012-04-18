@@ -1,5 +1,7 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-class WhyUs extends CI_Controller 
+
+include_once('loginsystem.php');
+class WhyUs extends LoginSystem 
 {
 
     public function index($msg = null)

@@ -1,5 +1,7 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-class PrivacyPolicy extends CI_Controller 
+
+include_once('loginsystem.php');
+class PrivacyPolicy extends LoginSystem 
 {
 
     public function index($msg = null)

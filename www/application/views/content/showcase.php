@@ -2,7 +2,7 @@
     <!-- Hier komen blije mensen en oproepen om je nu in te schrijven. -->
     <div id='menu'>
         <h2>
-            Find happiness, join
+            Where dreams come true...
         </h2>
         <!--<ul>
             <li>Online dating</li>

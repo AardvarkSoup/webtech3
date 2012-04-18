@@ -264,23 +264,30 @@ footer ul li a:hover {
 
 .profilebox {
     display: block;
-    width: 290px;
+    width: 420px;
     height: 220px;
-    margin: 10px;
+    margin: 25px;
     float: left;
     background: #FFC900;
 }
 
-.profilebox:nth-child(2n) {
+a.profilebox:-webkit-any-link {
+	text-decoration: none;
+	color: black;
+}
+
+/*.profilebox:nth-child(2n) {
+    background: #C0C000;
+}*/
+
+.profilebox:nth-child(4n+1) {
+    /*margin-left: 15px;*/
     background: #C0C000;
 }
 
-.profilebox:nth-child(3n+1) {
-    margin-left: 15px;
-}
-
-.profilebox:nth-child(3n) {
-    margin-right: 15px;
+.profilebox:nth-child(4n) {
+    /*margin-right: 15px;*/
+    background: #C0C000;
 }
 
 /*
@@ -289,15 +296,15 @@ footer ul li a:hover {
 
 /** TODO */
 #searchbrowsebuttons {
-	
+	overflow: hidden;
 }
 
 #next {
-	
+	float:right;
 }
 
 #previous {
-	
+	float:left;
 }
 
 /*

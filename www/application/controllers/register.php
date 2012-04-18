@@ -137,35 +137,35 @@ class Register extends CI_Controller
 		// TODO: upload configuration.
 		$this->load->library('upload');
 		
-		$this->load->view('header');
+		$this->load->view('header',array("pagename" => "Register"));
         $this->load->view('nav');
         $this->load->view('loginbox');
 		
         $config = array(
         		array(
         			'field' => 'username',
-        			'label' => 'Gebruikersnaam',
+        			'label' => 'Username',
         			'rules' => 'required|min_length[4]|max_length[20]' 
         			//TODO controleer dat de naam uniek is. Zie is_unique[table.field]bij form_validation
 				),
 				array(
         			'field' => 'firstname',
-        			'label' => 'Voornaam',
+        			'label' => 'Firstname',
         			'rules' => 'required'
 				),
 				array(
         			'field' => 'lastname',
-        			'label' => 'Achternaam',
+        			'label' => 'Lastname',
         			'rules' => 'required'
 				),
 				array(
         			'field' => 'password',
-        			'label' => 'Wachtwoord',
+        			'label' => 'Password',
         			'rules' => 'required|min_length[8]|max_length[20]'
 				),
 				array(
         			'field' => 'passconf',
-        			'label' => 'Herhaal wachtwoord',
+        			'label' => 'Repeat password',
         			'rules' => 'required|matches[password]|min_length[8]|max_length[20]'
 				),
 				array(
@@ -175,54 +175,74 @@ class Register extends CI_Controller
 				),
 				array(
         			'field' => 'gender',
-        			'label' => 'Geslacht',
+        			'label' => 'Gender',
         			'rules' => 'required'
 				),
 				array(
         			// TODO: validate and indicate or enforce date formatting
         			'field' => 'birthdate',
-        			'label' => 'Geboortedatum',
+        			'label' => 'Birthdate',
         			'rules' => 'required'
 				),
 				array(
         			'field' => 'description',
-        			'label' => 'Beschrijving',
+        			'label' => 'About you',
         			'rules' => ''
 				),
 				array(
         			'field' => 'genderpref',
-        			'label' => 'Geslachtsvoorkeur',
+        			'label' => 'Gender preference',
         			'rules' => 'required'
 				),
 				array(
         			'field' => 'ageprefmin',
-        			'label' => 'Minimumleeftijd',
+        			'label' => 'Minimum age',
         			'rules' => 'required'
 				),
 				array(
         			'field' => 'ageprefmax',
-        			'label' => 'Maximumleeftijd',
+        			'label' => 'Maximum age',
         			'rules' => 'required'
-				),
-				array(
-        			'field' => 'brandpref',
-        			'label' => 'Merkvoorkeuren',
-        			'rules' => ''
 				)
         );
-        
-        $this->form_validation->set_rules($config);
-        
-        $this->form_validation->set_error_delimiters('<div class="error">', '</div>');
-        $this->form_validation->set_message('required', 'Dit is een verplicht veld');
-        
-        // Hier is een testlijst van brands.
+		
+        // The list of brands is loaded from the database
         $this->load->model('brand');
         $brands = $this->brand->getBrands();
         
+        foreach($brands as $brand)
+	    {
+			$config[] = array(
+        					'field' => $brand,
+        					'label' => $brand,
+        					'rules' => '');
+	    }
         
-        $data = array('brandPreferences' => $this->brandCheckBoxes($brands));
+        // For each of the 20 personality question, the rule required is set
+        for($q = 1; $q <= 20; ++$q)
+	    {
+	        $config[] =	array(
+        					'field' => "question$q",
+        					'label' => "Personality question $q",
+        					'rules' => 'required'
+						);
+	    }
+        $this->form_validation->set_rules($config);
         
+        $this->form_validation->set_error_delimiters('<div class="error">', '</div>');
+        
+        // Check if there is a post result. If there is, the brandpref list is handed
+        // to the brandCheckBoxes function for refilling.
+        if(array_key_exists('brandpref',$_POST)) {
+        	$brandpref = $_POST['brandpref'];
+        }
+        else {
+        	$brandpref = null;
+        }
+        
+        $data = array('brandPreferences' => $this->brandCheckBoxes($brands,$brandpref));
+        
+        // Display the form while it is invalid. When it is valid and posted, register user
         if ($this->form_validation->run() == false) {
 			$this->load->view('content/registerView', $data);
 		}
@@ -236,16 +256,17 @@ class Register extends CI_Controller
 	}
 	
 	/* 
-	 * brandCheckBoxes neemt een lijst van brands en maakt voor elk een checkbox in html aan
+	 * brandCheckBoxes takes a list of brands and checked brands and returns html with a refilled 
+	 * checkbox for each brand.
 	 */
-	private function brandCheckBoxes($brands)
+	private function brandCheckBoxes($brands, $brandprefs)
 	{
-		$html = heading("Merkvoorkeuren", 4). form_error('brandpref');
-		foreach($brands as $brand) { 
-			$html .= "<input type=\"checkbox\" name=\"brandpref[]\" value=\"$brand\" ".
-						set_checkbox('brandpref[]', $brand). " /> ". $brand. " <br />";
+		$html = "<fieldset>". heading("Merkvoorkeuren", 4). form_error('brandpref');
+		foreach($brands as $brand) {
+			$html .= form_checkbox('brandpref[]',$brand, 
+				$brandprefs != null && in_array($brand,$brandprefs)). $brand. "<br />";
 		}
-		return $html;
+		return $html. "</fieldset>";
 	}
 	
 }	

@@ -5,11 +5,16 @@ class ViewProfile extends LoginSystem
 {
 	public function index($msg = null)
 	{
-		$this->load->view('header',array("pagename" => "Profile"));
-        $this->load->view('loginbox');
-		$this->load->view('nav');
-		$this->load->view('error',array('error' => "Woops, we don\'t know that user."));
-		$this->load->view('footer');
+		if($this->authentication->userLoggedIn()) {
+			$this->showProfile($this->authentication->currentUserId(), 'form');
+		}
+		else {
+			$this->load->view('header',array("pagename" => "Profile"));
+	        $this->load->view('loginbox');
+			$this->load->view('nav');
+			$this->load->view('error',array('error' => "You need to be logged in to edit your profile."));
+			$this->load->view('footer');
+		}
 	}
 	
 	public function showProfile($userId, $profileType = 'big')

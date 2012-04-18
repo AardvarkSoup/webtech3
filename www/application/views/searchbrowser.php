@@ -38,7 +38,7 @@ $(document).ready(function()
         }
     
         // Do an AJAX request to update the displayed search results. 
-        $('#searchresults').load('<?php echo base_url() . '/index.php/search/displayProfiles' ?>' + ids);
+        $('#profileArea').load('<?php echo base_url() . '/index.php/search/displayProfiles' ?>' + ids);
     }
     
     // Add mouse listeners to browser buttons. 

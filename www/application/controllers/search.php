@@ -57,7 +57,7 @@ class Search extends CI_Controller
         // There shouldn't be more than six profiles to display.
         if(count($userIds) > 6)
         {
-            throw new Exception("Can't display more than one profile");
+            throw new Exception("Can't display more than six profiles");
         }
         
         // Output nothing if there are no id's.
@@ -73,14 +73,14 @@ class Search extends CI_Controller
         $profiles = array();
         foreach($userIds as $id)
         {
-            $profiles[] = $this->user->load($id);
-            $data = $this->user->load($id);
-            $data['profileType'] = 'small';
-            $profiles[] = $this->load->view('content/profile', $data, true);
+            $profiles[] = $this->user->getUserProfile($id);
         }
+        // The profiles are placed in the data array and the profile tpe is set.
+        $data['profiles'] = $profiles;
+        $data['profileType'] = 'small';
         // Display profile overviews.
-        $this->parser->parse('searchresults', array('profiles' => $profiles));
-        
+        $this->parser->parse('content/profile', $data);
+        //$this->parser->parse('content/searchresults', array('profiles' => $profiles));
     }
     
     /**

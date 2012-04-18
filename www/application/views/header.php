@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>LuciferMaker<?php
-                           if(isset($pagename))
-                           { 
-                               echo "- $pagename";
-                           }
-                       ?>
+    <title>Risa - <?php
+                      if(isset($pagename))
+                      { 
+                    	echo $pagename;
+                      }
+                  ?>
 	</title>
     <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
     <link rel="stylesheet" type="text/css" href="<?php echo base_url() . '/css/style.css'; ?>" />
@@ -16,6 +16,6 @@
 	<div id='container'>
     <header>
         <h1>
-            LuciferMaker, matchmaking since 2012
+            Risa, matchmaking since 2012
         </h1>
     </header>

@@ -406,6 +406,8 @@ class User extends CI_Model
     	// Load the user data into the profile
     	$profile = $this->user->load($userId);
     	
+    	$profile['userId'] = $userId;
+    	
     	// Get the dominant personality and preference and add them to the profile
 		$personality = $this->personality->dominantPersonalityComponents($profile);
 		$preference = $this->personality->dominantPersonalityComponents($profile, true);
@@ -418,13 +420,6 @@ class User extends CI_Model
 		// For each dominant preference, add the key to the preference in the profile
 		foreach($preference as $key => $value) {
 			$profile['preference'] .= $key;
-		}
-		
-		if($personality == null) {
-			$profile['test'] = "woops";
-		}
-		else {
-			$profile['test'] = "WhappaWhappa";
 		}
 		
 		// If the current user is logged in and watching someone else's profile,

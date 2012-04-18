@@ -51,7 +51,16 @@
 		}
 		else {
 			// A profilebox is opened and the username and gender for the public profile are echoed.
-			echo "<div class='profilebox'>\n". heading(htmlentities($profile['username']. " (".
+			// If the profile is big, the profilebox is a section.
+			if($profileType == "big") {
+				$boxType = "<div ";
+			}
+			// If the profile is small, it is a link
+			else {
+				$boxType = "<a href=\"". base_url(). 
+					"/index.php/viewprofile/showprofile/". $profile['userId']. "\"";
+			}
+			echo $boxType. "class='profilebox'>\n". heading(htmlentities($profile['username']. " (".
 					 $profile['gender']. ")", ENT_QUOTES, "UTF-8"), 3);
 		}
 		
@@ -92,7 +101,12 @@
 			echo form_close();
 		}
 		else {	// else, the profilebox div is closed
-			echo "</div>";
+			if($profileType == "big") {
+				echo "</div>";
+			}
+			else {
+				echo "</a>";
+			}
 		}
 	}
 ?>

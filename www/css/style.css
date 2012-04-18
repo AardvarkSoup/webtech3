@@ -259,15 +259,16 @@ footer ul li a:hover {
 #profileArea {
 	margin: 0 auto;
 	/* overflow:hidden zorgt ervoor dat de container om floated objecten heen past */
-	overflow: auto;
+	overflow: hidden;
 }
 
 .profilebox {
-    float: left;
+    display: block;
     width: 290px;
     height: 220px;
     margin: 10px;
-    background: #c0c0c0;
+    float: left;
+    background: #FFC900;
 }
 
 .profilebox:nth-child(2n) {

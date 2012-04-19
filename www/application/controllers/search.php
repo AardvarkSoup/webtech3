@@ -70,6 +70,54 @@ class Search extends ProfileBrowser
         $this->load->view('footer');
     }
     
+    /**
+     * Shows the users that have a certain like status.
+     * 
+     * @param string $likeStatus Can be 'liking' (for others liking the user), 'liked' 
+     *                           (for those being liked) and 'mutual' (when both users like each 
+     *                           other).
+     */
+    public function likes($likeStatus)
+    {
+        // Load user model.
+        $this->load->model('User', 'user');
+        
+        // Reformat input to be usable with model-function.
+        $status;
+        if($likeStatus == 'liking')
+        {
+            $status = array(false, true);
+        }
+        else if($likeStatus == 'liked')
+        {
+            $status = array(true, false);
+        }
+        else if($likeStatus == 'mutual')
+        {
+            $status = array(true, true);
+        }
+        else
+        {
+            // Illegal input. Show a 404.
+            show_404();
+            return;
+        }
+        
+        // Get users to show.
+        $users = $this->user->usersWithLikeStatus($status);
+        
+        // Header and navigation bar.
+        $this->load->view('header');
+        $this->load->view('nav');
+        $this->load->view('loginbox');
+        
+        // Use browser with id's.
+        $this->userBrowser($users);
+        
+        // Footer.
+        $this->load->view('footer');
+    }
+    
     public function index()
     {        
         // Header and navigation bar.

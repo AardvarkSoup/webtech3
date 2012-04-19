@@ -37,7 +37,7 @@ class ProfileBrowser extends CI_Controller
         {
             $profiles[] = $this->user->getUserProfile($id);
         }
-        // The profiles are placed in the data array and the profile tpe is set.
+        // The profiles are placed in the data array and the profile type is set.
         $data['profiles'] = $profiles;
         $data['profileType'] = 'small';
         // Display profile overviews.
@@ -68,4 +68,3 @@ class ProfileBrowser extends CI_Controller
         $this->parser->parse('searchbrowser', $data);
     }
 }
-?>

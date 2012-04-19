@@ -427,7 +427,7 @@ class User extends CI_Model
 		// add the likestatus with that person to the profile.
 		$userLoggedIn = $this->authentication->currentUserId();
 		if($userLoggedIn != null && $userLoggedIn != $userId) {
-			$profile['likestatus'] = getLikeStatus($userId);
+			$profile['likestatus'] = $this->getLikeStatus($userId);
 		}
 		
 		return $profile;

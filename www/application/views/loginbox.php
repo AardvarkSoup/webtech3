@@ -13,7 +13,7 @@ if($uname !== null)
 {
     // User is logged in, show a welcome message with logout option.
     echo '<p><strong>Welcome, ' . form_prep($uname) . '!</strong>'
-      .  ' (<a href="' . "$home/logout" . '">logout</a>)';
+      .  ' (<a href="' . "$home/home/logout" . '">logout</a>)';
     
     // Show option for deleting the account.
     echo '<p><strong id="deleter">Delete account</strong></p>';

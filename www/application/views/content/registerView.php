@@ -20,12 +20,12 @@
 	
 	<h4>Password</h4>
 	<?php echo form_error('password'); ?>
-	<input type="text" name="password" value="" size="50" />
+	<input type="password" name="password" value="" size="50" />
 	<br /><br />
 	
 	<h4>Repeat password</h4>
 	<?php echo form_error('passconf'); ?>
-	<input type="text" name="passconf" value="" size="50" />
+	<input type="password" name="passconf" value="" size="50" />
 	<br /><br />
 	
 	<h4>E-mail</h4>
@@ -37,8 +37,9 @@
 	<?php echo form_dropdown('gender',$genders,set_value('gender')); ?>
 	<br /><br />
 	
-	<h4>Birthdate</h4>
-	<?php echo form_error('birthdate'); ?>
+	<h4>Birthdate (yyyy-mm-dd)</h4>
+	<?php echo form_error('birthdate');
+	      if(isset($date_error)) echo "<div class='error'>$date_error</div>"; ?>
 	<input type="text" name="birthdate" value="<?php echo set_value('birthdate'); ?>" size="50" />
 	<br /><br />
 	
@@ -76,7 +77,7 @@
 					   3  => array('A' => "Ik ben makkelijk afgeleid, met minder aandacht voor een enkele specifieke taak.",
 								   'B' => "Ik kan me goed focussen, met minder aandacht voor het grote geheel."),
 					   4  => array('A' => "Ik ben een makkelijke prater en ga graag uit.",
-								   'B' => "Ik ben een goede luisteraar en meer een privé-persoon."),
+								   'B' => "Ik ben een goede luisteraar en meer een privÃ©-persoon."),
 					   5  => array('A' => "Als gastheer/-vrouw ben ik altijd het centrum van de belangstelling.",
 								   'B' => "Als gastheer/-vrouw ben altijd achter de schermen bezig om te zorgen dat alles soepeltjes verloopt."),
 					   6  => array('A' => "Ik geef de voorkeur aan concepten en het leren op basis van associaties.",
@@ -98,7 +99,7 @@
 					   14 => array('A' => "Ik houd van vertrouwde situaties.",
 								   'B' => "Ik houd van flexibele situaties."),
 					   15 => array('A' => "Ik plan alles, met een to-do lijstje in mijn hand.",
-								   'B' => "Ik wacht tot er meerdere ideeën opborrelen en kies dan on-the-fly wat te doen.",),
+								   'B' => "Ik wacht tot er meerdere ideeÃ«n opborrelen en kies dan on-the-fly wat te doen.",),
 					   16 => array('A' => "Ik houd van het afronden van projecten.",
 								   'B' => "Ik houd van het opstarten van projecten.",),
 					   17 => array('A' => "Ik ervaar stress door een gebrek aan planning en abrupte wijzigingen.",

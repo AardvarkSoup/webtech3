@@ -72,12 +72,10 @@ class Picture
 	    $ci->load->library('upload', $config);
 	    
 	    // Do the actual upload.
-	    print_r($ci->input->post());
 	    $success = $ci->upload->do_upload($fieldname);
 	    
 	    if($success)
 	    {
-	        echo ':)';
 	        $data = $ci->upload->data();
 	        
 	        // Process the uploaded file.
@@ -85,7 +83,6 @@ class Picture
 	    }
 	    else
 	    {
-	        echo $ci->upload->display_errors();
 	        return null;
 	    }
 	}

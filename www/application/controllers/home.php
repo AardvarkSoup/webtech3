@@ -44,7 +44,7 @@ class Home extends ProfileBrowser
 		$this->load->view('content/testView', $data);
 	}
     
-    /*
+    
     public function login()
     {        
         $email = $this->input->post('email');
@@ -88,5 +88,5 @@ class Home extends ProfileBrowser
             $this->authentication->logout();
         }
     }
-   */ 
+   
 }    

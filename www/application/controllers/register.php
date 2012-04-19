@@ -55,7 +55,7 @@ class Register extends CI_Controller
 	        $answers = array(); 
 	        for($q = 1; $q <= 19; ++$q)
 	        {
-	            $answers[$q] = $input["Question$q"];
+	            $answers[$q] = $input["question$q"];
 	        }
 	        
 	        // E versus I.
@@ -171,7 +171,7 @@ class Register extends CI_Controller
 				array(
         			'field' => 'email',
         			'label' => 'Email',
-        			'rules' => 'required|valid_email' //TODO email uniek checken
+        			'rules' => 'required|valid_email'
 				),
 				array(
         			'field' => 'gender',
@@ -179,10 +179,9 @@ class Register extends CI_Controller
         			'rules' => 'required'
 				),
 				array(
-        			// TODO: validate and indicate or enforce date formatting
         			'field' => 'birthdate',
         			'label' => 'Birthdate',
-        			'rules' => 'required'
+        			'rules' => 'required|alpha-dash'
 				),
 				array(
         			'field' => 'description',
@@ -197,12 +196,12 @@ class Register extends CI_Controller
 				array(
         			'field' => 'ageprefmin',
         			'label' => 'Minimum age',
-        			'rules' => 'required|greater_than[18]'
+        			'rules' => 'required|greater_than[17]'
 				),
 				array(
         			'field' => 'ageprefmax',
         			'label' => 'Maximum age',
-        			'rules' => 'required|less_than[122]'
+        			'rules' => 'required|less_than[123]'
 				),
 				array(
                     'field' => 'picture',
@@ -213,12 +212,12 @@ class Register extends CI_Controller
 		
         // Some inputs are selects from a list of possibilities.
         // The list of gender options is prepared
-        $genders = array( '0' => 'Man',
-        				  '1' => 'Woman');
+        $genders = array( '0' => 'Male',
+        				  '1' => 'Female');
         // The list of possible gender preferences
-        $genderprefs = array( '0' => 'Men',
-        				  	  '1' => 'Women',
-        					  '2' => 'Men/Women');
+        $genderprefs = array( '0' => 'Male',
+        				  	  '1' => 'Female',
+        					  '2' => 'Either');
         
         // The list of brands is loaded from the database and turned into html
         $this->load->model('brand');
@@ -256,7 +255,7 @@ class Register extends CI_Controller
         
         $data = array('genders' => $genders,
         			  'genderprefs' => $genderprefs,
-        			  'brandPreferences' => $this->brandCheckBoxes($brands,$brandpref)
+        			  'brandPreferences' => $this->brandCheckBoxes($brands,$brandpref),
                 );
         
         // Display the form while it is invalid.
@@ -266,9 +265,32 @@ class Register extends CI_Controller
 		}
 		else 
 		{
-		    // The form input is validated, the user is registeredand the succesmessage is displayed.
-			$this->_registerUser();
-			$this->load->view('content/register_succes', $_POST);
+		    // Now validate the date, which can't be done with CodeIgniter's validators.
+		    $dummy = array();
+		    $date = $this->input->post('birthdate');
+		    $validDate = !!preg_match_all('/[0-9]{4}-[0-9]{2}-[0-9]{2}/', $date, $dummy);
+		    $year; $month; $day;
+		    sscanf($date, '%D-%D-%D', $year, $month, $day);
+		    $thisYear = date('o');
+		    $validDate &= $year > $thisYear - 122 && $year <= $thisYear - 18
+		               && $month >=  1 && $month <= 12
+		               && $day >= 1 && $day <= 31;
+		    
+		    // Give error if date is not valid.
+		    if(!$validDate)
+		    {
+		        // Add a date error.
+		        $data['date_error'] = 'Invalid date.';
+		        
+		        // Show register view again.
+		        $this->load->view('content/registerView', $data);
+		    }
+		    else
+		    {
+    		    // The form input is validated, the user is registeredand the succesmessage is displayed.
+    			$this->_registerUser();
+    			$this->load->view('content/register_succes', $_POST);
+		    }
 		}
         
         $this->load->view('footer');

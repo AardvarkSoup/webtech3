@@ -69,7 +69,8 @@ class Picture
 	    );
 
 	    $ci =& get_instance();
-	    $ci->load->library('upload', $config);
+	    $ci->load->library('upload');
+	    $ci->upload->initialize($config);
 	    
 	    // Do the actual upload.
 	    $success = $ci->upload->do_upload($fieldname);
@@ -83,6 +84,7 @@ class Picture
 	    }
 	    else
 	    {
+	        //echo $ci->upload->display_errors();
 	        return null;
 	    }
 	}

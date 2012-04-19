@@ -53,7 +53,8 @@
 	<br /><br />
 	
 	<h4>Age preference</h4>
-	<?php echo form_error('ageprefmin'); ?>
+	<?php echo form_error('ageprefmin'); 
+	      if(isset($age_error)) echo "<div class='error'>$age_error</div>"; ?>
 	<?php echo form_error('ageprefmax'); ?>
 		Minimum: 
 		<input type="text" name="ageprefmin" value="<?php echo set_value('ageprefmin', 18); ?>"/>

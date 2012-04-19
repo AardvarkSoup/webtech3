@@ -42,11 +42,8 @@ class Register extends CI_Controller
 	    // Parse brand preferences.
 	    $brands = array_keys(array_filter($input['brandpref']));
 	    
-	    // Process uploaded image.
-	    if(isset($input['picture']))
-	    {
-	        $data['picture'] = $this->picture->uploadAndProcess();
-	    }
+	    // Process uploaded image. 'picture' will be set to null if none are specified.
+	    $data['picture'] = $this->picture->uploadAndProcess();
 	    
 	    // Determine personality from questionnaire.
 	    // Also set initial personality preference to the opposite of that.
@@ -201,7 +198,7 @@ class Register extends CI_Controller
 				array(
         			'field' => 'ageprefmax',
         			'label' => 'Maximum age',
-        			'rules' => 'required|less_than[123]|greater_than[ageprefmin]'
+        			'rules' => 'required|less_than[123]'
 				),
 				array(
                     'field' => 'picture',
@@ -276,11 +273,23 @@ class Register extends CI_Controller
 		               && $month >=  1 && $month <= 12
 		               && $day >= 1 && $day <= 31;
 		    
+		    // While at it, also check whether the minimum age preference is lower than the maximal
+		    // one. 
+		    $validAgePref = $this->input->post('ageprefmin') <= $this->input->post('ageprefmax');
+		    
 		    // Give error if date is not valid.
 		    if(!$validDate)
 		    {
 		        // Add a date error.
 		        $data['date_error'] = 'Invalid date.';
+		        
+		        // Show register view again.
+		        $this->load->view('content/registerView', $data);
+		    }
+		    else if(!$validAgePref)
+		    {
+		        // Add an age preference error.
+		        $data['age_error'] = 'Minimal age preference should be lower than maximal one';
 		        
 		        // Show register view again.
 		        $this->load->view('content/registerView', $data);

@@ -301,10 +301,19 @@ a.profilebox:-webkit-any-link {
 
 #next {
 	float:right;
+	cursor: pointer;
+	color: blue;
+	font-size: 20pt;
+	font-family: Arial Black, Gadget, sans-serif;
 }
 
 #previous {
 	float:left;
+	cursor: pointer;
+	color: blue;
+	color: orange;
+    font-size: 20pt;
+    font-family: Arial Black, Gadget, sans-serif;
 }
 
 /*

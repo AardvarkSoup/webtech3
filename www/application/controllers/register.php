@@ -55,7 +55,7 @@ class Register extends CI_Controller
 	        $answers = array(); 
 	        for($q = 1; $q <= 19; ++$q)
 	        {
-	            $answers[$q] = $input["Question$q"];
+	            $answers[$q] = $input["question$q"];
 	        }
 	        
 	        // E versus I.
@@ -197,12 +197,12 @@ class Register extends CI_Controller
 				array(
         			'field' => 'ageprefmin',
         			'label' => 'Minimum age',
-        			'rules' => 'required|greater_than[18]'
+        			'rules' => 'required|greater_than[17]'
 				),
 				array(
         			'field' => 'ageprefmax',
         			'label' => 'Maximum age',
-        			'rules' => 'required|less_than[122]'
+        			'rules' => 'required|less_than[123]'
 				),
 				array(
                     'field' => 'picture',

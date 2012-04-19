@@ -33,7 +33,7 @@ Di 24 april:
  - Juiste knoppen (T)
  - Toelichting (T)
  - Databasediagram (T)
- - Online zetten en permissies correct instellen. (x)
+ - Online zetten en permissies correct instellen. (T)
  - Foutvermelding PHP en CodeIgniter uitzetten. (x)
 
 Do 26 april:

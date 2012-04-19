@@ -10,16 +10,13 @@ class Picture
      * Processes an uploaded picture by resizing it and moving it from the uploads to the the 
      * picture folder. The uploaded file will be deleted afterwards.
      * 
-     * @param string $picFile The filename of the uploaded image, which should be loocated in the
-     *                        uploads folder.
+     * @param string $picFile The path of the uploaded image, including file name.
      * 
      * @return string The filename of the picture, excluding its path (which is 'img/pictures').
+     * 	              On failure, null is returned.
      */
     public function process($picFile)
-    {
-	    // TODO: Remove this line if CodeIgniter already prepends uploads path.
-        $picFile = "uploads/$picFile";
-	    
+    {	    
 	    // Copy 250x300 version of uploaded picture to img-folder, using GD.
 	    $source = imagecreatefromjpeg($picFile);
 	    list($sourceWidth, $sourceHeight) = getimagesize($picFile);
@@ -49,6 +46,40 @@ class Picture
 	    {
 	        // Add Image filename to data.
 	        return $picture;
+	    }
+	    else
+	    {
+	        return null;
+	    }
+	}
+	
+	/**
+	 * Uploads a file in the POST-body and processes it.
+	 * 
+	 * @return string Same as the function process($picFile).
+	 */
+	public function uploadAndProcess($fieldname = 'picture')
+	{
+	    // Configure and load the upload library.
+	    $config = array(
+	    	'upload_path' => './uploads/',
+    	    'allowed_types' => 'gif|jpg|png',
+    	    'max_size' => '500',
+    	    'allowed_types' => 'jpg' // Only jpegs are supported.
+	    );
+
+	    $ci =& get_instance();
+	    $ci->load->library('upload', $config);
+	    
+	    // Do the actual upload.
+	    $success = $ci->upload->do_upload($fieldname);
+	    
+	    if($success)
+	    {
+	        $data = $this->upload->data();
+	        
+	        // Process the uploaded file.
+	        return $this->process($data['full_path']);
 	    }
 	    else
 	    {

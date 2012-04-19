@@ -194,7 +194,8 @@ class User extends CI_Model
         // Load security helper.
         $this->load->helper('security');
         
-        // The encryption key we specified is also perfectly suitable to be a salt.
+        // The randomly generated key we specified for session encryption is also perfectly 
+        // suitable to be a salt.
         // Also add a smiley face wearing a hat, which is incredibly important.
         $salt = $this->config->item('encryption_key') . '<:)';
         

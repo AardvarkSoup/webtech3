@@ -111,7 +111,7 @@ INSERT INTO "Users"
         1,
         'admin',
         'webmaster@dinges.nl',
-        '105c075b400c0ac2ebacaf91da608e3f947a22e0', -- Password: puddingtaart
+        '105c075b400c0ac2ebacaf91da608e3f947a22e0',
         'Admin',
         'The Admin',
         0,

@@ -62,7 +62,7 @@
 		<input type="text" name="ageprefmax" value="<?php echo set_value('ageprefmax', 122); ?>"/>
 		<br /><br />
 		
-	<h4>Upload picture (JPEG format required) </h4>
+	<h4>Upload picture (JPEG format required, should be smaller than 1MB) </h4>
 	<?php echo form_error('picture'); 
 	      echo form_upload('picture'); ?>
           <br /><br />

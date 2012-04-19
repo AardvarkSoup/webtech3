@@ -64,7 +64,7 @@ class Picture
 	    $config = array(
 	    	'upload_path' => './uploads/',
     	    'allowed_types' => 'gif|jpg|png',
-    	    'max_size' => '500',
+    	    'max_size' => '1000',
     	    'allowed_types' => 'jpg' // Only jpegs are supported.
 	    );
 

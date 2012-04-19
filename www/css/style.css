@@ -312,10 +312,26 @@ a.profilebox:-webkit-any-link {
 */
 
 #registerblock {
-	position: relative;
-	top: 150px;
-	left: 40px;	
+	
 }
+
+#registerblock input {
+	/*position: relative;
+	left: 100px;*/
+}
+
+fieldset.brands {
+	list-style: none;
+}
+
+/*fieldset.brands li {
+	width: 75px;
+	float: left;
+}
+
+fieldset.brands li:nth-child(4n+1) {
+	float:none;
+}*/
 
 
 /*

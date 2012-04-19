@@ -138,8 +138,8 @@ class Register extends CI_Controller
 		$this->load->library('upload');
 		
 		$this->load->view('header',array("pagename" => "Register"));
-        $this->load->view('nav');
         $this->load->view('loginbox');
+		$this->load->view('nav');
 		
         $config = array(
         		array(
@@ -197,12 +197,12 @@ class Register extends CI_Controller
 				array(
         			'field' => 'ageprefmin',
         			'label' => 'Minimum age',
-        			'rules' => 'required'
+        			'rules' => 'required|greater_than[18]'
 				),
 				array(
         			'field' => 'ageprefmax',
         			'label' => 'Maximum age',
-        			'rules' => 'required'
+        			'rules' => 'required|less_than[122]'
 				),
 				array(
                     'field' => 'picture',
@@ -211,7 +211,16 @@ class Register extends CI_Controller
 				)
         );
 		
-        // The list of brands is loaded from the database
+        // Some inputs are selects from a list of possibilities.
+        // The list of gender options is prepared
+        $genders = array( '0' => 'Man',
+        				  '1' => 'Woman');
+        // The list of possible gender preferences
+        $genderprefs = array( '0' => 'Men',
+        				  	  '1' => 'Women',
+        					  '2' => 'Men/Women');
+        
+        // The list of brands is loaded from the database and turned into html
         $this->load->model('brand');
         $brands = $this->brand->getBrands();
         
@@ -233,11 +242,11 @@ class Register extends CI_Controller
 						);
 	    }
         $this->form_validation->set_rules($config);
-        
+        // All errors are placed in a div with the error class
         $this->form_validation->set_error_delimiters('<div class="error">', '</div>');
         
         // Check if there is a post result. If there is, the brandpref list is handed
-        // to the brandCheckBoxes function for refilling.
+        // to the brandCheckBoxes function for re-populating.
         if(array_key_exists('brandpref',$_POST)) {
         	$brandpref = $_POST['brandpref'];
         }
@@ -245,34 +254,45 @@ class Register extends CI_Controller
         	$brandpref = null;
         }
         
-        $data = array('brandPreferences' => $this->brandCheckBoxes($brands,$brandpref));
+        $data = array('genders' => $genders,
+        			  'genderprefs' => $genderprefs,
+        			  'brandPreferences' => $this->brandCheckBoxes($brands,$brandpref)
+                );
         
-        // Display the form while it is invalid. When it is valid and posted, register user
+        // Display the form while it is invalid.
         if ($this->form_validation->run() === false) 
         {
             $this->load->view('content/registerView', $data);
 		}
 		else 
 		{
-		    $this->_registerUser();
+		    // The form input is validated, the user is registeredand the succesmessage is displayed.
+			$this->_registerUser();
 			$this->load->view('content/register_succes', $_POST);
 		}
         
         $this->load->view('footer');
 	}
 	
-	/* 
-	 * brandCheckBoxes takes a list of brands and checked brands and returns html with a refilled 
-	 * checkbox for each brand.
+	/**
+	 * The brandprefs are returned in an array. CodeIgniter can not handle an array in its value
+	 * set functions, so we made our own. :-)
+	 * 
+	 * brandCheckBoxes turns an array of brands into html which displays a list of checkboxes.
+	 * If the form was posted, the checkboxes are re-populated.
+	 * @param array $brands			List of brands
+	 * @param array $brandprefs		List of checked brands
+	 * @return string				html for a list of checkboxes
 	 */
-	private function brandCheckBoxes($brands, $brandprefs)
+	private function brandCheckBoxes(array $brands, array $brandprefs = null)
 	{
-		$html = "<fieldset>". heading("Merkvoorkeuren", 4). form_error('brandpref');
+		$html = form_fieldset("Brand-preferences", array('class' => 'brands')). 
+				form_error('brandpref[]') ."<ul>";
 		foreach($brands as $brand) {
-			$html .= form_checkbox('brandpref[]',$brand, 
-				$brandprefs != null && in_array($brand,$brandprefs)). $brand. "<br />";
+			$html .= "<li>". form_checkbox('brandpref[]',$brand, 
+						$brandprefs != null && in_array($brand,$brandprefs)). $brand. "</li>";
 		}
-		return $html. "</fieldset>";
+		return $html. "</ul></fieldset>";
 	}
 	
 }	

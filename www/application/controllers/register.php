@@ -201,7 +201,7 @@ class Register extends CI_Controller
 				array(
         			'field' => 'ageprefmax',
         			'label' => 'Maximum age',
-        			'rules' => 'required|less_than[123]'
+        			'rules' => 'required|less_than[123]|greater_than[ageprefmin]'
 				),
 				array(
                     'field' => 'picture',

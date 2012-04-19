@@ -1,7 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-include_once('loginsystem.php');
-class TermsOfUse extends LoginSystem 
+class TermsOfUse extends CI_Controller
 {
 
     public function index($msg = null)

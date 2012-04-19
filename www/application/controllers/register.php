@@ -203,12 +203,12 @@ class Register extends CI_Controller
         			'field' => 'ageprefmax',
         			'label' => 'Maximum age',
         			'rules' => 'required'
-				)/*,
+				),
 				array(
                     'field' => 'picture',
                     'label' => 'Upload picture',
                     'rules' => ''				
-				)*/
+				)
         );
 		
         // The list of brands is loaded from the database
@@ -224,7 +224,7 @@ class Register extends CI_Controller
 	    }
         
         // For each of the 20 personality question, the rule required is set
-        for($q = 1; $q <= 20; ++$q)
+        for($q = 1; $q <= 19; ++$q)
 	    {
 	        $config[] =	array(
         					'field' => "question$q",

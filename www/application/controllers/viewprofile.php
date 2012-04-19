@@ -1,7 +1,6 @@
 <?php
 
-include_once('loginsystem.php');
-class ViewProfile extends LoginSystem
+class ViewProfile extends CI_Controller
 {
 	public function index($msg = null)
 	{

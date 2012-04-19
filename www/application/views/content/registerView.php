@@ -7,23 +7,23 @@
 	<?php echo form_error('username'); ?>
 	<input type="text" name="username" value="<?php echo set_value('username'); ?>" size="50" />
 	
-	<h4>Firstname</h4>
+	<h4>First name</h4>
 	<?php echo form_error('firstname'); ?>
 	<input type="text" name="firstname" value="<?php echo set_value('firstname'); ?>" size="50" />
 	
-	<h4>Lastname</h4>
+	<h4>Last name</h4>
 	<?php echo form_error('lastname'); ?>
 	<input type="text" name="lastname" value="<?php echo set_value('lastname'); ?>" size="50" />
 	
 	<h4>Password</h4>
 	<?php echo form_error('password'); ?>
-	<input type="text" name="password" value="" size="50" />
+	<input type="password" name="password" value="" size="50" />
 	
 	<h4>Repeat password</h4>
 	<?php echo form_error('passconf'); ?>
-	<input type="text" name="passconf" value="" size="50" />
+	<input type="password" name="passconf" value="" size="50" />
 	
-	<h4>Email</h4>
+	<h4>E-mail</h4>
 	<?php echo form_error('email'); ?>
 	<input type="text" name="email" value="<?php echo set_value('email'); ?>" size="50" />
 	
@@ -57,6 +57,11 @@
 		<input type="text" name="ageprefmin" value="<?php echo set_value('ageprefmin', 18); ?>" size="2" />
 		Maximum: 
 		<input type="text" name="ageprefmax" value="<?php echo set_value('ageprefmax', 122); ?>" size="2" />
+		
+	<h4>Upload picture (JPEG format required) </h4>
+	<?php echo form_error('picture'); 
+	      echo form_upload('picture'); ?>
+	
 	
 	<?php echo $brandPreferences; ?>
 	

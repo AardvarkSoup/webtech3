@@ -45,7 +45,7 @@ class Register extends CI_Controller
 	    // Process uploaded image.
 	    if(isset($input['picture']))
 	    {
-	        $data['picture'] = $this->picture->process($input['picture']);
+	        $data['picture'] = $this->picture->uploadAndProcess();
 	    }
 	    
 	    // Determine personality from questionnaire.
@@ -203,7 +203,12 @@ class Register extends CI_Controller
         			'field' => 'ageprefmax',
         			'label' => 'Maximum age',
         			'rules' => 'required'
-				)
+				)/*,
+				array(
+                    'field' => 'picture',
+                    'label' => 'Upload picture',
+                    'rules' => ''				
+				)*/
         );
 		
         // The list of brands is loaded from the database
@@ -243,8 +248,9 @@ class Register extends CI_Controller
         $data = array('brandPreferences' => $this->brandCheckBoxes($brands,$brandpref));
         
         // Display the form while it is invalid. When it is valid and posted, register user
-        if ($this->form_validation->run() == false) {
-			$this->load->view('content/registerView', $data);
+        if ($this->form_validation->run() === false) 
+        {
+            $this->load->view('content/registerView', $data);
 		}
 		else 
 		{

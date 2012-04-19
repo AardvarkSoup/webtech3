@@ -458,7 +458,7 @@ class User extends CI_Model
     	return $result;
     }
     
-    public function getUserProfile($userId)
+public function getUserProfile($userId)
     {
     	// The library for calculating the personality type is loaded
     	$this->load->library('personality');
@@ -481,6 +481,8 @@ class User extends CI_Model
 		foreach($preference as $key => $value) {
 			$profile['preference'] .= $key;
 		}
+		
+		$profile['brands'] = $this->loadUserBrands($userId);
 		
 		// If the current user is logged in and watching someone else's profile,
 		// add the likestatus with that person to the profile.

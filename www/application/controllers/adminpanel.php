@@ -1,7 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-include_once('loginsystem.php');
-class AdminPanel extends LoginSystem
+class AdminPanel extends CI_Controller
 {
     // A simple validator that checks whether the input has the right format.
     // Returns null if it validates, or a string containing an error if it doesn't.

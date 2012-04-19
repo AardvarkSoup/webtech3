@@ -1,7 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-include_once('profilebrowser.php');
-class Search extends ProfileBrowser
+class Search extends CI_Controller
 {
     // Returns null when input is valid, or an error message otherwise.
     private function _validateInput($input)

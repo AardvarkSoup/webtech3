@@ -1,7 +1,6 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-include_once('loginsystem.php');
-class ProfileBrowser extends LoginSystem
+class ProfileBrowser extends CI_Controller
 {
 	
 	function __construct() {

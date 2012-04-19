@@ -1,6 +1,7 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Home extends CI_Controller
+include_once('profilebrowser.php');
+class Home extends ProfileBrowser
 {
 
     public function index($msg = null)
@@ -10,6 +11,7 @@ class Home extends CI_Controller
 		$this->load->view('header',array("pagename" => "Home"));
         $this->load->view('loginbox');
 		$this->load->view('nav');
+		
 		
 		// Show message if specified.
 		if($msg !== null)

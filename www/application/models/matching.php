@@ -10,7 +10,7 @@ class Matching extends CI_Model
         {
             if(!isset($arrayA[$val['brandName']]))
             {
-                ++$result[];
+                ++$result;
             }
         }
         

@@ -7,10 +7,7 @@ class ProfileBrowser extends CI_Controller
         parent::__construct();
     }
 	
-	/**
-     * TODO
-     */
-    public function displayProfiles(/* ... */)
+	public function displayProfiles(/* ... */)
     {
         $userIds = func_get_args();
         

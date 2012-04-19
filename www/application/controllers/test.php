@@ -51,6 +51,16 @@ class Test extends CI_Controller
         //print_r($this->user->getLikeStatus(2));
         
         //$this->parser->parse('searchbrowser', array('bla' => array('Blah!', 'Blablah!')));
+        
+        if(count($_FILES) > 0)
+        {
+            $this->load->library('picture');
+            print_r($this->picture->uploadAndProcess());
+        }
+        else
+        {
+            echo form_open_multipart() . form_upload('picture') . form_submit('submit', 'go') . form_close();
+        }
     }
 }
 

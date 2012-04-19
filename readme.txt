@@ -63,12 +63,13 @@ Toelichting:
     eigenaar van het profiel.
     
  - De zoekfuncties in de search-controller (zowel zoeken op eigenschappen als matchende gebruikers
-    in volgorde opvragen) leveren een lijst van user identifiers op, deze kunnen vervolgens worden
-    gebruikt door de 'profilebrowser'-controller. Deze weergeeft de eerste zes profielen en 
-    plakt alle (of tenminste de eerste 600, verder zal de gebruiker niet doorklikken) opgeleverde
-    userId's in een Javascript (de searchbrowser-view). Dit script vraagt vervolgens, na het 
-    klikken op de next- of previous-knop, via AJAX de profielen te tonen van de volgende zes id's.
-    Deze identifiers worden simpelweg via de URL doorgegeven.
+    in volgorde opvragen) leveren een lijst van user identifiers op (net als de generator van zes 
+    willekeurige gebruikers uit het usermodel), deze kunnen vervolgens worden gebruikt door de 
+    'profilebrowser'-controller. Deze weergeeft de eerste zes profielen en plakt alle (of tenminste 
+    de eerste 600, verder zal de gebruiker niet doorklikken) opgeleverde userId's in een Javascript 
+    (de searchbrowser-view). Dit script vraagt vervolgens, na het klikken op de next- of previous-
+    knop, via AJAX de profielen te tonen van de volgende zes id's. Deze identifiers worden 
+    simpelweg via de URL doorgegeven.
     
 _______________________________________________________________________________
 

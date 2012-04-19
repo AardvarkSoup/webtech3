@@ -1,6 +1,6 @@
 <section id='registerblock'>
 <?php
-	echo form_open('register');
+	echo form_open_multipart('register');
 ?>
 
 	<h4>Username</h4>

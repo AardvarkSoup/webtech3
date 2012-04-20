@@ -29,5 +29,16 @@ class ViewProfile extends CI_Controller
 		$this->load->view('content/profile',$data);
 		$this->load->view('footer');
 	}
+	
+	public function like()
+	{
+		$otherUser = $this->input->post('otherId');
+        
+        if($otherUser != null)
+        {
+            $this->model->load('User', 'user');
+            $this->user->like($otherUser);
+        }
+	}
 }
 ?>

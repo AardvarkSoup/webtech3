@@ -137,7 +137,7 @@
 			
 			if($profileType == 'big' && !$profile['likestatus'][0]) {
 				
-				echo "<div id='likebutton'>Click ". getLikePicture($profile['likestatus']). " to like user</div>";
+				echo "<h3 id='likebutton'>". htmlspecialchars("<< Click here to like user >>"). "</h3>";
 			}
 			else {
 				echo getLikePicture($profile['likestatus']);

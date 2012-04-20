@@ -2,7 +2,7 @@
 class Register extends CI_Controller 
 {
 
-    // After succesfully validating a filled in form, use the POST data to add a new user to the
+	// After succesfully validating a filled in form, use the POST data to add a new user to the
 	// database.
     private function _registerUser()
 	{
@@ -19,8 +19,8 @@ class Register extends CI_Controller
 	    // Values that can be directly put to the data array (after a rename of their keys).
 	    $rename = array(
 	                'username' => 'username',
-	                'firstname' => 'firstName',
-	                'lastname' => 'lastName',
+	                'firstName' => 'firstName',
+	                'lastName' => 'lastName',
 	                'email' => 'email',
 	                'gender' => 'gender',
 	                'description' => 'description',
@@ -127,11 +127,11 @@ class Register extends CI_Controller
 	    // Actually create the user.
 	    $this->user->createUser($data, $password, $brands);
 	}
-    
-    public function index()
+	
+	public function index()
 	{
         $this->load->model('user','',true);
-        $this->load->library(array('personality', 'form_validation'));
+        $this->load->library(array('personality', 'form_validation','rules_storage'));
         $this->load->helper('html');
 		$this->load->helper('form');
 		
@@ -142,7 +142,7 @@ class Register extends CI_Controller
         $this->load->view('loginbox');
 		$this->load->view('nav');
 		
-        $config = array(
+		$config = array(
         		array(
         			'field' => 'username',
         			'label' => 'Username',
@@ -150,12 +150,12 @@ class Register extends CI_Controller
         			//TODO controleer dat de naam uniek is. Zie is_unique[table.field]bij form_validation
 				),
 				array(
-        			'field' => 'firstname',
+        			'field' => 'firstName',
         			'label' => 'Firstname',
         			'rules' => 'required'
 				),
 				array(
-        			'field' => 'lastname',
+        			'field' => 'lastName',
         			'label' => 'Lastname',
         			'rules' => 'required'
 				),
@@ -182,7 +182,7 @@ class Register extends CI_Controller
 				array(
         			'field' => 'birthdate',
         			'label' => 'Birthdate',
-        			'rules' => 'required|alpha-dash'
+        			'rules' => 'required|alpha-dash|callback_validateDate'
 				),
 				array(
         			'field' => 'description',
@@ -197,12 +197,12 @@ class Register extends CI_Controller
 				array(
         			'field' => 'ageprefmin',
         			'label' => 'Minimum age',
-        			'rules' => 'required|greater_than[17]'
+        			'rules' => 'required|numeric|greater_than[17]|callback_validAgePref[ageprefmax]'
 				),
 				array(
         			'field' => 'ageprefmax',
         			'label' => 'Maximum age',
-        			'rules' => 'required|less_than[123]'
+        			'rules' => 'required|numeric|less_than[123]'
 				),
 				array(
                     'field' => 'picture',
@@ -211,28 +211,19 @@ class Register extends CI_Controller
 				)
         );
 		
-        // Some inputs are selects from a list of possibilities.
-        // The list of gender options is prepared
-        $genders = array( '0' => 'Male',
-        				  '1' => 'Female');
-        // The list of possible gender preferences
-        $genderprefs = array( '0' => 'Male',
-        				  	  '1' => 'Female',
-        					  '2' => 'Either');
-        
-        // The list of brands is loaded from the database and turned into html
+        // The list of brands is loaded from the database
         $this->load->model('brand');
         $brands = $this->brand->getBrands();
         
-        foreach($brands as $brand)
+		foreach($brands as $brand)
 	    {
 			$config[] = array(
-        					'field' => $brand,
-        					'label' => $brand,
-        					'rules' => '');
+	        				'field' => $brand,
+	        				'label' => $brand,
+	        				'rules' => '');
 	    }
         
-        // For each of the 20 personality question, the rule required is set
+		// For each of the 20 personality question, the rule required is set
         for($q = 1; $q <= 19; ++$q)
 	    {
 	        $config[] =	array(
@@ -241,6 +232,11 @@ class Register extends CI_Controller
         					'rules' => 'required'
 						);
 	    }
+	    
+	    //TODO Hier gaat het fout.
+        //$config = $this->rules_storage->getRules();
+        
+        // And all the rules are added to the form_validation
         $this->form_validation->set_rules($config);
         // All errors are placed in a div with the error class
         $this->form_validation->set_error_delimiters('<div class="error">', '</div>');
@@ -251,13 +247,12 @@ class Register extends CI_Controller
         	$brandpref = $_POST['brandpref'];
         }
         else {
+        	// If there is a profile, its brandspreferences are used as the re-populate list.
         	$brandpref = null;
         }
         
-        $data = array('genders' => $genders,
-        			  'genderprefs' => $genderprefs,
-        			  'brandPreferences' => $this->brandCheckBoxes($brands,$brandpref),
-                );
+        $data = array('brands'           => $brands,
+                      'brandPreferences' => $brandpref);
         
         // Display the form while it is invalid.
         if ($this->form_validation->run() === false) 
@@ -266,68 +261,62 @@ class Register extends CI_Controller
 		}
 		else 
 		{
-		    // Now validate the date, which can't be done with CodeIgniter's validators.
-		    $dummy = array();
-		    $date = $this->input->post('birthdate');
-		    $validDate = !!preg_match_all('/[0-9]{4}-[0-9]{2}-[0-9]{2}/', $date, $dummy);
-		    $year; $month; $day;
-		    sscanf($date, '%D-%D-%D', $year, $month, $day);
-		    $thisYear = date('o');
-		    $validDate &= $year > $thisYear - 122 && $year <= $thisYear - 18
-		               && $month >=  1 && $month <= 12
-		               && $day >= 1 && $day <= 31;
-		    
-		    // While at it, also check whether the minimum age preference is lower than the maximal
-		    // one. 
-		    $validAgePref = $this->input->post('ageprefmin') <= $this->input->post('ageprefmax');
-		    
-		    // Give error if date is not valid.
-		    if(!$validDate)
-		    {
-		        // Add a date error.
-		        $data['date_error'] = 'Invalid date.';
-		        
-		        // Show register view again.
-		        $this->load->view('content/registerView', $data);
-		    }
-		    else if(!$validAgePref)
-		    {
-		        // Add an age preference error.
-		        $data['age_error'] = 'Minimal age preference should be lower than maximal one';
-		        
-		        // Show register view again.
-		        $this->load->view('content/registerView', $data);
-		    }
-		    else
-		    {
-    		    // The form input is validated, the user is registeredand the succesmessage is displayed.
-    			$this->_registerUser();
-    			$this->load->view('content/register_succes', $_POST);
-		    }
+    	    // The form input is validated, the user is registeredand the succesmessage is displayed.
+    		$this->_registerUser();
+    		$this->load->view('content/register_succes', $_POST);
 		}
         
         $this->load->view('footer');
 	}
 	
 	/**
-	 * The brandprefs are returned in an array. CodeIgniter can not handle an array in its value
-	 * set functions, so we made our own. :-)
 	 * 
-	 * brandCheckBoxes turns an array of brands into html which displays a list of checkboxes.
-	 * If the form was posted, the checkboxes are re-populated.
-	 * @param array $brands			List of brands
-	 * @param array $brandprefs		List of checked brands
-	 * @return string				html for a list of checkboxes
+	 * Our own date-validation rule.
+	 * @param string $date	The date that will be checked
+	 * @return boolean		False if failed
 	 */
-	private function brandCheckBoxes(array $brands, array $brandprefs = null)
+	public function validateDate($date)
 	{
-		$html = form_fieldset("Brand-preferences", array('class' => 'brands')). 
-				form_error('brandpref[]') ."<ul>";
-		foreach($brands as $brand) {
-			$html .= "<li>". form_checkbox('brandpref[]',$brand, 
-						$brandprefs != null && in_array($brand,$brandprefs)). $brand. "</li>";
+		$dummy = array();
+	    $validDate = !!preg_match_all('/[0-9]{4}-[0-9]{2}-[0-9]{2}/', $date, $dummy);
+	    $year; $month; $day;
+	    sscanf($date, '%D-%D-%D', $year, $month, $day);
+	    $thisYear = date('o');
+	    $validDate &= $year > $thisYear - 122 && $year <= $thisYear - 18
+	               && $month >=  1 && $month <= 12
+	               && $day >= 1 && $day <= 31;
+	    
+	    if(!$validDate) {
+	    	if($year < $thisYear - 122)
+	    		$this->form_validation->set_message('validateDate', 
+							'If you are older than 122, please contact the Guiness Book of World Records.');
+	    	else 
+	    		$this->form_validation->set_message('validateDate', 
+							'Invalid date');
+			return false;
+	    }
+	    else {
+	    	return true;
+	    }
+	}
+	
+	/**
+	 * 
+	 * Checks if ageprefmin is smaller or equal to ageprefmax.
+	 * @param int $ageprefmin		The minimum age preference
+	 * @param string $ageprefmax	The name for the maximum age preference in the post
+	 * @return boolean 				false if fails
+	 */
+	public function validAgePref($ageprefmin, $ageprefmax)
+	{
+		if($ageprefmin > $this->input->post($ageprefmax)) {
+			$this->form_validation->set_message('validAgePref', 
+							'The %s field can not be greater than the Maximum age');
+			return false;
 		}
-		return $html. "</ul></fieldset>";
+		else {
+			return true;
+		}
 	}
 	
 }	

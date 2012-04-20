@@ -1,60 +1,115 @@
 <section id='registerblock'>
 <?php
+	
+	/*
+	 * First some variables needed for creating and populating the fields are defined
+	 */
+	
+	// If no profile is submitted, profileEdit is set to false and the profile to null.
+	$profileEdit = isset($profile);
+	if(!$profileEdit) $profile = null;
+	
+    // Some inputs are selects from a list of possibilities.
+    // The list of gender options is prepared
+    $genders = array( '0' => 'Male',
+        			  '1' => 'Female');
+    // The list of possible gender preferences
+    $genderprefs = array( '0' => 'Male',
+        			  	  '1' => 'Female',
+        				  '2' => 'Either');
+	
+    /*
+     * Then some functions for building the html for the form fields
+     */
+    
+	/**
+	 * The brandprefs are returned in an array. CodeIgniter can not handle an array in its value
+	 * set functions, so we made our own. :-)
+	 * 
+	 * brandCheckBoxes turns an array of brands into html which displays a list of checkboxes.
+	 * If the form was posted, the checkboxes are re-populated.
+	 * @param array $brands			List of brands
+	 * @param array $brandprefs		List of checked brands
+	 * @return string				html for a list of checkboxes
+	 */
+	function brandCheckBoxes(array $brands, array $brandprefs = null)
+	{
+		$html = form_fieldset("Brand-preferences", array('class' => 'brands')). 
+				form_error('brandpref[]') ."<ul>";
+		foreach($brands as $brand) {
+			$html .= "<li>". form_checkbox('brandpref[]',$brand, 
+						$brandprefs != null && in_array($brand,$brandprefs)). $brand. "</li>";
+		}
+		return $html. "</ul></fieldset>";
+	}
+	
+	function buildField($heading, $name, $size = 50, $profileEdit = false, 
+							array $profile = null, $password = false)
+	{
+		$output = heading($heading, 4). form_error($name);
+		
+		// If the field is a passwordfiel, it should not be re-populated
+		if($password) $value = '';
+		else if($profileEdit) $value = set_value($name, $profile[$name]);
+		else $value = set_value($name);
+		
+		// The input parameters are set. 
+		// If the field is a password, the type is set to password, else text.
+		$data = array('name'  => $name,
+					  'value' => $value,
+					  'size'  => $size,
+					  'type'  => $password ? 'password' : 'text'
+		              );
+		$output .= form_input($data). br(2);
+		echo $output;
+	}
+	
+	function buildDropdown($heading, $name, $filling, $profileEdit = false, array $profile = null)
+	{
+		$output = heading($heading, 4). form_error($name);
+		$output .= form_dropdown($name, $filling, set_value($name)). br(2);
+		echo $output;
+	}
+	
+	
+	/*
+	 * Start of the form
+	 */
+	
 	echo form_open_multipart('register');
+	
+	// If the profile is being edited, display a welcome message with the username
+	if($profileEdit) echo heading('Hi '. $profile['username']. '!', 2);
+	// Else, offer a field to register a username
+	else buildField('Username', 'username');
+	
+	buildField('First name', 'firstName', 50, $profileEdit, $profile);
+	buildField('Last name', 'lastName', 50, $profileEdit, $profile);
+	
+	// If the profile is being edited, one field for the old password and two for the new one are displayed 
+	if($profileEdit) {
+		buildField('Old password', 'oldpassword', 50, false, null, true);
+		buildField('New password', 'password', 50, false, null, true);
+		buildField('Repeat new password', 'passconf', 50, false, null, true);
+	}
+	else {  // Else, only two password fields are shown to register a password
+		buildField('Password', 'password', 50, false, null, 'password');
+		buildField('Repeat password', 'passconf', 50, false, null, 'password');
+	}
+	buildField('Email', 'email', 50, $profileEdit, $profile);
+	buildDropdown('Gender', 'gender', $genders);
+	buildField('Email', 'email', 50, $profileEdit, $profile);
+	buildField('Birthdate (yyyy-mm-dd)', 'birthdate', 50, $profileEdit, $profile);  
 ?>
 
-	<h4>Username</h4>
-	<?php echo form_error('username'); ?>
-	<input type="text" name="username" value="<?php echo set_value('username'); ?>" size="50" />
-	<br /><br />
-	
-	<h4>First name</h4>
-	<?php echo form_error('firstname'); ?>
-	<input type="text" name="firstname" value="<?php echo set_value('firstname'); ?>" size="50" />
-	<br /><br />
-	
-	<h4>Last name</h4>
-	<?php echo form_error('lastname'); ?>
-	<input type="text" name="lastname" value="<?php echo set_value('lastname'); ?>" size="50" />
-	<br /><br />
-	
-	<h4>Password</h4>
-	<?php echo form_error('password'); ?>
-	<input type="password" name="password" value="" size="50" />
-	<br /><br />
-	
-	<h4>Repeat password</h4>
-	<?php echo form_error('passconf'); ?>
-	<input type="password" name="passconf" value="" size="50" />
-	<br /><br />
-	
-	<h4>E-mail</h4>
-	<?php echo form_error('email'); ?>
-	<input type="text" name="email" value="<?php echo set_value('email'); ?>" size="50" />
-	<br /><br />
-	
-	<h4>Gender</h4>
-	<?php echo form_dropdown('gender',$genders,set_value('gender')); ?>
-	<br /><br />
-	
-	<h4>Birthdate (yyyy-mm-dd)</h4>
-	<?php echo form_error('birthdate');
-	      if(isset($date_error)) echo "<div class='error'>$date_error</div>"; ?>
-	<input type="text" name="birthdate" value="<?php echo set_value('birthdate'); ?>" size="50" />
-	<br /><br />
-	
 	<h4>Description</h4>
 	<?php echo form_error('description'); ?>
 	<textarea name="description" rows="5" cols="37"><?php echo set_value('description'); ?></textarea>
 	<br /><br />
 	
-	<h4>Gender preference</h4>
-	<?php echo form_dropdown('genderpref',$genderprefs,set_value('genderpref'))?>
-	<br /><br />
+	<?php buildDropdown('Gender preference', 'genderpref', $genderprefs); ?>
 	
 	<h4>Age preference</h4>
-	<?php echo form_error('ageprefmin'); 
-	      if(isset($age_error)) echo "<div class='error'>$age_error</div>"; ?>
 	<?php echo form_error('ageprefmax'); ?>
 		Minimum: 
 		<input type="text" name="ageprefmin" value="<?php echo set_value('ageprefmin', 18); ?>"/>
@@ -67,9 +122,11 @@
 	      echo form_upload('picture'); ?>
           <br /><br />
 	
-	<?php echo $brandPreferences. br(); ?>
+	<?php echo brandCheckBoxes($brands, $brandPreferences). br(); ?>
 	
 	<?php
+	
+	if(!$profileEdit) {
 	
 	$questions = array(1  => array('A' => "Ik geef de voorkeur aan grote groepen mensen, met een grote diversiteit.",
 								   'B' => "Ik geef de voorkeur aan intieme bijeenkomsten met uitsluitend goede vrienden."),
@@ -124,6 +181,8 @@
 				form_radio("question$q",'A',set_value("question$q") == 'A'). utf8_encode($questions[$q-1]['A']). br().
 				form_radio("question$q",'B',set_value("question$q") == 'B'). utf8_encode($questions[$q-1]['B']). br().
 				form_radio("question$q",'C',set_value("question$q") == 'C'). utf8_encode($questions['C']). br(2);
+	
+	}
 	}
 	?>
 	

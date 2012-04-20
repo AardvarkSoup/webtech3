@@ -114,7 +114,8 @@
 	<?php buildDropdown('Gender preference', 'genderPref', $genderprefs, $profileEdit, $profile); ?>
 	
 	<h4>Age preference</h4>
-	<?php echo form_error('ageprefmax'); 
+	<?php echo form_error('ageprefmin');
+		  echo form_error('ageprefmax'); 
 			$min = $profileEdit ? $profile['minAgePref'] : 18;
 			$max = $profileEdit ? $profile['maxAgePref'] : 122; ?>
 		Minimum: 
@@ -183,7 +184,9 @@
 	// The questions array is turned into valid html with re-population
 	$questionsHtml = array();
 	for($q = 1; $q < count($questions); $q++) {
-		echo heading("Question $q:",4). form_error("question$q"). br().
+		if(form_error("question$q") != '') $line =  form_error("question$q");
+		else $line = br();
+		echo heading("Question $q:",4). $line. 
 				form_radio("question$q",'A',set_value("question$q") == 'A'). utf8_encode($questions[$q-1]['A']). br().
 				form_radio("question$q",'B',set_value("question$q") == 'B'). utf8_encode($questions[$q-1]['B']). br().
 				form_radio("question$q",'C',set_value("question$q") == 'C'). utf8_encode($questions['C']). br(2);

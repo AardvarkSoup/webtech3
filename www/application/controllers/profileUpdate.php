@@ -189,7 +189,7 @@ class ProfileUpdate extends CI_Controller {
 	               && $day >= 1 && $day <= 31;
 	    
 	    if(!$validDate) {
-	    	if($year < $thisYear - 122)
+	    	if(is_numeric($year) && $year < $thisYear - 122)
 	    		$this->form_validation->set_message('validateDate', 
 							'If you are older than 122, please contact the Guiness Book of World Records.');
 	    	else 

@@ -110,11 +110,27 @@
 		echo boldShow("Personality", $profile['personality']);
 		echo boldShow("Preference", $profile['preference']);
 		
+		// If the profile is small, only a maximum of 4 random brands are shown
+		if($profileType == 'small') {
+			$maxBrands = min(array(3, count($profile['brands']) - 1));
+			shuffle($profile['brands']);
+		}
+		// else, if the profile is big, all brands are shown
+		else $maxBrands = count($profile['brands']) - 1;
+		
+		$brands = "";
+		for($b = 0; $b < $maxBrands; $b++) {
+			$brands .= $profile['brands'][$b]. ", ";
+		}
+		// To avoid a comma at the end, the last brand is added after the loop.
+		$brands .= $profile['brands'][$b];
+		boldShow("Favorite brands", $brands);
+		
 		// The like-status should be displayed.
 		if($this->authentication->userLoggedIn()) {
 			if($profileType == 'big' && !$profile['likestatus'][0]) {
 				
-				echo "Click ". getLikePicture($profile['likestatus']). " to like user";
+				echo "<div id='likebutton'>Click ". getLikePicture($profile['likestatus']). " to like user</div>";
 			}
 			else {
 				echo getLikePicture($profile['likestatus']);
@@ -131,3 +147,24 @@
 	}
 ?>
 </div>
+
+<script type="text/javascript">
+// Add mouse listener to the likebutton. 
+
+$('#likebutton').click(function()
+{
+	var ok = confirm("<?php echo 'Do you want to like '. $profile['username']. '?'; ?>");
+
+	if(ok)
+	{
+		// Send like request. 
+		$.post('<?php echo base_url(). '/index.php/viewprofile/like'; ?>',
+			   {otherId: <?php echo $profile['userId'] ?>},
+			   function()
+			   {
+					// Refresh page when done. 
+					window.location.reload();
+			   });
+	}
+});
+</script>

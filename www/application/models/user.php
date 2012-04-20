@@ -70,7 +70,6 @@ class User extends CI_Model
         
         if(count($result) == 0)
         {
-            //TODO
             throw new Exception('User not found or no brands associated.');
         }
         
@@ -132,7 +131,6 @@ class User extends CI_Model
         
         if(!$result)
         {
-            //TODO
             throw new Exception('User not found.');
         }
         
@@ -154,7 +152,6 @@ class User extends CI_Model
         
         if($userId === null)
         {
-            //TODO
             throw new Exception('User is not logged in.');
         }
         
@@ -278,7 +275,6 @@ class User extends CI_Model
         
         if($userId === null)
         {
-            //TODO
             throw new Exception('User is not logged in.');
         }
         
@@ -361,7 +357,6 @@ class User extends CI_Model
         
         if($userA === null)
         {
-            //TODO
             throw new Exception('User is not logged in.');
         }
         
@@ -379,6 +374,91 @@ class User extends CI_Model
                            
         
         return array($likeAB, $likeBA);
+    }
+    
+    /**
+     * Get the id's of all users with a certain like status towards the current user.
+     * 
+     * @param array(bool) $status Formatted in the same way as the result of getLikeStatus(..).
+     *                            An empty array is returned when this is [false, false].
+     * 
+     * @return array(int) The id's of the users with this status.
+     */
+    public function usersWithLikeStatus($status)
+    {
+        // Get current user.
+        $userId = $this->authentication->currentUserId();
+        
+        if($userId === null)
+        {
+            throw new Exception('User is not logged in.');
+        }
+        
+        // Start a transaction.
+        $this->db->trans_start();
+        
+        if($status[0])
+        {
+            // Find others liked by the current one.
+            $liked = $this->db->select('userLiked AS userId')->from('Likes')
+                              ->where('userLiking', $userId)
+                              ->get()->result();
+        }
+        
+        if($status[1])
+        {
+            // Find others liking the current one.
+            $liking = $this->db->select('userLiking AS userId')->from('Likes')
+                               ->where('userLiked', $userId)
+                               ->get()->result();
+        }
+        
+        // Commit transaction.
+        $this->db->trans_complete();
+        
+        // Determine what to return.
+        $result = array();
+        if($status[0] && $status[1])
+        {
+            // Combine liked and liking.
+            $result = array_merge($liked, $liking);
+        }
+        else if($status[0])
+        {
+            $result = $liked;
+        }
+        else if($status[1])
+        {
+            $result = $liking;
+        }
+        
+        // Return id's.
+        foreach($result as &$id)
+        {
+            $id = $id->userId;
+        }
+        return $result;
+    }
+    
+    /**
+     * TODO
+     */
+    public function likeNumbers()
+    {
+        $statuses =  array(
+                       'liked'  => array(true, false),
+                       'liking' => array(false, true),
+                       'mutual' => array(true, true)
+                    );
+        $result = array();
+        
+        foreach($statuses as $status)
+        {
+            $ids = $this->usersWithLikeStatus($status);
+            $result[] = count($ids);
+        }
+        
+        return $result;
     }
     
     public function getRandomUsers($amount)

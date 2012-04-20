@@ -44,6 +44,10 @@ class Register extends CI_Controller
 	    
 	    // Process uploaded image. 'picture' will be set to null if none are specified.
 	    $data['picture'] = $this->picture->uploadAndProcess();
+	    if($data['picture'] == null)
+	    {
+	        throw new Exception(':(');
+	    }
 	    
 	    // Determine personality from questionnaire.
 	    // Also set initial personality preference to the opposite of that.

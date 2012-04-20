@@ -42,7 +42,7 @@
 				$status[] = "pending";
 			}
 		}
-		return "$status[0]-$status[1].png";
+		return '<img class="likepicture" src="' . base_url() . "img/$status[0]-$status[1].jpg" . '" />';
 	}
 
 	foreach($profiles as $profile) {
@@ -70,17 +70,31 @@
 		echo $boxType. "class='profilebox'>\n". heading(htmlentities($profile['username']. " (".
 				 $gender. ")", ENT_QUOTES, "UTF-8"), 3);
 		
+		$loggedIn = $this->authentication->userLoggedIn();
+		$imgfile;
+		if($loggedIn && $profile['picture'])
+		{
+		    // The file name does not depend on user input and therefore does not need to be 
+		    // escaped. 
+		    $imgfile = 'pictures/' . $profile['picture'];
+		}
+		else
+		{
+		    $imgfile = 'silhouette-' . ($profile['gender'] == 0 ? 'man' : 'woman') . '.jpg';
+		}
+		
+		// Show thumbnail.
+		$imgurl = base_url() . 'img/' . $imgfile;
+		echo '<img class="profilepicture" src="' . $imgurl . '" alt="Profile photo" width="125" height="150" />';
+		
 		// The thumbnail is shown. If the user is logged in, the real picture, else, a silhouette.
-		if($this->authentication->userLoggedIn()) {
-			echo "Show real picture";
+		if($loggedIn) 
+		{
 			// If there is a mutual like, show the users name
-			if($profile['likestatus'][0] && $profile['likestatus'][1]) {
+			if(isset($profile['likestatus']) && $profile['likestatus'][0] && $profile['likestatus'][1]) {
 				echo boldShow("Name", $profile['firstName']. " ". $profile['lastName']);
 				echo boldShow("Email", $profile['email']);
 			}
-		}
-		else {
-			echo "Show silhouette";
 		} 
 		
 		// The age is displayed
@@ -128,12 +142,25 @@
 		
 		// The like-status should be displayed.
 		if($this->authentication->userLoggedIn()) {
-			if($profile['likestatus'][0]) {
-				if($profile['likestatus'][1]) echo "You both like eachother". br();
-				else echo "You liked this user, but have yet to receiev a like back...". br();
+			if($profile['likestatus'][0]) 
+			{
+				if($profile['likestatus'][1])
+				{
+				    echo "You both like eachother". br();
+				}
+				else
+				{
+				    echo "You liked this user, but have yet to receiev a like back...". br();
+				}
 			}
-			else if(!$profile['likestatus'][1]) echo "The other user liked you, like back?". br();
-			else echo "this user has not liked you yet, but you can be the first...". br();
+			else if($profile['likestatus'][1])  
+			{
+			    echo "The other user liked you, like back?". br();
+			}
+			else
+			{ 
+			    echo "this user has not liked you yet, but you can be the first...". br();
+			}
 			
 			if($profileType == 'big' && !$profile['likestatus'][0]) {
 				

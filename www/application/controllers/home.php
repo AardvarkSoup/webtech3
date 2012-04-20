@@ -8,7 +8,7 @@ class Home extends ProfileBrowser
 	{
         $this->load->model('user','',true);
 		
-		$this->load->view('header',array("pagename" => "Home"));
+		$this->load->view('header',array('pagename' => 'Home'));
         $this->load->view('loginbox');
 		$this->load->view('nav');
 		

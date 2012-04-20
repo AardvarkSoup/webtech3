@@ -403,6 +403,11 @@ class User extends CI_Model
             $liked = $this->db->select('userLiked AS userId')->from('Likes')
                               ->where('userLiking', $userId)
                               ->get()->result();
+            //Only examine id's.
+            foreach($liked as &$id)
+            {
+                $id = $id->userId;
+            }
         }
         
         if($status[1])
@@ -411,6 +416,11 @@ class User extends CI_Model
             $liking = $this->db->select('userLiking AS userId')->from('Likes')
                                ->where('userLiked', $userId)
                                ->get()->result();
+            
+            foreach($liking as &$id)
+            {
+                $id = $id->userId;
+            }
         }
         
         // Commit transaction.
@@ -421,7 +431,7 @@ class User extends CI_Model
         if($status[0] && $status[1])
         {
             // Combine liked and liking.
-            $result = array_merge($liked, $liking);
+            $result = array_intersect($liked, $liking);
         }
         else if($status[0])
         {
@@ -432,31 +442,6 @@ class User extends CI_Model
             $result = $liking;
         }
         
-        // Return id's.
-        foreach($result as &$id)
-        {
-            $id = $id->userId;
-        }
-        return $result;
-    }
-    
-    /**
-     * TODO
-     */
-    public function likeNumbers()
-    {
-        $statuses =  array(
-                       'liked'  => array(true, false),
-                       'liking' => array(false, true),
-                       'mutual' => array(true, true)
-                    );
-        $result = array();
-        
-        foreach($statuses as $status)
-        {
-            $ids = $this->usersWithLikeStatus($status);
-            $result[] = count($ids);
-        }
         
         return $result;
     }

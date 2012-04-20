@@ -10,32 +10,38 @@ class Test extends CI_Controller
         $this->load->model('User', 'user');
         $this->load->library('Personality', 'personality');
         $this->load->model('Matching', 'matching');
+        $this->load->model('Brand', 'brand');
         
-        if(false)
-        for($i = 101; $i < 200; ++$i)
+        // User generator.
+        $allBrands = $this->brand->getBrands();
+        for($i = 1; $i < 50; ++$i)
         {
-            $brands = array('brandA', 'brandC');
+            $brands = array_rand(array_flip($allBrands), rand(2, 50));
             $data = array(
-                    'username' => "Testuser$i",
-                    'email' => "user$i@users.com",
+                    'username' => "ExtraTestuser$i",
+                    'email' => "euser$i@users.com",
                     'firstName' => 'Test User',
                     'lastName' => 'The ' . $i . ' th',
                     'gender' => $i % 2 == 0,
                     'birthdate' => '198' . $i % 10 . '-01-01',
-                    'description' => 'blahblablaat',
-                    'minAgePref' => 20,
-                    'maxAgePref' => 30,
+                    'description' => 'Ik ben een testgebruiker om dit geheel een beetje op te vullen. Alleen dan wat beter gebalanceerd.',
+                    'minAgePref' => 18,
+                    'maxAgePref' => 100,
                     'genderPref' => $i % 3 == 0 ? null : $i % 3 == 1,
-                    'personalityI' => 0.35,
-                    'personalityN' => 0.31,
-                    'personalityT' => 0.50,
-                    'personalityJ' => 0.95,
-                    'preferenceI' => 0.93,
-                    'preferenceN' => 0.32,
-                    'preferenceT' => 0.61,
-                    'preferenceJ' => 0.85    
+                    'personalityI' => rand(0, 100) / 100,
+                    'personalityN' => rand(0, 100) / 100,
+                    'personalityT' => rand(0, 100) / 100,
+                    'personalityJ' => rand(0, 100) / 100,
+                    'preferenceI' => rand(0, 100) / 100,
+                    'preferenceN' => rand(0, 100) / 100,
+                    'preferenceT' => rand(0, 100) / 100,
+                    'preferenceJ' => rand(0, 100) / 100    
             );
-            $this->user->createUser($data, 'hoi', $brands);
+            $this->user->createUser($data, 'test12345', $brands);
+            /*print_r($brands);
+            echo "<br/>";
+            echo "<br/>";
+            echo "<br/>";*/
         }
                 
         //$id = $this->user->createUser($data, 'hoi', $brands);
@@ -52,7 +58,7 @@ class Test extends CI_Controller
         
         //$this->parser->parse('searchbrowser', array('bla' => array('Blah!', 'Blablah!')));
         
-        if(count($_FILES) > 0)
+        /*if(count($_FILES) > 0)
         {
             $this->load->library('picture');
             print_r($this->picture->uploadAndProcess());
@@ -60,7 +66,7 @@ class Test extends CI_Controller
         else
         {
             echo form_open_multipart() . form_upload('picture') . form_submit('submit', 'go') . form_close();
-        }
+        }*/
     }
 }
 

@@ -131,13 +131,10 @@ class Register extends CI_Controller
 	public function index()
 	{
         $this->load->model('user','',true);
-        $this->load->library(array('personality', 'form_validation','rules_storage'));
+        $this->load->library(array('personality', 'form_validation'));
         $this->load->helper('html');
 		$this->load->helper('form');
-		
-		// TODO: upload configuration.
-		$this->load->library('upload');
-		
+				
 		$this->load->view('header',array("pagename" => "Register"));
         $this->load->view('loginbox');
 		$this->load->view('nav');

@@ -46,7 +46,7 @@ $('#deleter').click(function()
 	if(ok)
 	{
 		// Send delete request. 
-		$.post('<?php echo "$home/delete"; ?>',
+		$.post('<?php echo "$home/home/delete"; ?>',
 			   {sure: 'yes'},
 			   function()
 			   {

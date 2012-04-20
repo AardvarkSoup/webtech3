@@ -400,7 +400,7 @@ class User extends CI_Model
         if($status[0])
         {
             // Find others liked by the current one.
-            $liked = $this->db->select('userLiked')->from('Likes')
+            $liked = $this->db->select('userLiked AS userId')->from('Likes')
                               ->where('userLiking', $userId)
                               ->get()->result();
         }
@@ -408,9 +408,9 @@ class User extends CI_Model
         if($status[1])
         {
             // Find others liking the current one.
-            $liking = $this->db->select('userLiking')->from('Likes')
+            $liking = $this->db->select('userLiking AS userId')->from('Likes')
                                ->where('userLiked', $userId)
-                               ->get()->result_array();
+                               ->get()->result();
         }
         
         // Commit transaction.
@@ -435,8 +435,29 @@ class User extends CI_Model
         // Return id's.
         foreach($result as &$id)
         {
-            list($id) = $id;
+            $id = $id->userId;
         }
+        return $result;
+    }
+    
+    /**
+     * TODO
+     */
+    public function likeNumbers()
+    {
+        $statuses =  array(
+                       'liked'  => array(true, false),
+                       'liking' => array(false, true),
+                       'mutual' => array(true, true)
+                    );
+        $result = array();
+        
+        foreach($statuses as $status)
+        {
+            $ids = $this->usersWithLikeStatus($status);
+            $result[] = count($ids);
+        }
+        
         return $result;
     }
     
@@ -458,7 +479,7 @@ class User extends CI_Model
     	return $result;
     }
     
-public function getUserProfile($userId)
+    public function getUserProfile($userId)
     {
     	// The library for calculating the personality type is loaded
     	$this->load->library('personality');

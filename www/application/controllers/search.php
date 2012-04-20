@@ -71,19 +71,27 @@ class Search extends ProfileBrowser
     }
     
     /**
-     * Shows the users that have a certain like status.
+     * Shows the users that have a certain like status, along with three buttons to select which
+     * to view.
      * 
      * @param string $likeStatus Can be 'liking' (for others liking the user), 'liked' 
      *                           (for those being liked) and 'mutual' (when both users like each 
-     *                           other).
+     *                           other). If empty, only the selection box is shown.
      */
-    public function likes($likeStatus)
+    public function likes($likeStatus = '')
     {
+        // Assert the user is logged in.
+        if(!$this->authentication->userLoggedIn())
+        {
+            echo 'Access denied.';
+            return;
+        }
+        
         // Load user model.
         $this->load->model('User', 'user');
         
         // Reformat input to be usable with model-function.
-        $status;
+        $status = null;
         if($likeStatus == 'liking')
         {
             $status = array(false, true);
@@ -96,23 +104,24 @@ class Search extends ProfileBrowser
         {
             $status = array(true, true);
         }
-        else
-        {
-            // Illegal input. Show a 404.
-            show_404();
-            return;
-        }
-        
-        // Get users to show.
-        $users = $this->user->usersWithLikeStatus($status);
         
         // Header and navigation bar.
         $this->load->view('header');
         $this->load->view('nav');
         $this->load->view('loginbox');
         
-        // Use browser with id's.
-        $this->userBrowser($users);
+        // Likes selection box.
+        $this->load->view('likebox');
+        
+        // View results if something has been selected.
+        if($status !== null)
+        {
+            // Get users to show.
+            $users = $this->user->usersWithLikeStatus($status);
+            
+            // Use browser with id's.
+            $this->userBrowser($users);
+        }
         
         // Footer.
         $this->load->view('footer');

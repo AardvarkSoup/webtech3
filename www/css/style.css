@@ -351,4 +351,23 @@ fieldset {
 	padding: 10px;
 }
 
+/*
+ * The 'likebox'
+ */
+ 
+#likebox {
+	border-color: red;
+	padding: 3px;
+	padding-top: 0px;
+	padding-bottom: 12px;
+	padding-top: 0px;
+	border-width: 3px;
+	border-style: solid;
+	text-align: center;
+}
+
+#likebox a {
+	font-size: 15pt;
+	font-family: Arial Black, Gadget, sans-serif;
+}
 

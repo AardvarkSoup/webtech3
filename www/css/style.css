@@ -271,6 +271,11 @@ footer ul li a:hover {
     background: #FFC900;
 }
 
+.profilebox img {
+	float: right;
+	margin-right: 10px;
+}
+
 a.profilebox:-webkit-any-link {
 	text-decoration: none;
 	color: black;

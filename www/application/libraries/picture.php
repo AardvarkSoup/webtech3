@@ -3,8 +3,8 @@
 class Picture
 {
     // Dimensions of picture thumbnails.
-    const THUMBNAIL_WIDTH =  250,
-          THUMBNAIL_HEIGHT = 300;
+    const THUMBNAIL_WIDTH =  100,
+          THUMBNAIL_HEIGHT = 150;
     
     /**
      * Processes an uploaded picture by resizing it and moving it from the uploads to the the 

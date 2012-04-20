@@ -70,17 +70,31 @@
 		echo $boxType. "class='profilebox'>\n". heading(htmlentities($profile['username']. " (".
 				 $gender. ")", ENT_QUOTES, "UTF-8"), 3);
 		
+		$loggedIn = $this->authentication->userLoggedIn();
+		$imgfile;
+		if($loggedIn && $profile['picture'])
+		{
+		    // The file name does not depend on user input and therefore does not need to be 
+		    // escaped. 
+		    $imgfile = 'pictures/' . $profile['picture'];
+		}
+		else
+		{
+		    $imgfile = 'silhouette-' . ($profile['gender'] == 0 ? 'man' : 'woman') . '.jpg';
+		}
+		
+		// Show thumbnail.
+		$imgurl = base_url() . 'img/' . $imgfile;
+		echo '<img src="' . $imgurl . '" alt="Profile photo" width="100" height="150" />';
+		
 		// The thumbnail is shown. If the user is logged in, the real picture, else, a silhouette.
-		if($this->authentication->userLoggedIn()) {
-			echo "Show real picture";
+		if($loggedIn) 
+		{
 			// If there is a mutual like, show the users name
 			if(isset($profile['likestatus']) && $profile['likestatus'][0] && $profile['likestatus'][1]) {
 				echo boldShow("Name", $profile['firstName']. " ". $profile['lastName']);
 				echo boldShow("Email", $profile['email']);
 			}
-		}
-		else {
-			echo "Show silhouette";
 		} 
 		
 		// The age is displayed

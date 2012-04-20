@@ -42,7 +42,7 @@
 				$status[] = "pending";
 			}
 		}
-		return "$status[0]-$status[1].png";
+		return '<img class="likepicture" src="' . base_url() . "img/$status[0]-$status[1].jpg" . '" />';
 	}
 
 	foreach($profiles as $profile) {
@@ -85,7 +85,7 @@
 		
 		// Show thumbnail.
 		$imgurl = base_url() . 'img/' . $imgfile;
-		echo '<img src="' . $imgurl . '" alt="Profile photo" width="100" height="150" />';
+		echo '<img class="profilepicture" src="' . $imgurl . '" alt="Profile photo" width="125" height="150" />';
 		
 		// The thumbnail is shown. If the user is logged in, the real picture, else, a silhouette.
 		if($loggedIn) 
@@ -142,12 +142,25 @@
 		
 		// The like-status should be displayed.
 		if($this->authentication->userLoggedIn()) {
-			if($profile['likestatus'][0]) {
-				if($profile['likestatus'][1]) echo "You both like eachother". br();
-				else echo "You liked this user, but have yet to receiev a like back...". br();
+			if($profile['likestatus'][0]) 
+			{
+				if($profile['likestatus'][1])
+				{
+				    echo "You both like eachother". br();
+				}
+				else
+				{
+				    echo "You liked this user, but have yet to receiev a like back...". br();
+				}
 			}
-			else if(!$profile['likestatus'][1]) echo "The other user liked you, like back?". br();
-			else echo "this user has not liked you yet, but you can be the first...". br();
+			else if($profile['likestatus'][1])  
+			{
+			    echo "The other user liked you, like back?". br();
+			}
+			else
+			{ 
+			    echo "this user has not liked you yet, but you can be the first...". br();
+			}
 			
 			if($profileType == 'big' && !$profile['likestatus'][0]) {
 				

@@ -3,7 +3,7 @@
 class Picture
 {
     // Dimensions of picture thumbnails.
-    const THUMBNAIL_WIDTH =  100,
+    const THUMBNAIL_WIDTH =  125,
           THUMBNAIL_HEIGHT = 150;
     
     /**

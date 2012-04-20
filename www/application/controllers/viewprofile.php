@@ -33,12 +33,12 @@ class ViewProfile extends CI_Controller
 	public function like()
 	{
 		$otherUser = $this->input->post('otherId');
-        
-        if($otherUser != null)
+
+        if($otherUser !== false)
         {
-            $this->model->load('User', 'user');
+            $this->load->model('User', 'user');
             $this->user->like($otherUser);
         }
 	}
 }
-?>
+

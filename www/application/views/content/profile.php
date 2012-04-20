@@ -74,7 +74,7 @@
 		if($this->authentication->userLoggedIn()) {
 			echo "Show real picture";
 			// If there is a mutual like, show the users name
-			if($profile['likestatus'][0] && $profile['likestatus'][1]) {
+			if(isset($profile['likestatus']) && $profile['likestatus'][0] && $profile['likestatus'][1]) {
 				echo boldShow("Name", $profile['firstName']. " ". $profile['lastName']);
 				echo boldShow("Email", $profile['email']);
 			}

@@ -265,7 +265,7 @@ footer ul li a:hover {
 .profilebox {
     display: block;
     width: 420px;
-    height: 380px;
+    height: 430px;
     margin: 25px;
     float: left;
     background: #FFC900;
@@ -381,3 +381,6 @@ fieldset {
 	font-family: Arial Black, Gadget, sans-serif;
 }
 
+.brandslist {
+    list-style-type: none;
+}

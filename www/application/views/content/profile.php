@@ -42,7 +42,8 @@
 				$status[] = "pending";
 			}
 		}
-		return '<img class="likepicture" src="' . base_url() . "img/$status[0]-$status[1].jpg" . '" />';
+		return '<img class="likepicture" src="' . base_url() . "img/$status[0]-$status[1].jpg"
+		        . '" width="90" height="60" />';
 	}
 
 	foreach($profiles as $profile) {
@@ -146,7 +147,7 @@
 			{
 				if($profile['likestatus'][1])
 				{
-				    echo "You both like eachother". br();
+				    echo "You both like each other". br();
 				}
 				else
 				{

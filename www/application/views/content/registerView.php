@@ -38,9 +38,9 @@
 	function brandCheckBoxes(array $brands, array $brandprefs = null)
 	{
 		$html = form_fieldset("Brand-preferences", array('class' => 'brands')). 
-				form_error('brandpref[]') ."<ul>";
+				form_error('brandpref[]') .'<ul class="brandslist">';
 		foreach($brands as $brand) {
-			$html .= "<li>". form_checkbox('brandpref[]',$brand, 
+			$html .= '<li>'. form_checkbox('brandpref[]',$brand, 
 						$brandprefs != null && in_array($brand,$brandprefs)). $brand. "</li>";
 		}
 		return $html. "</ul></fieldset>";

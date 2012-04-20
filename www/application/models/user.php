@@ -279,7 +279,22 @@ class User extends CI_Model
         }
         
         // Delete this user.
+        $this->deleteUser($userId);
+    }
+    
+    public function deleteUser($userId)
+    {
+        $this->db->trans_start();
+        
+        // Also delete references to user in Likes and UserBrands.
+        $this->db->or_where(array('userLiking' => $userId, 'userLiked' => $userId))
+                 ->delete('Likes');
+        $this->db->delete('UserBrands', array('userId' => $userId));
+        
+        // Delete user itself.
         $this->db->delete('Users', array('userId' => $userId));
+        
+        $this->db->trans_complete();
     }
     
     /**

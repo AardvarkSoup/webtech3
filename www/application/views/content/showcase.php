@@ -11,7 +11,7 @@
             <li>Succesverhalen</li>
         </ul>-->
     </div>
-    <div id='register'>
+    <!-- div id='register'>
     
-    </div>
+    </div -->
 </section>

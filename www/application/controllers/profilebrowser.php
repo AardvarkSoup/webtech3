@@ -51,6 +51,8 @@ class ProfileBrowser extends CI_Controller
      */
     public function userBrowser($ids)
     {
+        $ids = array_values($ids);
+        
         // Display the first six results (or less, if there aren't as much).
         $toDisplay = array_splice($idscopy = $ids, 0, min(6, count($ids)));
         $this->displayProfiles($toDisplay);

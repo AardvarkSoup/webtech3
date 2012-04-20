@@ -40,7 +40,7 @@ class Register extends CI_Controller
 	    $data['genderPref'] = $input['genderpref'] == 2 ? null : (int) $input['genderpref'];
 	    
 	    // Parse brand preferences.
-	    $brands = array_keys(array_filter($input['brandpref']));
+	    $brands = $input['brandpref'];
 	    
 	    // Process uploaded image. 'picture' will be set to null if none are specified.
 	    $data['picture'] = $this->picture->uploadAndProcess();
@@ -130,10 +130,7 @@ class Register extends CI_Controller
         $this->load->library(array('personality', 'form_validation'));
         $this->load->helper('html');
 		$this->load->helper('form');
-		
-		// TODO: upload configuration.
-		$this->load->library('upload');
-		
+				
 		$this->load->view('header',array("pagename" => "Register"));
         $this->load->view('loginbox');
 		$this->load->view('nav');

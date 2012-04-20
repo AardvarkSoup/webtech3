@@ -40,7 +40,7 @@ class Register extends CI_Controller
 	    $data['genderPref'] = $input['genderpref'] == 2 ? null : (int) $input['genderpref'];
 	    
 	    // Parse brand preferences.
-	    $brands = array_keys(array_filter($input['brandpref']));
+	    $brands = $input['brandpref'];
 	    
 	    // Process uploaded image. 'picture' will be set to null if none are specified.
 	    $data['picture'] = $this->picture->uploadAndProcess();

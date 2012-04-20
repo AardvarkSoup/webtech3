@@ -1,6 +1,9 @@
 <section id='registerblock'>
 <?php
 	
+	if(isset($succesmessage))
+		echo heading($succesmessage, 2). br(2);
+	
 	/*
 	 * First some variables needed for creating and populating the fields are defined
 	 */
@@ -67,7 +70,7 @@
 	function buildDropdown($heading, $name, $filling, $profileEdit = false, array $profile = null)
 	{
 		$output = heading($heading, 4). form_error($name);
-		$output .= form_dropdown($name, $filling, set_value($name)). br(2);
+		$output .= form_dropdown($name, $filling, set_value($name, $profile[$name])). br(2);
 		echo $output;
 	}
 	
@@ -76,7 +79,9 @@
 	 * Start of the form
 	 */
 	
-	echo form_open_multipart('register');
+	if($profileEdit)
+		echo form_open_multipart('profileUpdate');
+	else echo form_open_multipart('register');
 	
 	// If the profile is being edited, display a welcome message with the username
 	if($profileEdit) echo heading('Hi '. $profile['username']. '!', 2);
@@ -88,33 +93,34 @@
 	
 	// If the profile is being edited, one field for the old password and two for the new one are displayed 
 	if($profileEdit) {
-		buildField('Old password', 'oldpassword', 50, false, null, true);
+		/*buildField('Old password', 'oldpassword', 50, false, null, true);
 		buildField('New password', 'password', 50, false, null, true);
-		buildField('Repeat new password', 'passconf', 50, false, null, true);
+		buildField('Repeat new password', 'passconf', 50, false, null, true);*/
 	}
 	else {  // Else, only two password fields are shown to register a password
 		buildField('Password', 'password', 50, false, null, 'password');
 		buildField('Repeat password', 'passconf', 50, false, null, 'password');
 	}
 	buildField('Email', 'email', 50, $profileEdit, $profile);
-	buildDropdown('Gender', 'gender', $genders);
-	buildField('Email', 'email', 50, $profileEdit, $profile);
+	buildDropdown('Gender', 'gender', $genders, $profileEdit, $profile);
 	buildField('Birthdate (yyyy-mm-dd)', 'birthdate', 50, $profileEdit, $profile);  
 ?>
 
-	<h4>Description</h4>
+	<h4>About me</h4>
 	<?php echo form_error('description'); ?>
-	<textarea name="description" rows="5" cols="37"><?php echo set_value('description'); ?></textarea>
+	<textarea name="description" rows="5" cols="37"><?php echo set_value('description', $profile['description']); ?></textarea>
 	<br /><br />
 	
-	<?php buildDropdown('Gender preference', 'genderpref', $genderprefs); ?>
+	<?php buildDropdown('Gender preference', 'genderPref', $genderprefs, $profileEdit, $profile); ?>
 	
 	<h4>Age preference</h4>
-	<?php echo form_error('ageprefmax'); ?>
+	<?php echo form_error('ageprefmax'); 
+			$min = $profileEdit ? $profile['minAgePref'] : 18;
+			$max = $profileEdit ? $profile['maxAgePref'] : 122; ?>
 		Minimum: 
-		<input type="text" name="ageprefmin" value="<?php echo set_value('ageprefmin', 18); ?>"/>
-		Maximum: 
-		<input type="text" name="ageprefmax" value="<?php echo set_value('ageprefmax', 122); ?>"/>
+		<input type="text" name="ageprefmin" value="<?php echo set_value('ageprefmin', $min); ?>"/>
+		Maximum:
+		<input type="text" name="ageprefmax" value="<?php echo set_value('ageprefmax', $max); ?>"/>
 		<br /><br />
 		
 	<h4>Upload picture (JPEG format required, should be smaller than 1MB) </h4>

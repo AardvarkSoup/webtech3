@@ -12,7 +12,7 @@ $admin = $ci->authentication->userIsAdmin();
 	        <?php 
 	        if($this->authentication->userLoggedIn()) {
 	        	echo "<li><a href=\"$base/search/matching\">Match!</a></li>";
-	        	echo "<li><a href=\"$base/viewprofile\">Edit Profile</a></li>";
+	        	echo "<li><a href=\"$base/profileUpdate\">Edit Profile</a></li>";
 	        	echo "<li><a href=\"$base/search/likes\">Likes</a></li>";
 	        }
 	        if($admin) {

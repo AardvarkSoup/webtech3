@@ -61,7 +61,7 @@ class ProfileUpdate extends CI_Controller {
 	public function index()
 	{
         $this->load->model('user','',true);
-        $this->load->library(array('personality', 'form_validation','rules_storage', 'upload'));
+        $this->load->library(array('personality', 'form_validation', 'upload'));
         $this->load->helper(array('html', 'form'));
 		
 		$this->load->view('header',array("pagename" => "Edit Profile"));

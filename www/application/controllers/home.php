@@ -82,7 +82,7 @@ class Home extends ProfileBrowser
         
         if($sure == 'yes')
         {
-            $this->model->load('User', 'user');
+            $this->load->model('User', 'user');
             
             $this->user->deleteSelf();
             $this->authentication->logout();

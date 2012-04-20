@@ -124,10 +124,17 @@
 		}
 		// To avoid a comma at the end, the last brand is added after the loop.
 		$brands .= $profile['brands'][$b];
-		boldShow("Favorite brands", $brands);
+		echo boldShow("Favorite brands", $brands);
 		
 		// The like-status should be displayed.
 		if($this->authentication->userLoggedIn()) {
+			if($profile['likestatus'][0]) {
+				if($profile['likestatus'][1]) echo "You both like eachother". br();
+				else echo "You liked this user, but have yet to receiev a like back...". br();
+			}
+			else if(!$profile['likestatus'][1]) echo "The other user liked you, like back?". br();
+			else echo "this user has not liked you yet, but you can be the first...". br();
+			
 			if($profileType == 'big' && !$profile['likestatus'][0]) {
 				
 				echo "<div id='likebutton'>Click ". getLikePicture($profile['likestatus']). " to like user</div>";

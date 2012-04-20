@@ -98,7 +98,6 @@
 	}
 	buildField('Email', 'email', 50, $profileEdit, $profile);
 	buildDropdown('Gender', 'gender', $genders);
-	buildField('Email', 'email', 50, $profileEdit, $profile);
 	buildField('Birthdate (yyyy-mm-dd)', 'birthdate', 50, $profileEdit, $profile);  
 ?>
 

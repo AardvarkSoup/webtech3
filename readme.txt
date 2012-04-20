@@ -77,4 +77,9 @@ Testadminstrator:
  - Gebruikersnaam: admin
  - Wachtwoord: puddingtaart
  
-TODO: testgebruikers.
+Testgebruikers:
+ - E-mail: j.jablabla@gmail.com
+ - Wachtwoord: swordfish
+ 
+ - E-mail: u.snowman@dingesmail.be
+ - Wachtwoord: 0xE29883

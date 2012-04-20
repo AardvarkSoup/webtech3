@@ -37,7 +37,7 @@ class Register extends CI_Controller
 	    $password = $input['password'];
 	    
 	    // Parse gender preference.
-	    $data['genderPref'] = $input['genderpref'] == 2 ? null : (int) $input['genderpref'];
+	    $data['genderPref'] = $input['genderPref'] == 2 ? null : (int) $input['genderPref'];
 	    
 	    // Parse brand preferences.
 	    $brands = $input['brandpref'];
